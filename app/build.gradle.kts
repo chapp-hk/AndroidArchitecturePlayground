@@ -56,6 +56,7 @@ android {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":base")))
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
 
