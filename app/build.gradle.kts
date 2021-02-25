@@ -56,6 +56,9 @@ android {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":data")))
+
     implementation(Deps.Kotlin.stdlib)
     implementation(Deps.timber)
     implementation(Deps.Android.material)
@@ -73,6 +76,11 @@ dependencies {
 
     implementation(Deps.Hilt.android)
     kapt(Deps.Hilt.compiler)
+
+    implementation(Deps.Kotlinx.serialization)
+    implementation(Deps.Okhttp.loggingInterceptor)
+    implementation(Deps.Retrofit.kotlinxSerializationConverter)
+    implementation(Deps.AndroidX.Room.runtime)
 
     testImplementation(Deps.Junit.junit)
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
