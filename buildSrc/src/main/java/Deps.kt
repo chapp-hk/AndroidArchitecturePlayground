@@ -4,9 +4,12 @@
 object Versions {
     const val androidGradlePlugin = "4.1.2"
     const val kotlin = "1.4.30"
+    const val kotlinxCoroutines = "1.4.2"
     const val androidxLifecycle = "2.3.0"
     const val hilt = "2.32-alpha"
     const val navigation = "2.3.3"
+    const val room = "2.2.6"
+    const val okhttp = "4.9.0"
 }
 
 object GradlePlugins {
@@ -17,15 +20,34 @@ object GradlePlugins {
 
 object Deps {
     const val timber = "com.jakewharton.timber:timber:4.7.1"
+    const val mockk = "io.mockk:mockk:1.10.6"
+    const val strikt = "io.strikt:strikt-core:0.29.0"
 
     object Kotlin {
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+    }
+
+    object Kotlinx {
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
+
+        object Coroutines {
+            const val core =
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinxCoroutines}"
+            const val test =
+                "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinxCoroutines}"
+        }
     }
 
     object AndroidX {
         const val core = "androidx.core:core-ktx:1.3.2"
         const val appCompat = "androidx.appcompat:appcompat:1.2.0"
         const val fragment = "androidx.fragment:fragment-ktx:1.3.0"
+
+        object Arch {
+            object Core {
+                const val testing = "androidx.arch.core:core-testing:2.1.0"
+            }
+        }
 
         object Lifecycle {
             const val runtime =
@@ -42,8 +64,16 @@ object Deps {
             const val ui = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
         }
 
+        object Room {
+            const val runtime = "androidx.room:room-runtime:${Versions.room}"
+            const val compiler = "androidx.room:room-compiler:${Versions.room}"
+            const val ktx = "androidx.room:room-ktx:${Versions.room}"
+            const val testing = "androidx.room:room-testing:${Versions.room}"
+        }
+
         object Test {
             const val extJunit = "androidx.test.ext:junit:1.1.2"
+            const val runner = "androidx.test:runner:1.3.0"
 
             object Espresso {
                 const val core = "androidx.test.espresso:espresso-core:3.3.0"
@@ -58,6 +88,17 @@ object Deps {
     object Hilt {
         const val android = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val compiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+    }
+
+    object Okhttp {
+        const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+        const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
+    }
+
+    object Retrofit {
+        const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+        const val kotlinxSerializationConverter =
+            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     }
 
     object Junit {
