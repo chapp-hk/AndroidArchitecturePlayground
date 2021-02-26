@@ -16,7 +16,7 @@
 
         <EditText
             android:id="@+id/etSearch"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:autofillHints="@string/weather_search_hint"
@@ -24,6 +24,20 @@
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:text="@={viewModel.searchText}"
+            app:layout_constraintBottom_toBottomOf="@id/btnLocation"
+            app:layout_constraintEnd_toStartOf="@id/btnLocation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnLocation" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/weather_search_hint"
+            android:src="@drawable/ic_location_search"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

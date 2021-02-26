@@ -1,8 +1,10 @@
 package app.ch.weatherapp.weather
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +23,11 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private val viewModel by viewModels<WeatherViewModel>()
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+        ::handleRequestPermissionResult
+    )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews(view)
@@ -33,6 +40,9 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             it.viewModel = viewModel
             it.etSearch.setOnEditorActionListener { _, _, _ ->
                 viewModel.queryWeatherByCityName().let { true }
+            }
+            it.btnLocation.setOnClickListener {
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
             }
         }
     }
@@ -56,6 +66,14 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             else -> R.string.weather_error_unknown
         }.let {
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun handleRequestPermissionResult(isGranted: Boolean) {
+        if (isGranted) {
+            //TODO: proceed to request location
+        } else {
+            //TODO: show rationale dialog
         }
     }
 }
