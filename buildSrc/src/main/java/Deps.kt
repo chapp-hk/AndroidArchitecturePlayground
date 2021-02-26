@@ -22,6 +22,7 @@ object Deps {
     const val timber = "com.jakewharton.timber:timber:4.7.1"
     const val mockk = "io.mockk:mockk:1.10.6"
     const val strikt = "io.strikt:strikt-core:0.29.0"
+    const val livedataTesting = "com.jraska.livedata:testing-ktx:1.1.2"
 
     object Kotlin {
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
