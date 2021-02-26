@@ -59,7 +59,10 @@ data class WeatherDaoEntity(
             onDelete = ForeignKey.CASCADE
         )
     ],
-    primaryKeys = ["id", "weather_id"]
+    primaryKeys = ["id", "weather_id"],
+    indices = [
+        Index("weather_id"),
+    ]
 )
 data class ConditionDaoEntity(
 
