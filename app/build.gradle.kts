@@ -56,6 +56,7 @@ android {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":base")))
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
 
@@ -83,6 +84,12 @@ dependencies {
     implementation(Deps.AndroidX.Room.runtime)
 
     testImplementation(Deps.Junit.junit)
+    testImplementation(Deps.mockk)
+    testImplementation(Deps.strikt)
+    testImplementation(Deps.Kotlinx.Coroutines.test)
+    testImplementation(Deps.AndroidX.Arch.Core.testing)
+    testImplementation(Deps.livedataTesting)
+
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Test.Espresso.core)
 }
