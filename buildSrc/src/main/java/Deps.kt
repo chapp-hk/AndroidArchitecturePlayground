@@ -3,13 +3,13 @@
  */
 object Versions {
     const val androidGradlePlugin = "4.1.2"
-    const val kotlin = "1.4.30"
+    const val kotlin = "1.4.31"
     const val kotlinxCoroutines = "1.4.2"
     const val androidxLifecycle = "2.3.0"
     const val hilt = "2.32-alpha"
     const val navigation = "2.3.3"
-    const val room = "2.2.6"
-    const val okhttp = "4.9.0"
+    const val room = "2.3.0-beta02"
+    const val okhttp = "5.0.0-alpha.2"
 }
 
 object GradlePlugins {
@@ -40,8 +40,8 @@ object Deps {
     }
 
     object AndroidX {
-        const val core = "androidx.core:core-ktx:1.3.2"
-        const val appCompat = "androidx.appcompat:appcompat:1.2.0"
+        const val core = "androidx.core:core-ktx:1.5.0-beta02"
+        const val appCompat = "androidx.appcompat:appcompat:1.3.0-beta01"
         const val fragment = "androidx.fragment:fragment-ktx:1.3.0"
 
         object Arch {
@@ -73,7 +73,7 @@ object Deps {
         }
 
         object Test {
-            const val extJunit = "androidx.test.ext:junit:1.1.2"
+            const val extJunit = "androidx.test.ext:junit:1.1.3-alpha04"
             const val runner = "androidx.test:runner:1.3.0"
 
             object Espresso {
@@ -83,7 +83,7 @@ object Deps {
     }
 
     object Android {
-        const val material = "com.google.android.material:material:1.3.0"
+        const val material = "com.google.android.material:material:1.4.0-alpha01"
     }
 
     object Hilt {
