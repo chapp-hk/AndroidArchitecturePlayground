@@ -2,6 +2,8 @@ package app.ch.weatherapp.weather
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.ch.domain.base.IErrorHandler
+import app.ch.domain.location.entity.LocationEntity
+import app.ch.domain.location.usecase.GetCurrentLocationUseCase
 import app.ch.domain.weather.usecase.GetWeatherByCityNameUseCase
 import app.ch.weatherapp.test
 import app.ch.weatherapp.weather.mock.MockData
@@ -33,6 +35,9 @@ class WeatherViewModelTest {
     private lateinit var getWeatherByCityName: GetWeatherByCityNameUseCase
 
     @MockK
+    private lateinit var getCurrentLocation: GetCurrentLocationUseCase
+
+    @MockK
     private lateinit var handleError: IErrorHandler
 
     private lateinit var weatherViewModel: WeatherViewModel
@@ -40,7 +45,11 @@ class WeatherViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        weatherViewModel = WeatherViewModel(getWeatherByCityName, handleError)
+        weatherViewModel = WeatherViewModel(
+            getWeatherByCityName,
+            getCurrentLocation,
+            handleError
+        )
     }
 
     @Test
@@ -140,5 +149,20 @@ class WeatherViewModelTest {
 
         weatherViewModel.cloudiness.test()
             .assertValue(MockData.weatherEntity.cloudiness.toString())
+    }
+
+    @Test
+    fun `queryCurrentLocation should invoke getCurrentLocation`() {
+        coEvery {
+            getCurrentLocation()
+        } returns flowOf(LocationEntity(12.2, 21.2))
+
+        runBlockingTest {
+            weatherViewModel.queryCurrentLocation()
+        }
+
+        coVerify(exactly = 1) {
+            getCurrentLocation()
+        }
     }
 }

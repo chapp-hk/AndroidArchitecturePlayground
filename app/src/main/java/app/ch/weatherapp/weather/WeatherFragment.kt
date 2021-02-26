@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -71,9 +72,10 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private fun handleRequestPermissionResult(isGranted: Boolean) {
         if (isGranted) {
-            //TODO: proceed to request location
+            viewModel.queryCurrentLocation()
         } else {
             //TODO: show rationale dialog
+            Timber.d("show rationale dialog")
         }
     }
 }

@@ -3,6 +3,8 @@ package app.ch.weatherapp.weather
 import androidx.lifecycle.*
 import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
+import app.ch.domain.location.entity.LocationEntity
+import app.ch.domain.location.usecase.GetCurrentLocationUseCase
 import app.ch.domain.weather.usecase.GetWeatherByCityNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,6 +18,7 @@ import javax.inject.Inject
 class WeatherViewModel @Inject
 constructor(
     private val getWeatherByCityName: GetWeatherByCityNameUseCase,
+    private val getCurrentLocation: GetCurrentLocationUseCase,
     private val handleError: IErrorHandler,
 ) : ViewModel() {
 
@@ -91,5 +94,29 @@ constructor(
                     _cloudiness.value = it.cloudiness
                 }
         }
+    }
+
+    fun queryCurrentLocation() {
+        viewModelScope.launch {
+            getCurrentLocation()
+                .onStart {
+                    _startSearchEvent.emit(Unit)
+                    _isLoading.value = true
+                }
+                .onCompletion {
+                    _isLoading.value = false
+                }
+                .catch { throwable ->
+                    Timber.e(throwable)
+                    _errorEvent.emit(handleError(throwable))
+                }
+                .collectLatest {
+                    queryWeatherByLocation(it)
+                }
+        }
+    }
+
+    private fun queryWeatherByLocation(location: LocationEntity) {
+        //TODO: get weather by location
     }
 }
