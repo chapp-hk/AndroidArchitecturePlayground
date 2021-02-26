@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ch.data.weather.mock.MockData
 import app.ch.data.base.local.DaoProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
@@ -55,7 +56,9 @@ class WeatherDaoTest {
 
             weatherDao.insertWeather(MockData.weather)
             weatherDao.insertAllConditions(MockData.conditions)
+        }
 
+        runBlocking {
             expectThat(weatherDao.getWeathers())
                 .first()
                 .isEqualTo(weatherWithConditions)
@@ -70,7 +73,9 @@ class WeatherDaoTest {
 
             weatherDao.insertWeather(MockData.weather)
             weatherDao.insertAllConditions(MockData.conditions)
+        }
 
+        runBlocking {
             expectThat(weatherDao.getWeathers())
                 .size
                 .isEqualTo(1)

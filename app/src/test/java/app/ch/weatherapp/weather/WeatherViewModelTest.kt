@@ -69,16 +69,16 @@ class WeatherViewModelTest {
 
         runBlockingTest {
             weatherViewModel.queryWeatherByCityName()
-
-            //assert values in LiveData and SharedFlow
-            weatherViewModel.startSearchEvent.test {
-                expectThat(it.size).isEqualTo(1)
-            }
-
-            isLoadingTestObserver.assertValueHistory(
-                false, true, false
-            )
         }
+
+        //assert values in LiveData and SharedFlow
+        weatherViewModel.startSearchEvent.test {
+            expectThat(it.size).isEqualTo(1)
+        }
+
+        isLoadingTestObserver.assertValueHistory(
+            false, true, false
+        )
     }
 
     @Test
@@ -89,11 +89,11 @@ class WeatherViewModelTest {
 
         runBlockingTest {
             weatherViewModel.queryWeatherByCityName()
+        }
 
-            //assert values in LiveData and SharedFlow
-            weatherViewModel.errorEvent.test {
-                expectThat(it).isNotEmpty()
-            }
+        //assert values in LiveData and SharedFlow
+        weatherViewModel.errorEvent.test {
+            expectThat(it).isNotEmpty()
         }
     }
 
@@ -105,40 +105,40 @@ class WeatherViewModelTest {
 
         runBlockingTest {
             weatherViewModel.queryWeatherByCityName()
-
-            //assert values in LiveData
-            weatherViewModel.cityName.test()
-                .assertValue(MockData.weatherEntity.name)
-
-            weatherViewModel.temperature.test()
-                .assertValue(MockData.weatherEntity.temperature.toString())
-
-            weatherViewModel.feelsLike.test()
-                .assertValue(MockData.weatherEntity.feelsLike.toString())
-
-            weatherViewModel.temperatureMin.test()
-                .assertValue(MockData.weatherEntity.temperatureMin.toString())
-
-            weatherViewModel.temperatureMax.test()
-                .assertValue(MockData.weatherEntity.temperatureMax.toString())
-
-            weatherViewModel.pressure.test()
-                .assertValue(MockData.weatherEntity.pressure.toString())
-
-            weatherViewModel.humidity.test()
-                .assertValue(MockData.weatherEntity.humidity.toString())
-
-            weatherViewModel.visibility.test()
-                .assertValue(MockData.weatherEntity.visibility.toString())
-
-            weatherViewModel.windSpeed.test()
-                .assertValue(MockData.weatherEntity.windSpeed.toString())
-
-            weatherViewModel.windDeg.test()
-                .assertValue(MockData.weatherEntity.windDeg.toString())
-
-            weatherViewModel.cloudiness.test()
-                .assertValue(MockData.weatherEntity.cloudiness.toString())
         }
+
+        //assert values in LiveData
+        weatherViewModel.cityName.test()
+            .assertValue(MockData.weatherEntity.name)
+
+        weatherViewModel.temperature.test()
+            .assertValue(MockData.weatherEntity.temperature.toString())
+
+        weatherViewModel.feelsLike.test()
+            .assertValue(MockData.weatherEntity.feelsLike.toString())
+
+        weatherViewModel.temperatureMin.test()
+            .assertValue(MockData.weatherEntity.temperatureMin.toString())
+
+        weatherViewModel.temperatureMax.test()
+            .assertValue(MockData.weatherEntity.temperatureMax.toString())
+
+        weatherViewModel.pressure.test()
+            .assertValue(MockData.weatherEntity.pressure.toString())
+
+        weatherViewModel.humidity.test()
+            .assertValue(MockData.weatherEntity.humidity.toString())
+
+        weatherViewModel.visibility.test()
+            .assertValue(MockData.weatherEntity.visibility.toString())
+
+        weatherViewModel.windSpeed.test()
+            .assertValue(MockData.weatherEntity.windSpeed.toString())
+
+        weatherViewModel.windDeg.test()
+            .assertValue(MockData.weatherEntity.windDeg.toString())
+
+        weatherViewModel.cloudiness.test()
+            .assertValue(MockData.weatherEntity.cloudiness.toString())
     }
 }
