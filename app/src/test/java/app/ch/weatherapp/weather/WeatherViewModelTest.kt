@@ -1,16 +1,16 @@
 package app.ch.weatherapp.weather
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.ch.data.location.remote.LocationUnavailableException
 import app.ch.domain.base.IErrorHandler
 import app.ch.domain.location.entity.LocationEntity
 import app.ch.domain.location.usecase.GetCurrentLocationUseCase
 import app.ch.domain.weather.usecase.GetWeatherByCityNameUseCase
+import app.ch.domain.weather.usecase.GetWeatherByLocationUseCase
 import app.ch.weatherapp.test
 import app.ch.weatherapp.weather.mock.MockData
 import com.jraska.livedata.test
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -35,6 +35,9 @@ class WeatherViewModelTest {
     private lateinit var getWeatherByCityName: GetWeatherByCityNameUseCase
 
     @MockK
+    private lateinit var getWeatherByLocation: GetWeatherByLocationUseCase
+
+    @MockK
     private lateinit var getCurrentLocation: GetCurrentLocationUseCase
 
     @MockK
@@ -47,6 +50,7 @@ class WeatherViewModelTest {
         MockKAnnotations.init(this, relaxed = true)
         weatherViewModel = WeatherViewModel(
             getWeatherByCityName,
+            getWeatherByLocation,
             getCurrentLocation,
             handleError
         )
@@ -152,17 +156,42 @@ class WeatherViewModelTest {
     }
 
     @Test
-    fun `queryCurrentLocation should invoke getCurrentLocation`() {
+    fun `queryCurrentLocation should invoke getCurrentLocation and getWeatherByLocation`() {
         coEvery {
             getCurrentLocation()
         } returns flowOf(LocationEntity(12.2, 21.2))
+
+        coEvery {
+            getWeatherByLocation(any(), any())
+        } returns flowOf(MockData.weatherEntity)
 
         runBlockingTest {
             weatherViewModel.queryCurrentLocation()
         }
 
-        coVerify(exactly = 1) {
+        coVerifySequence {
             getCurrentLocation()
+            getWeatherByLocation(12.2, 21.2)
+        }
+    }
+
+    @Test
+    fun `queryCurrentLocation assert error states`() {
+        coEvery {
+            getCurrentLocation()
+        } returns flow { throw mockk<LocationUnavailableException>() }
+
+        runBlockingTest {
+            weatherViewModel.queryCurrentLocation()
+        }
+
+        //assert values in LiveData and SharedFlow
+        weatherViewModel.errorEvent.test {
+            expectThat(it).isNotEmpty()
+        }
+
+        coVerify(exactly = 0) {
+            getWeatherByLocation(any(), any())
         }
     }
 }

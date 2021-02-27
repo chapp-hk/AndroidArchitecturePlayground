@@ -3,9 +3,10 @@ package app.ch.weatherapp.weather
 import androidx.lifecycle.*
 import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
-import app.ch.domain.location.entity.LocationEntity
 import app.ch.domain.location.usecase.GetCurrentLocationUseCase
+import app.ch.domain.weather.entity.WeatherEntity
 import app.ch.domain.weather.usecase.GetWeatherByCityNameUseCase
+import app.ch.domain.weather.usecase.GetWeatherByLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class WeatherViewModel @Inject
 constructor(
     private val getWeatherByCityName: GetWeatherByCityNameUseCase,
+    private val getWeatherByLocation: GetWeatherByLocationUseCase,
     private val getCurrentLocation: GetCurrentLocationUseCase,
     private val handleError: IErrorHandler,
 ) : ViewModel() {
@@ -68,55 +70,45 @@ constructor(
 
     fun queryWeatherByCityName() {
         viewModelScope.launch {
-            getWeatherByCityName(searchText.value.orEmpty())
-                .onStart {
-                    _startSearchEvent.emit(Unit)
-                    _isLoading.value = true
-                }
-                .onCompletion {
-                    _isLoading.value = false
-                }
-                .catch { throwable ->
-                    Timber.e(throwable)
-                    _errorEvent.emit(handleError(throwable))
-                }
-                .collectLatest {
-                    _cityName.value = it.name
-                    _temperature.value = it.temperature
-                    _feelsLike.value = it.feelsLike
-                    _temperatureMin.value = it.temperatureMin
-                    _temperatureMax.value = it.temperatureMax
-                    _pressure.value = it.pressure
-                    _humidity.value = it.humidity
-                    _visibility.value = it.visibility
-                    _windSpeed.value = it.windSpeed
-                    _windDeg.value = it.windDeg
-                    _cloudiness.value = it.cloudiness
-                }
+            startCollect(
+                getWeatherByCityName(searchText.value.orEmpty())
+            )
         }
     }
 
     fun queryCurrentLocation() {
         viewModelScope.launch {
             getCurrentLocation()
-                .onStart {
-                    _startSearchEvent.emit(Unit)
-                    _isLoading.value = true
+                .flatMapLatest {
+                    getWeatherByLocation(it.lat, it.long)
                 }
-                .onCompletion {
-                    _isLoading.value = false
-                }
-                .catch { throwable ->
-                    Timber.e(throwable)
-                    _errorEvent.emit(handleError(throwable))
-                }
-                .collectLatest {
-                    queryWeatherByLocation(it)
+                .let {
+                    startCollect(it)
                 }
         }
     }
 
-    private fun queryWeatherByLocation(location: LocationEntity) {
-        //TODO: get weather by location
+    private suspend fun startCollect(flow: Flow<WeatherEntity>) {
+        flow.onStart {
+            _startSearchEvent.emit(Unit)
+            _isLoading.value = true
+        }.onCompletion {
+            _isLoading.value = false
+        }.catch { throwable ->
+            Timber.e(throwable)
+            _errorEvent.emit(handleError(throwable))
+        }.collectLatest {
+            _cityName.value = it.name
+            _temperature.value = it.temperature
+            _feelsLike.value = it.feelsLike
+            _temperatureMin.value = it.temperatureMin
+            _temperatureMax.value = it.temperatureMax
+            _pressure.value = it.pressure
+            _humidity.value = it.humidity
+            _visibility.value = it.visibility
+            _windSpeed.value = it.windSpeed
+            _windDeg.value = it.windDeg
+            _cloudiness.value = it.cloudiness
+        }
     }
 }

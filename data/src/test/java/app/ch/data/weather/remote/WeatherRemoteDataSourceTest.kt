@@ -41,4 +41,19 @@ class WeatherRemoteDataSourceTest {
             weatherApi.getWeatherByCityName("Hong Kong")
         }
     }
+
+    @Test
+    fun getWeatherByLocation() {
+        coEvery {
+            weatherApi.getWeatherByLocation(any(), any())
+        } returns weatherResponse
+
+        runBlockingTest {
+            weatherRemoteDataSource.getWeatherByLocation(1.2, 3.4).collect()
+        }
+
+        coVerify(exactly = 1) {
+            weatherApi.getWeatherByLocation(1.2, 3.4)
+        }
+    }
 }
