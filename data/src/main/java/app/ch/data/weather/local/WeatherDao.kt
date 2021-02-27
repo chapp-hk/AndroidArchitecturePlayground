@@ -12,6 +12,6 @@ interface WeatherDao {
     suspend fun insertAllConditions(conditions: List<ConditionDaoEntity>)
 
     @Transaction
-    @Query("SELECT * FROM weather")
+    @Query("SELECT * FROM weather ORDER BY create_time DESC")
     suspend fun getWeathers(): List<WeatherWithConditions>
 }

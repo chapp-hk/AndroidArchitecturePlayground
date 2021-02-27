@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8d4550f2ff2623dff18686311228c9e8",
+    "identityHash": "14f625613250ce5458d14d4e43b49c63",
     "entities": [
       {
         "tableName": "weather",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `coord_lat` REAL NOT NULL, `coord_lon` REAL NOT NULL, `temperature` REAL NOT NULL, `feels_like` REAL NOT NULL, `temperature_min` REAL NOT NULL, `temperature_max` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `visibility` INTEGER NOT NULL, `wind_speed` REAL NOT NULL, `wind_deg` INTEGER NOT NULL, `cloudiness` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `coord_lat` REAL NOT NULL, `coord_lon` REAL NOT NULL, `temperature` REAL NOT NULL, `feels_like` REAL NOT NULL, `temperature_min` REAL NOT NULL, `temperature_max` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `visibility` INTEGER NOT NULL, `wind_speed` REAL NOT NULL, `wind_deg` INTEGER NOT NULL, `cloudiness` INTEGER NOT NULL, `create_time` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -91,6 +91,12 @@
             "columnName": "cloudiness",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "createTime",
+            "columnName": "create_time",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -172,7 +178,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8d4550f2ff2623dff18686311228c9e8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '14f625613250ce5458d14d4e43b49c63')"
     ]
   }
 }

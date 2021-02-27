@@ -47,6 +47,9 @@ data class WeatherDaoEntity(
 
     @ColumnInfo(name = "cloudiness")
     val cloudiness: Int,
+
+    @ColumnInfo(name = "create_time")
+    val createTime: Long = System.currentTimeMillis(),
 )
 
 @Entity(
