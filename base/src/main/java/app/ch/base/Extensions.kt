@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 
 fun Activity.hideKeyboard() {
@@ -13,4 +15,8 @@ fun Activity.hideKeyboard() {
 
 fun Fragment.hideKeyboard() {
     requireActivity().hideKeyboard()
+}
+
+fun Fragment.showToast(@StringRes resId: Int) {
+    Toast.makeText(requireContext(), resId, Toast.LENGTH_LONG).show()
 }

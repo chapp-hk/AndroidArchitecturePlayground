@@ -1,5 +1,6 @@
 package app.ch.data.base
 
+import app.ch.data.location.remote.LocationUnavailableException
 import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
 import retrofit2.HttpException
@@ -22,6 +23,7 @@ constructor() : IErrorHandler {
                     else -> ErrorEntity.Unknown
                 }
             }
+            is LocationUnavailableException -> ErrorEntity.LocationUnavailable
             else -> ErrorEntity.Unknown
         }
     }

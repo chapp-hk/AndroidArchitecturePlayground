@@ -20,4 +20,14 @@ constructor(
                 }
         }
     }
+
+    suspend fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherModel> {
+        return flow {
+            weatherApi.getWeatherByLocation(lat, lon)
+                .toDataModel()
+                .let {
+                    emit(it)
+                }
+        }
+    }
 }

@@ -10,6 +10,8 @@ object Versions {
     const val navigation = "2.3.3"
     const val room = "2.3.0-beta02"
     const val okhttp = "5.0.0-alpha.2"
+    const val androidxTest = "1.3.0"
+    const val mockk = "1.10.6"
 }
 
 object GradlePlugins {
@@ -20,7 +22,6 @@ object GradlePlugins {
 
 object Deps {
     const val timber = "com.jakewharton.timber:timber:4.7.1"
-    const val mockk = "io.mockk:mockk:1.10.6"
     const val strikt = "io.strikt:strikt-core:0.29.0"
     const val livedataTesting = "com.jraska.livedata:testing-ktx:1.1.2"
 
@@ -34,6 +35,8 @@ object Deps {
         object Coroutines {
             const val core =
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinxCoroutines}"
+            const val playServices =
+                "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.kotlinxCoroutines}"
             const val test =
                 "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinxCoroutines}"
         }
@@ -74,7 +77,8 @@ object Deps {
 
         object Test {
             const val extJunit = "androidx.test.ext:junit:1.1.3-alpha04"
-            const val runner = "androidx.test:runner:1.3.0"
+            const val runner = "androidx.test:runner:${Versions.androidxTest}"
+            const val rules = "androidx.test:rules:${Versions.androidxTest}"
 
             object Espresso {
                 const val core = "androidx.test.espresso:espresso-core:3.3.0"
@@ -84,6 +88,10 @@ object Deps {
 
     object Android {
         const val material = "com.google.android.material:material:1.4.0-alpha01"
+
+        object Gms {
+            const val playServicesLocation = "com.google.android.gms:play-services-location:18.0.0"
+        }
     }
 
     object Hilt {
@@ -104,5 +112,10 @@ object Deps {
 
     object Junit {
         const val junit = "junit:junit:4.13.2"
+    }
+
+    object MockK {
+        const val mockk = "io.mockk:mockk:${Versions.mockk}"
+        const val android = "io.mockk:mockk-android:${Versions.mockk}"
     }
 }

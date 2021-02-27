@@ -7,5 +7,7 @@ interface IWeatherRepository {
 
     suspend fun getWeatherByCityName(cityName: String): Flow<WeatherEntity>
 
+    suspend fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherEntity>
+
     suspend fun getWeatherHistory(): Flow<List<WeatherEntity>>
 }

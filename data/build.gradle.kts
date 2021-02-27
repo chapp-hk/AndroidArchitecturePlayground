@@ -85,7 +85,7 @@ dependencies {
     implementation(Deps.AndroidX.Room.ktx)
 
     testImplementation(Deps.Junit.junit)
-    testImplementation(Deps.mockk)
+    testImplementation(Deps.MockK.mockk)
     testImplementation(Deps.strikt)
     testImplementation(Deps.Kotlinx.Coroutines.test)
 

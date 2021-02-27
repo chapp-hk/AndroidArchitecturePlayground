@@ -10,5 +10,7 @@ sealed class ErrorEntity {
 
     object LimitExceeded : ErrorEntity()
 
+    object LocationUnavailable : ErrorEntity()
+
     object Unknown : ErrorEntity()
 }

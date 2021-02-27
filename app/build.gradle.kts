@@ -59,6 +59,7 @@ dependencies {
     implementation(project(mapOf("path" to ":base")))
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
+    implementation(project(mapOf("path" to ":gms")))
 
     implementation(Deps.Kotlin.stdlib)
     implementation(Deps.timber)
@@ -83,8 +84,10 @@ dependencies {
     implementation(Deps.Retrofit.kotlinxSerializationConverter)
     implementation(Deps.AndroidX.Room.runtime)
 
+    implementation(Deps.Android.Gms.playServicesLocation)
+
     testImplementation(Deps.Junit.junit)
-    testImplementation(Deps.mockk)
+    testImplementation(Deps.MockK.mockk)
     testImplementation(Deps.strikt)
     testImplementation(Deps.Kotlinx.Coroutines.test)
     testImplementation(Deps.AndroidX.Arch.Core.testing)

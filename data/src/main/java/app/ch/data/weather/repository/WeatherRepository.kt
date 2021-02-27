@@ -24,6 +24,16 @@ constructor(
             }
     }
 
+    override suspend fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherEntity> {
+        return remoteDataSource.getWeatherByLocation(lat, lon)
+            .onEach {
+                localDataSource.insertWeather(it)
+            }
+            .map {
+                it.toDomainEntity()
+            }
+    }
+
     override suspend fun getWeatherHistory(): Flow<List<WeatherEntity>> {
         return flow {
             localDataSource.getWeatherHistory()

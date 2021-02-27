@@ -53,6 +53,26 @@ class WeatherRepositoryTest {
     }
 
     @Test
+    fun getWeatherByLocation() {
+        coEvery {
+            remoteDataSource.getWeatherByLocation(any(), any())
+        } returns flowOf(weatherModel)
+
+        coEvery {
+            localDataSource.insertWeather(any())
+        } just Runs
+
+        runBlockingTest {
+            weatherRepository.getWeatherByLocation(2.3, 4.5).collect()
+        }
+
+        coVerifySequence {
+            remoteDataSource.getWeatherByLocation(2.3, 4.5)
+            localDataSource.insertWeather(weatherModel)
+        }
+    }
+
+    @Test
     fun getWeatherHistory() {
         coEvery {
             localDataSource.getWeatherHistory()

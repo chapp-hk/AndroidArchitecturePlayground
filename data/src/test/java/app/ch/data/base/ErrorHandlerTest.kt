@@ -1,5 +1,6 @@
 package app.ch.data.base
 
+import app.ch.data.location.remote.LocationUnavailableException
 import app.ch.domain.base.ErrorEntity
 import io.mockk.every
 import io.mockk.mockk
@@ -54,6 +55,12 @@ class ErrorHandlerTest {
 
         expectThat(errorHandler(httpException))
             .isEqualTo(ErrorEntity.Unknown)
+    }
+
+    @Test
+    fun `throwable type is LocationUnavailableException`() {
+        expectThat(errorHandler(LocationUnavailableException()))
+            .isEqualTo(ErrorEntity.LocationUnavailable)
     }
 
     @Test
