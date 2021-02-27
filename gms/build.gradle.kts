@@ -46,5 +46,5 @@ dependencies {
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Test.rules)
     androidTestImplementation(Deps.Kotlinx.Coroutines.test)
-    androidTestImplementation("io.mockk:mockk-android:1.10.6")
+    androidTestImplementation(Deps.MockK.android)
 }

@@ -87,7 +87,7 @@ dependencies {
     implementation(Deps.Android.Gms.playServicesLocation)
 
     testImplementation(Deps.Junit.junit)
-    testImplementation(Deps.mockk)
+    testImplementation(Deps.MockK.mockk)
     testImplementation(Deps.strikt)
     testImplementation(Deps.Kotlinx.Coroutines.test)
     testImplementation(Deps.AndroidX.Arch.Core.testing)

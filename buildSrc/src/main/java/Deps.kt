@@ -11,6 +11,7 @@ object Versions {
     const val room = "2.3.0-beta02"
     const val okhttp = "5.0.0-alpha.2"
     const val androidxTest = "1.3.0"
+    const val mockk = "1.10.6"
 }
 
 object GradlePlugins {
@@ -21,7 +22,6 @@ object GradlePlugins {
 
 object Deps {
     const val timber = "com.jakewharton.timber:timber:4.7.1"
-    const val mockk = "io.mockk:mockk:1.10.6"
     const val strikt = "io.strikt:strikt-core:0.29.0"
     const val livedataTesting = "com.jraska.livedata:testing-ktx:1.1.2"
 
@@ -112,5 +112,10 @@ object Deps {
 
     object Junit {
         const val junit = "junit:junit:4.13.2"
+    }
+
+    object MockK {
+        const val mockk = "io.mockk:mockk:${Versions.mockk}"
+        const val android = "io.mockk:mockk-android:${Versions.mockk}"
     }
 }

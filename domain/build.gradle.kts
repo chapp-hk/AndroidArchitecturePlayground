@@ -18,6 +18,6 @@ dependencies {
     implementation(Deps.Kotlinx.Coroutines.core)
 
     testImplementation(Deps.Junit.junit)
-    testImplementation(Deps.mockk)
+    testImplementation(Deps.MockK.mockk)
     testImplementation(Deps.Kotlinx.Coroutines.test)
 }
