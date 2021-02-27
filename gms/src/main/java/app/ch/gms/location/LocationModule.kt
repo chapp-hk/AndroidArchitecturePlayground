@@ -2,8 +2,7 @@ package app.ch.gms.location
 
 import android.content.Context
 import app.ch.data.location.remote.ILocationRemoteDataSource
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import dagger.Binds
@@ -25,6 +24,23 @@ class LocationModule {
     @Provides
     internal fun providesCancellationToken(): CancellationToken {
         return CancellationTokenSource().token
+    }
+
+    @Provides
+    internal fun providesLocationRequest(): LocationRequest {
+        return LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+    }
+
+    @Provides
+    internal fun providesLocationSettingsRequest(locationRequest: LocationRequest): LocationSettingsRequest {
+        return LocationSettingsRequest.Builder().addLocationRequest(locationRequest).setAlwaysShow(true).build()
+    }
+
+    @Provides
+    internal fun providesLocationSettingsClient(@ApplicationContext context: Context): SettingsClient {
+        return LocationServices.getSettingsClient(context)
     }
 }
 

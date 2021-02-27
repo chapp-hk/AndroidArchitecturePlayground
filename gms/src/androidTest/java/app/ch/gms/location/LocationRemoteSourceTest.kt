@@ -5,14 +5,16 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
+import app.ch.data.location.remote.LocationUnavailableException
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.Tasks
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runBlockingTest
@@ -33,6 +35,12 @@ class LocationRemoteSourceTest {
     @MockK
     private lateinit var cancellationToken: CancellationToken
 
+    @MockK
+    private lateinit var locationSettingsClient: SettingsClient
+
+    @MockK
+    private lateinit var locationSettingsRequest: LocationSettingsRequest
+
     private lateinit var locationRemoteSource: LocationRemoteSource
 
     @Before
@@ -42,7 +50,9 @@ class LocationRemoteSourceTest {
         locationRemoteSource = LocationRemoteSource(
             ApplicationProvider.getApplicationContext(),
             fusedLocationClient,
-            cancellationToken
+            cancellationToken,
+            locationSettingsClient,
+            locationSettingsRequest,
         )
     }
 
@@ -51,6 +61,10 @@ class LocationRemoteSourceTest {
         coEvery {
             fusedLocationClient.getCurrentLocation(any(), any())
         } returns Tasks.forResult(Location(LocationManager.GPS_PROVIDER))
+
+        coEvery {
+            locationSettingsClient.checkLocationSettings(any())
+        } returns Tasks.forResult(LocationSettingsResponse())
 
         runBlockingTest {
             locationRemoteSource.getCurrentLocation().collect()
@@ -61,6 +75,36 @@ class LocationRemoteSourceTest {
                 LocationRequest.PRIORITY_HIGH_ACCURACY,
                 cancellationToken
             )
+        }
+    }
+
+    @Test(expected = LocationUnavailableException::class)
+    fun fusedLocationClient_getCurrentLocation_throws_ResolvableApiException() {
+        coEvery {
+            fusedLocationClient.getCurrentLocation(any(), any())
+        } returns Tasks.forResult(Location(LocationManager.GPS_PROVIDER))
+
+        coEvery {
+            locationSettingsClient.checkLocationSettings(any())
+        } throws mockk<ResolvableApiException>()
+
+        runBlockingTest {
+            locationRemoteSource.getCurrentLocation().collect()
+        }
+    }
+
+    @Test(expected = Throwable::class)
+    fun fusedLocationClient_getCurrentLocation_throws_Throwable() {
+        coEvery {
+            fusedLocationClient.getCurrentLocation(any(), any())
+        } returns Tasks.forResult(Location(LocationManager.GPS_PROVIDER))
+
+        coEvery {
+            locationSettingsClient.checkLocationSettings(any())
+        } throws Throwable()
+
+        runBlockingTest {
+            locationRemoteSource.getCurrentLocation().collect()
         }
     }
 }

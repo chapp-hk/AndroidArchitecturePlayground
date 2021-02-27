@@ -1,14 +1,16 @@
 package app.ch.weatherapp.weather
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.ch.base.hideKeyboard
+import app.ch.base.showToast
 import app.ch.domain.base.ErrorEntity
 import app.ch.weatherapp.R
 import app.ch.weatherapp.databinding.FragmentWeatherBinding
@@ -43,7 +45,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                 viewModel.queryWeatherByCityName().let { true }
             }
             it.btnLocation.setOnClickListener {
-                requestPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
     }
@@ -60,13 +62,12 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private fun handleError(error: ErrorEntity) {
         when (error) {
-            ErrorEntity.Network -> R.string.weather_error_network
-            ErrorEntity.LimitExceeded -> R.string.weather_error_limit_exceeded
-            ErrorEntity.AccessDenied -> R.string.weather_error_access_denied
-            ErrorEntity.NotFound -> R.string.weather_error_not_found
-            else -> R.string.weather_error_unknown
-        }.let {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            ErrorEntity.Network -> showToast(R.string.weather_error_network)
+            ErrorEntity.LimitExceeded -> showToast(R.string.weather_error_limit_exceeded)
+            ErrorEntity.AccessDenied -> showToast(R.string.weather_error_access_denied)
+            ErrorEntity.NotFound -> showToast(R.string.weather_error_not_found)
+            ErrorEntity.LocationUnavailable -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            else -> showToast(R.string.weather_error_unknown)
         }
     }
 
