@@ -84,6 +84,8 @@ dependencies {
     implementation(Deps.Retrofit.kotlinxSerializationConverter)
     implementation(Deps.AndroidX.Room.runtime)
 
+    implementation(Deps.AndroidX.Paging.runtime)
+
     implementation(Deps.Android.Gms.playServicesLocation)
 
     testImplementation(Deps.Junit.junit)

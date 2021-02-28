@@ -16,6 +16,7 @@ dependencies {
     kapt(Deps.Hilt.compiler)
 
     implementation(Deps.Kotlinx.Coroutines.core)
+    implementation(Deps.AndroidX.Paging.common)
 
     testImplementation(Deps.Junit.junit)
     testImplementation(Deps.MockK.mockk)

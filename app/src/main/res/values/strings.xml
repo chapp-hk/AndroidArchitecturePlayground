@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">WeatherApp</string>
 
+    <string name="weather_title">Weather</string>
     <string name="weather_search_hint">Search city name</string>
     <string name="weather_error_network">Network error</string>
     <string name="weather_error_limit_exceeded">Limit exceeded</string>
     <string name="weather_error_access_denied">Access denied</string>
     <string name="weather_error_not_found">Not found</string>
     <string name="weather_error_unknown">Unknown</string>
+
+    <string name="history_title">History</string>
 </resources>

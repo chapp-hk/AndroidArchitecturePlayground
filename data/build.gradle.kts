@@ -84,6 +84,8 @@ dependencies {
     kapt(Deps.AndroidX.Room.compiler)
     implementation(Deps.AndroidX.Room.ktx)
 
+    implementation(Deps.AndroidX.Paging.runtime)
+
     testImplementation(Deps.Junit.junit)
     testImplementation(Deps.MockK.mockk)
     testImplementation(Deps.strikt)

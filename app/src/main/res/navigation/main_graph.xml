@@ -8,6 +8,12 @@
     <fragment
         android:id="@+id/weather"
         android:name="app.ch.weatherapp.weather.WeatherFragment"
-        android:label="Weather"
+        android:label="@string/weather_title"
         tools:layout="@layout/fragment_weather" />
+
+    <fragment
+        android:id="@+id/history"
+        android:name="app.ch.weatherapp.history.HistoryFragment"
+        android:label="@string/history_title"
+        tools:layout="@layout/fragment_history" />
 </navigation>

@@ -7,7 +7,6 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
@@ -18,20 +17,12 @@ class GetWeatherHistoryUseCaseTest {
     @MockK
     private lateinit var weatherRepository: IWeatherRepository
 
-    private val ioDispatcher = TestCoroutineDispatcher()
-
-    private val mainDispatcher = TestCoroutineDispatcher()
-
     private lateinit var getWeatherHistoryUseCase: GetWeatherHistoryUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        getWeatherHistoryUseCase = GetWeatherHistoryUseCase(
-            ioDispatcher,
-            mainDispatcher,
-            weatherRepository
-        )
+        getWeatherHistoryUseCase = GetWeatherHistoryUseCase(weatherRepository)
     }
 
     @Test
