@@ -1,11 +1,11 @@
 package app.ch.data.weather.local
 
-import app.ch.data.weather.mapper.toDaoEntity
 import app.ch.data.weather.model.WeatherModel
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
@@ -42,8 +42,8 @@ class WeatherLocalDataSourceTest {
         }
 
         coVerifySequence {
-            weatherDao.insertWeather(weatherModel.toDaoEntity())
-            weatherDao.insertAllConditions(weatherModel.conditions.map { it.toDaoEntity() })
+            weatherDao.insertWeather(any())
+            weatherDao.insertAllConditions(any())
         }
     }
 
@@ -51,10 +51,13 @@ class WeatherLocalDataSourceTest {
     fun getWeatherHistory() {
         coEvery {
             weatherDao.getWeathers()
-        } returns listOf()
+        } returns mockk(relaxed = true)
 
         runBlockingTest {
-            weatherLocalDataSource.getWeatherHistory().collect()
+            val job = launch {
+                weatherLocalDataSource.getWeatherHistory().collect()
+            }
+            job.cancel()
         }
 
         coVerify(exactly = 1) {

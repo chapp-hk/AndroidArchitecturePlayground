@@ -9,6 +9,7 @@ object Versions {
     const val hilt = "2.32-alpha"
     const val navigation = "2.3.3"
     const val room = "2.3.0-beta02"
+    const val paging = "3.0.0-beta01"
     const val okhttp = "5.0.0-alpha.2"
     const val androidxTest = "1.3.0"
     const val mockk = "1.10.6"
@@ -73,6 +74,11 @@ object Deps {
             const val compiler = "androidx.room:room-compiler:${Versions.room}"
             const val ktx = "androidx.room:room-ktx:${Versions.room}"
             const val testing = "androidx.room:room-testing:${Versions.room}"
+        }
+
+        object Paging {
+            const val runtime = "androidx.paging:paging-runtime:${Versions.paging}"
+            const val common = "androidx.paging:paging-common:${Versions.paging}"
         }
 
         object Test {

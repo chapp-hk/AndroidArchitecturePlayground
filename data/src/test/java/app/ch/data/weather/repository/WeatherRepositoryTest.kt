@@ -1,5 +1,6 @@
 package app.ch.data.weather.repository
 
+import androidx.paging.PagingData
 import app.ch.data.weather.local.WeatherLocalDataSource
 import app.ch.data.weather.model.WeatherModel
 import app.ch.data.weather.remote.WeatherRemoteDataSource
@@ -76,7 +77,7 @@ class WeatherRepositoryTest {
     fun getWeatherHistory() {
         coEvery {
             localDataSource.getWeatherHistory()
-        } returns flowOf(listOf())
+        } returns flowOf(PagingData.empty())
 
         runBlockingTest {
             weatherRepository.getWeatherHistory().collect()

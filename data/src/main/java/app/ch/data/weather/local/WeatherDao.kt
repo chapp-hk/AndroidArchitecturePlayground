@@ -1,5 +1,6 @@
 package app.ch.data.weather.local
 
+import androidx.paging.PagingSource
 import androidx.room.*
 
 @Dao
@@ -13,5 +14,5 @@ interface WeatherDao {
 
     @Transaction
     @Query("SELECT * FROM weather ORDER BY create_time DESC")
-    suspend fun getWeathers(): List<WeatherWithConditions>
+    fun getWeathers(): PagingSource<Int, WeatherWithConditions>
 }

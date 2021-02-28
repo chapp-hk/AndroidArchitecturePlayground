@@ -1,12 +1,18 @@
 package app.ch.data.weather.local
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import app.ch.data.weather.mapper.toDaoEntity
 import app.ch.data.weather.mapper.toDataModel
 import app.ch.data.weather.model.WeatherModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class WeatherLocalDataSource @Inject
 constructor(
     private val weatherDao: WeatherDao,
@@ -19,14 +25,15 @@ constructor(
         }
     }
 
-    suspend fun getWeatherHistory(): Flow<List<WeatherModel>> {
-        return flow {
+    fun getWeatherHistory(): Flow<PagingData<WeatherModel>> {
+        return Pager(
+            PagingConfig(10)
+        ) {
             weatherDao.getWeathers()
-                .map {
-                    it.toDataModel()
-                }.let {
-                    emit(it)
-                }
+        }.flow.map { pagingData ->
+            pagingData.map {
+                it.toDataModel()
+            }
         }
     }
 }
