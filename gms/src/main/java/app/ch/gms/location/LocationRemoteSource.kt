@@ -27,14 +27,14 @@ constructor(
     private val locationSettingsRequest: LocationSettingsRequest,
 ) : ILocationRemoteDataSource {
 
-    override suspend fun getCurrentLocation(): Flow<LocationModel> {
+    override fun getCurrentLocation(): Flow<LocationModel> {
         ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
 
         return flow {
-            requireLocation()
+            requireLocationEnabled()
             fusedLocationClient.getCurrentLocation(
                 LocationRequest.PRIORITY_HIGH_ACCURACY,
                 cancellationToken
@@ -44,7 +44,7 @@ constructor(
         }
     }
 
-    private suspend fun requireLocation() {
+    private suspend fun requireLocationEnabled() {
         runCatching {
             locationSettingsClient.checkLocationSettings(locationSettingsRequest).await()
         }.getOrElse {

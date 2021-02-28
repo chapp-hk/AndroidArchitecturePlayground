@@ -94,9 +94,9 @@ constructor(
             _isLoading.value = true
         }.onCompletion {
             _isLoading.value = false
-        }.catch { throwable ->
-            Timber.e(throwable)
-            _errorEvent.emit(handleError(throwable))
+        }.catch {
+            Timber.e(it)
+            _errorEvent.emit(handleError(it))
         }.collectLatest {
             _cityName.value = it.name
             _temperature.value = it.temperature

@@ -18,7 +18,7 @@ constructor(
     private val weatherDao: WeatherDao,
 ) {
 
-    suspend fun insertWeather(weather: WeatherModel) {
+    fun insertWeather(weather: WeatherModel) {
         weatherDao.apply {
             insertWeather(weather.toDaoEntity())
             insertAllConditions(weather.conditions.map { it.toDaoEntity() })

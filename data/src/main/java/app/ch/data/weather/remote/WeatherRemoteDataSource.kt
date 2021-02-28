@@ -11,7 +11,7 @@ constructor(
     private val weatherApi: WeatherApi,
 ) {
 
-    suspend fun getWeatherByCityName(cityName: String): Flow<WeatherModel> {
+    fun getWeatherByCityName(cityName: String): Flow<WeatherModel> {
         return flow {
             weatherApi.getWeatherByCityName(cityName)
                 .toDataModel()
@@ -21,7 +21,7 @@ constructor(
         }
     }
 
-    suspend fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherModel> {
+    fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherModel> {
         return flow {
             weatherApi.getWeatherByLocation(lat, lon)
                 .toDataModel()

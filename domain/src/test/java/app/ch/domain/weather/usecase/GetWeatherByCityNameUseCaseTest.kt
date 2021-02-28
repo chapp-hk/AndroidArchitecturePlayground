@@ -20,8 +20,6 @@ class GetWeatherByCityNameUseCaseTest {
 
     private val ioDispatcher = TestCoroutineDispatcher()
 
-    private val mainDispatcher = TestCoroutineDispatcher()
-
     private lateinit var getWeatherByCityNameUseCase: GetWeatherByCityNameUseCase
 
     @Before
@@ -29,7 +27,6 @@ class GetWeatherByCityNameUseCaseTest {
         MockKAnnotations.init(this)
         getWeatherByCityNameUseCase = GetWeatherByCityNameUseCase(
             ioDispatcher,
-            mainDispatcher,
             weatherRepository
         )
     }

@@ -13,7 +13,7 @@ constructor(
     private val remoteDataSource: ILocationRemoteDataSource
 ) : ILocationRepository {
 
-    override suspend fun getCurrentLocation(): Flow<LocationEntity> {
+    override fun getCurrentLocation(): Flow<LocationEntity> {
         return remoteDataSource.getCurrentLocation().map {
             it.toDomainEntity()
         }

@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface IWeatherRepository {
 
-    suspend fun getWeatherByCityName(cityName: String): Flow<WeatherEntity>
+    fun getWeatherByCityName(cityName: String): Flow<WeatherEntity>
 
-    suspend fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherEntity>
+    fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherEntity>
 
     fun getWeatherHistory(): Flow<PagingData<WeatherEntity>>
 }

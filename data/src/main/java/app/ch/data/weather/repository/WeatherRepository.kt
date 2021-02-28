@@ -20,7 +20,7 @@ constructor(
     private val localDataSource: WeatherLocalDataSource,
 ) : IWeatherRepository {
 
-    override suspend fun getWeatherByCityName(cityName: String): Flow<WeatherEntity> {
+    override fun getWeatherByCityName(cityName: String): Flow<WeatherEntity> {
         return remoteDataSource.getWeatherByCityName(cityName)
             .onEach {
                 localDataSource.insertWeather(it)
@@ -30,7 +30,7 @@ constructor(
             }
     }
 
-    override suspend fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherEntity> {
+    override fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherEntity> {
         return remoteDataSource.getWeatherByLocation(lat, lon)
             .onEach {
                 localDataSource.insertWeather(it)

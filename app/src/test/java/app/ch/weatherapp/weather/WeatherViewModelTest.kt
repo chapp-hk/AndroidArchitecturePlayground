@@ -2,6 +2,7 @@ package app.ch.weatherapp.weather
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.ch.data.location.remote.LocationUnavailableException
+import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
 import app.ch.domain.location.entity.LocationEntity
 import app.ch.domain.location.usecase.GetCurrentLocationUseCase
@@ -20,8 +21,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNotEmpty
+import strikt.assertions.*
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
@@ -187,7 +187,8 @@ class WeatherViewModelTest {
 
         //assert values in LiveData and SharedFlow
         weatherViewModel.errorEvent.test {
-            expectThat(it).isNotEmpty()
+            expectThat(it).first()
+                .isA<ErrorEntity.LocationUnavailable>()
         }
 
         coVerify(exactly = 0) {

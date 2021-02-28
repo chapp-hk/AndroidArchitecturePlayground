@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ILocationRemoteDataSource {
 
-    suspend fun getCurrentLocation(): Flow<LocationModel>
+    fun getCurrentLocation(): Flow<LocationModel>
 }

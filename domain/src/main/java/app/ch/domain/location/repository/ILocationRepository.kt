@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ILocationRepository {
 
-    suspend fun getCurrentLocation(): Flow<LocationEntity>
+    fun getCurrentLocation(): Flow<LocationEntity>
 }
