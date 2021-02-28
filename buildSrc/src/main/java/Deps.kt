@@ -47,6 +47,7 @@ object Deps {
         const val core = "androidx.core:core-ktx:1.5.0-beta02"
         const val appCompat = "androidx.appcompat:appcompat:1.3.0-beta01"
         const val fragment = "androidx.fragment:fragment-ktx:1.3.0"
+        const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
 
         object Arch {
             object Core {

@@ -31,6 +31,6 @@ dependencies {
     implementation(Deps.Kotlin.stdlib)
     implementation(Deps.AndroidX.core)
     implementation(Deps.AndroidX.fragment)
-    implementation("androidx.recyclerview:recyclerview:1.1.0")
+    implementation(Deps.AndroidX.recyclerview)
     implementation(Deps.AndroidX.Paging.runtime)
 }
