@@ -88,6 +88,7 @@ dependencies {
 
     implementation(Deps.Android.Gms.playServicesLocation)
 
+    testImplementation(project(mapOf("path" to ":base-test")))
     testImplementation(Deps.Junit.junit)
     testImplementation(Deps.MockK.mockk)
     testImplementation(Deps.strikt)

@@ -5,19 +5,18 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
+import app.ch.base.test.test
 import app.ch.data.location.remote.LocationUnavailableException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.Tasks
 import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -58,19 +57,17 @@ class LocationRemoteSourceTest {
 
     @Test
     fun verify_fusedLocationClient_getCurrentLocation_invoked() {
-        coEvery {
+        every {
             fusedLocationClient.getCurrentLocation(any(), any())
         } returns Tasks.forResult(Location(LocationManager.GPS_PROVIDER))
 
-        coEvery {
+        every {
             locationSettingsClient.checkLocationSettings(any())
         } returns Tasks.forResult(LocationSettingsResponse())
 
-        runBlockingTest {
-            locationRemoteSource.getCurrentLocation().collect()
-        }
+        locationRemoteSource.getCurrentLocation().test()
 
-        coVerify(exactly = 1) {
+        verify {
             fusedLocationClient.getCurrentLocation(
                 LocationRequest.PRIORITY_HIGH_ACCURACY,
                 cancellationToken
@@ -80,31 +77,27 @@ class LocationRemoteSourceTest {
 
     @Test(expected = LocationUnavailableException::class)
     fun fusedLocationClient_getCurrentLocation_throws_ResolvableApiException() {
-        coEvery {
+        every {
             fusedLocationClient.getCurrentLocation(any(), any())
         } returns Tasks.forResult(Location(LocationManager.GPS_PROVIDER))
 
-        coEvery {
+        every {
             locationSettingsClient.checkLocationSettings(any())
         } throws mockk<ResolvableApiException>()
 
-        runBlockingTest {
-            locationRemoteSource.getCurrentLocation().collect()
-        }
+        locationRemoteSource.getCurrentLocation().test()
     }
 
     @Test(expected = Throwable::class)
     fun fusedLocationClient_getCurrentLocation_throws_Throwable() {
-        coEvery {
+        every {
             fusedLocationClient.getCurrentLocation(any(), any())
         } returns Tasks.forResult(Location(LocationManager.GPS_PROVIDER))
 
-        coEvery {
+        every {
             locationSettingsClient.checkLocationSettings(any())
         } throws Throwable()
 
-        runBlockingTest {
-            locationRemoteSource.getCurrentLocation().collect()
-        }
+        locationRemoteSource.getCurrentLocation().test()
     }
 }

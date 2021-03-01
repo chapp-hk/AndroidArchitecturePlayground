@@ -1,3 +1,4 @@
+include(":base-test")
 include(":base")
 include(":app")
 include(":data")

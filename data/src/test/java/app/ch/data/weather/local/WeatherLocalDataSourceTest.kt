@@ -1,12 +1,10 @@
 package app.ch.data.weather.local
 
+import app.ch.base.test.test
 import app.ch.data.weather.model.WeatherModel
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -51,12 +49,7 @@ class WeatherLocalDataSourceTest {
             weatherDao.getWeathers()
         } returns mockk(relaxed = true)
 
-        runBlockingTest {
-            val job = launch {
-                weatherLocalDataSource.getWeatherHistory().collect()
-            }
-            job.cancel()
-        }
+        weatherLocalDataSource.getWeatherHistory().test()
 
         verify(exactly = 1) {
             weatherDao.getWeathers()
@@ -69,9 +62,7 @@ class WeatherLocalDataSourceTest {
             weatherDao.getLatestWeather()
         } returns mockk(relaxed = true)
 
-        runBlockingTest {
-            weatherLocalDataSource.getLatestWeather().collect()
-        }
+        weatherLocalDataSource.getLatestWeather().test()
 
         verify {
             weatherDao.getLatestWeather()
@@ -84,8 +75,6 @@ class WeatherLocalDataSourceTest {
             weatherDao.getLatestWeather()
         } returns null
 
-        runBlockingTest {
-            weatherLocalDataSource.getLatestWeather().collect()
-        }
+        weatherLocalDataSource.getLatestWeather().test()
     }
 }

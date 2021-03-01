@@ -42,6 +42,7 @@ dependencies {
     implementation(Deps.Android.Gms.playServicesLocation)
     implementation(Deps.Kotlinx.Coroutines.playServices)
 
+    androidTestImplementation(project(mapOf("path" to ":base-test")))
     androidTestImplementation(Deps.AndroidX.Test.runner)
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Test.rules)
