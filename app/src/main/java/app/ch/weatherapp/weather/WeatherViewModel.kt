@@ -23,7 +23,7 @@ constructor(
     private val getWeatherByLocation: GetWeatherByLocationUseCase,
     private val getCurrentLocation: GetCurrentLocationUseCase,
     private val getLatestSearchedWeather: GetLatestSearchedWeatherUseCase,
-    private val handleError: IErrorHandler,
+    private val getErrorEntity: IErrorHandler,
 ) : ViewModel() {
 
     val searchText = MutableLiveData("")
@@ -109,10 +109,7 @@ constructor(
             _isLoading.value = false
         }.catch {
             Timber.e(it)
-            when (val error = handleError(it)) {
-                is ErrorEntity.EmptyHistory -> _isEmptyHistory.value = true
-                else -> _errorEvent.emit(error)
-            }
+            handleError(it)
         }.collectLatest {
             _cityName.value = it.name
             _temperature.value = it.temperature
@@ -126,6 +123,13 @@ constructor(
             _windDeg.value = it.windDeg
             _cloudiness.value = it.cloudiness
             _isEmptyHistory.value = false
+        }
+    }
+
+    private suspend fun handleError(throwable: Throwable) {
+        when (val error = getErrorEntity(throwable)) {
+            is ErrorEntity.EmptyHistory -> _isEmptyHistory.value = true
+            else -> _errorEvent.emit(error)
         }
     }
 }
