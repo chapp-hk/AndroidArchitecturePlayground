@@ -1,6 +1,7 @@
 package app.ch.data.base
 
 import app.ch.data.location.remote.LocationUnavailableException
+import app.ch.data.weather.local.EmptyHistoryException
 import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
 import retrofit2.HttpException
@@ -24,6 +25,7 @@ constructor() : IErrorHandler {
                 }
             }
             is LocationUnavailableException -> ErrorEntity.LocationUnavailable
+            is EmptyHistoryException -> ErrorEntity.EmptyHistory
             else -> ErrorEntity.Unknown
         }
     }

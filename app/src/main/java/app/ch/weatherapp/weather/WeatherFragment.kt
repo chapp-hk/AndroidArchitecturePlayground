@@ -41,6 +41,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         setHasOptionsMenu(true)
         setupViews(view)
         setupEventObservers()
+        viewModel.queryLatestSearchedWeather()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

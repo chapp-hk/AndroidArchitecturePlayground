@@ -6,6 +6,7 @@ import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
 import app.ch.domain.location.entity.LocationEntity
 import app.ch.domain.location.usecase.GetCurrentLocationUseCase
+import app.ch.domain.weather.usecase.GetLatestSearchedWeatherUseCase
 import app.ch.domain.weather.usecase.GetWeatherByCityNameUseCase
 import app.ch.domain.weather.usecase.GetWeatherByLocationUseCase
 import app.ch.weatherapp.test
@@ -21,7 +22,10 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import strikt.api.expectThat
-import strikt.assertions.*
+import strikt.assertions.first
+import strikt.assertions.isA
+import strikt.assertions.isEqualTo
+import strikt.assertions.isNotEmpty
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
@@ -41,6 +45,9 @@ class WeatherViewModelTest {
     private lateinit var getCurrentLocation: GetCurrentLocationUseCase
 
     @MockK
+    private lateinit var getLatestSearchedWeather: GetLatestSearchedWeatherUseCase
+
+    @MockK
     private lateinit var handleError: IErrorHandler
 
     private lateinit var weatherViewModel: WeatherViewModel
@@ -52,37 +59,34 @@ class WeatherViewModelTest {
             getWeatherByCityName,
             getWeatherByLocation,
             getCurrentLocation,
+            getLatestSearchedWeather,
             handleError
         )
     }
 
     @Test
     fun `queryWeatherByCityName should invoke getWeatherByCityName`() {
-        coEvery {
+        every {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        runBlockingTest {
-            weatherViewModel.searchText.value = "Hong Kong"
-            weatherViewModel.queryWeatherByCityName()
-        }
+        weatherViewModel.searchText.value = "Hong Kong"
+        weatherViewModel.queryWeatherByCityName()
 
-        coVerify(exactly = 1) {
+        verify(exactly = 1) {
             getWeatherByCityName("Hong Kong")
         }
     }
 
     @Test
     fun `queryWeatherByCityName assert start and complete states`() {
-        coEvery {
+        every {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
         val isLoadingTestObserver = weatherViewModel.isLoading.test()
 
-        runBlockingTest {
-            weatherViewModel.queryWeatherByCityName()
-        }
+        weatherViewModel.queryWeatherByCityName()
 
         //assert values in LiveData and SharedFlow
         weatherViewModel.startSearchEvent.test {
@@ -96,13 +100,11 @@ class WeatherViewModelTest {
 
     @Test
     fun `queryWeatherByCityName assert error states`() {
-        coEvery {
+        every {
             getWeatherByCityName(any())
         } returns flow { throw Throwable() }
 
-        runBlockingTest {
-            weatherViewModel.queryWeatherByCityName()
-        }
+        weatherViewModel.queryWeatherByCityName()
 
         //assert values in LiveData and SharedFlow
         weatherViewModel.errorEvent.test {
@@ -112,15 +114,16 @@ class WeatherViewModelTest {
 
     @Test
     fun `queryWeatherByCityName assert success states`() {
-        coEvery {
+        every {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        runBlockingTest {
-            weatherViewModel.queryWeatherByCityName()
-        }
+        weatherViewModel.queryWeatherByCityName()
 
         //assert values in LiveData
+        weatherViewModel.isEmptyHistory.test()
+            .assertValue(false)
+
         weatherViewModel.cityName.test()
             .assertValue(MockData.weatherEntity.name)
 
@@ -194,5 +197,34 @@ class WeatherViewModelTest {
         coVerify(exactly = 0) {
             getWeatherByLocation(any(), any())
         }
+    }
+
+    @Test
+    fun `queryLatestSearchedWeather should invoke getLatestSearchedWeather`() {
+        every {
+            getLatestSearchedWeather()
+        } returns flowOf(MockData.weatherEntity)
+
+        weatherViewModel.queryLatestSearchedWeather()
+
+        verify {
+            getLatestSearchedWeather()
+        }
+    }
+
+    @Test
+    fun `queryLatestSearchedWeather assert error states`() {
+        every {
+            getLatestSearchedWeather()
+        } returns flow { throw Exception() }
+
+        every {
+            handleError(any())
+        } returns ErrorEntity.EmptyHistory
+
+        weatherViewModel.queryLatestSearchedWeather()
+
+        weatherViewModel.isEmptyHistory.test()
+            .assertValue(true)
     }
 }

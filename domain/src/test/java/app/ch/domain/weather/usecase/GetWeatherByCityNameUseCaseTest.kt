@@ -2,13 +2,12 @@ package app.ch.domain.weather.usecase
 
 import app.ch.domain.weather.repository.IWeatherRepository
 import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -33,15 +32,13 @@ class GetWeatherByCityNameUseCaseTest {
 
     @Test
     fun invoke() {
-        coEvery {
+        every {
             weatherRepository.getWeatherByCityName(any())
         } returns flowOf()
 
-        runBlockingTest {
-            getWeatherByCityNameUseCase("Hong Kong")
-        }
+        getWeatherByCityNameUseCase("Hong Kong")
 
-        coVerify(exactly = 1) {
+        verify(exactly = 1) {
             weatherRepository.getWeatherByCityName("Hong Kong")
         }
     }

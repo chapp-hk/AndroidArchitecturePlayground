@@ -29,19 +29,17 @@ class WeatherLocalDataSourceTest {
 
     @Test
     fun insertWeather() {
-        coEvery {
+        every {
             weatherDao.insertWeather(any())
         } just Runs
 
-        coEvery {
+        every {
             weatherDao.insertAllConditions(any())
         } just Runs
 
-        runBlockingTest {
-            weatherLocalDataSource.insertWeather(weatherModel)
-        }
+        weatherLocalDataSource.insertWeather(weatherModel)
 
-        coVerifySequence {
+        verifySequence {
             weatherDao.insertWeather(any())
             weatherDao.insertAllConditions(any())
         }
@@ -49,7 +47,7 @@ class WeatherLocalDataSourceTest {
 
     @Test
     fun getWeatherHistory() {
-        coEvery {
+        every {
             weatherDao.getWeathers()
         } returns mockk(relaxed = true)
 
@@ -60,8 +58,34 @@ class WeatherLocalDataSourceTest {
             job.cancel()
         }
 
-        coVerify(exactly = 1) {
+        verify(exactly = 1) {
             weatherDao.getWeathers()
+        }
+    }
+
+    @Test
+    fun `getLatestWeather success`() {
+        every {
+            weatherDao.getLatestWeather()
+        } returns mockk(relaxed = true)
+
+        runBlockingTest {
+            weatherLocalDataSource.getLatestWeather().collect()
+        }
+
+        verify {
+            weatherDao.getLatestWeather()
+        }
+    }
+
+    @Test(expected = EmptyHistoryException::class)
+    fun `getLatestWeather empty`() {
+        every {
+            weatherDao.getLatestWeather()
+        } returns null
+
+        runBlockingTest {
+            weatherLocalDataSource.getLatestWeather().collect()
         }
     }
 }

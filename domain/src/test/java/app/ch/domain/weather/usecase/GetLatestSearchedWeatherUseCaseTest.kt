@@ -12,19 +12,19 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class GetWeatherHistoryUseCaseTest {
+class GetLatestSearchedWeatherUseCaseTest {
 
     @MockK
     private lateinit var weatherRepository: IWeatherRepository
 
     private val ioDispatcher = TestCoroutineDispatcher()
 
-    private lateinit var getWeatherHistoryUseCase: GetWeatherHistoryUseCase
+    private lateinit var getLatestSearchedWeatherUseCase: GetLatestSearchedWeatherUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        getWeatherHistoryUseCase = GetWeatherHistoryUseCase(
+        getLatestSearchedWeatherUseCase = GetLatestSearchedWeatherUseCase(
             ioDispatcher,
             weatherRepository
         )
@@ -33,13 +33,13 @@ class GetWeatherHistoryUseCaseTest {
     @Test
     fun invoke() {
         every {
-            weatherRepository.getWeatherHistory()
+            weatherRepository.getLatestSearchedWeather()
         } returns flowOf()
 
-        getWeatherHistoryUseCase()
+        getLatestSearchedWeatherUseCase()
 
         verify(exactly = 1) {
-            weatherRepository.getWeatherHistory()
+            weatherRepository.getLatestSearchedWeather()
         }
     }
 }

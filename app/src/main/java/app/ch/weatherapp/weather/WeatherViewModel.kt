@@ -5,6 +5,7 @@ import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
 import app.ch.domain.location.usecase.GetCurrentLocationUseCase
 import app.ch.domain.weather.entity.WeatherEntity
+import app.ch.domain.weather.usecase.GetLatestSearchedWeatherUseCase
 import app.ch.domain.weather.usecase.GetWeatherByCityNameUseCase
 import app.ch.domain.weather.usecase.GetWeatherByLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,10 +22,14 @@ constructor(
     private val getWeatherByCityName: GetWeatherByCityNameUseCase,
     private val getWeatherByLocation: GetWeatherByLocationUseCase,
     private val getCurrentLocation: GetCurrentLocationUseCase,
-    private val handleError: IErrorHandler,
+    private val getLatestSearchedWeather: GetLatestSearchedWeatherUseCase,
+    private val getErrorEntity: IErrorHandler,
 ) : ViewModel() {
 
     val searchText = MutableLiveData("")
+
+    private val _isEmptyHistory = MutableLiveData<Boolean>()
+    val isEmptyHistory = _isEmptyHistory.asFlow().asLiveData()
 
     private val _isLoading = MutableLiveData(false)
     val isLoading = _isLoading.asFlow().asLiveData()
@@ -68,6 +73,14 @@ constructor(
     private val _errorEvent = MutableSharedFlow<ErrorEntity>()
     val errorEvent = _errorEvent.asSharedFlow()
 
+    fun queryLatestSearchedWeather() {
+        viewModelScope.launch {
+            startCollect(
+                getLatestSearchedWeather()
+            )
+        }
+    }
+
     fun queryWeatherByCityName() {
         viewModelScope.launch {
             startCollect(
@@ -96,7 +109,7 @@ constructor(
             _isLoading.value = false
         }.catch {
             Timber.e(it)
-            _errorEvent.emit(handleError(it))
+            handleError(it)
         }.collectLatest {
             _cityName.value = it.name
             _temperature.value = it.temperature
@@ -109,6 +122,14 @@ constructor(
             _windSpeed.value = it.windSpeed
             _windDeg.value = it.windDeg
             _cloudiness.value = it.cloudiness
+            _isEmptyHistory.value = false
+        }
+    }
+
+    private suspend fun handleError(throwable: Throwable) {
+        when (val error = getErrorEntity(throwable)) {
+            is ErrorEntity.EmptyHistory -> _isEmptyHistory.value = true
+            else -> _errorEvent.emit(error)
         }
     }
 }

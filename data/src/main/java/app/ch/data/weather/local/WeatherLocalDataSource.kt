@@ -9,6 +9,7 @@ import app.ch.data.weather.mapper.toDataModel
 import app.ch.data.weather.model.WeatherModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -34,6 +35,16 @@ constructor(
             pagingData.map {
                 it.toDataModel()
             }
+        }
+    }
+
+    fun getLatestWeather(): Flow<WeatherModel> {
+        return flow {
+            weatherDao.getLatestWeather()
+                ?.toDataModel()
+                ?.let {
+                    emit(it)
+                } ?: throw EmptyHistoryException()
         }
     }
 }

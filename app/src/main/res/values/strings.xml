@@ -2,6 +2,7 @@
     <string name="app_name">WeatherApp</string>
 
     <string name="weather_title">Weather</string>
+    <string name="weather_welcome">Welcome!\nPlease search by city name or current location</string>
     <string name="weather_search_hint">Search city name</string>
     <string name="weather_error_network">Network error</string>
     <string name="weather_error_limit_exceeded">Limit exceeded</string>
