@@ -87,4 +87,19 @@ class WeatherRepositoryTest {
             localDataSource.getWeatherHistory()
         }
     }
+
+    @Test
+    fun getLatestSearchedWeather() {
+        coEvery {
+            localDataSource.getLatestWeather()
+        } returns flowOf(weatherModel)
+
+        runBlockingTest {
+            weatherRepository.getLatestSearchedWeather()
+        }
+
+        coVerify {
+            localDataSource.getLatestWeather()
+        }
+    }
 }

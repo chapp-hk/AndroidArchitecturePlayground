@@ -48,4 +48,11 @@ constructor(
                 }
             }
     }
+
+    override fun getLatestSearchedWeather(): Flow<WeatherEntity> {
+        return localDataSource.getLatestWeather()
+            .map {
+                it.toDomainEntity()
+            }
+    }
 }

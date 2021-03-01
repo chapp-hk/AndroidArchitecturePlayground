@@ -64,4 +64,19 @@ class WeatherLocalDataSourceTest {
             weatherDao.getWeathers()
         }
     }
+
+    @Test
+    fun getLatestWeather() {
+        coEvery {
+            weatherDao.getLatestWeather()
+        } returns mockk(relaxed = true)
+
+        runBlockingTest {
+            weatherLocalDataSource.getLatestWeather().collect()
+        }
+
+        coVerify {
+            weatherDao.getLatestWeather()
+        }
+    }
 }

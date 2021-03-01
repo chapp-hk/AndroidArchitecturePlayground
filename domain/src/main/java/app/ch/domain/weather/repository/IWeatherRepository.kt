@@ -11,4 +11,6 @@ interface IWeatherRepository {
     fun getWeatherByLocation(lat: Double, lon: Double): Flow<WeatherEntity>
 
     fun getWeatherHistory(): Flow<PagingData<WeatherEntity>>
+
+    fun getLatestSearchedWeather(): Flow<WeatherEntity>
 }

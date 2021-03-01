@@ -5,6 +5,7 @@ import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
 import app.ch.domain.location.usecase.GetCurrentLocationUseCase
 import app.ch.domain.weather.entity.WeatherEntity
+import app.ch.domain.weather.usecase.GetLatestSearchedWeatherUseCase
 import app.ch.domain.weather.usecase.GetWeatherByCityNameUseCase
 import app.ch.domain.weather.usecase.GetWeatherByLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ constructor(
     private val getWeatherByCityName: GetWeatherByCityNameUseCase,
     private val getWeatherByLocation: GetWeatherByLocationUseCase,
     private val getCurrentLocation: GetCurrentLocationUseCase,
+    private val getLatestSearchedWeather: GetLatestSearchedWeatherUseCase,
     private val handleError: IErrorHandler,
 ) : ViewModel() {
 
@@ -67,6 +69,14 @@ constructor(
 
     private val _errorEvent = MutableSharedFlow<ErrorEntity>()
     val errorEvent = _errorEvent.asSharedFlow()
+
+    fun queryLatestSearchedWeather() {
+        viewModelScope.launch {
+            startCollect(
+                getLatestSearchedWeather()
+            )
+        }
+    }
 
     fun queryWeatherByCityName() {
         viewModelScope.launch {
