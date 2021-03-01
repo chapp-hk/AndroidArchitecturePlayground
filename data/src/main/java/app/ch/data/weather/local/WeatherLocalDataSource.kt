@@ -41,10 +41,10 @@ constructor(
     fun getLatestWeather(): Flow<WeatherModel> {
         return flow {
             weatherDao.getLatestWeather()
-                .toDataModel()
-                .let {
+                ?.toDataModel()
+                ?.let {
                     emit(it)
-                }
+                } ?: throw EmptyHistoryException()
         }
     }
 }

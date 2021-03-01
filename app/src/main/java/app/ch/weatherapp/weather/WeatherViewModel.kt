@@ -28,6 +28,9 @@ constructor(
 
     val searchText = MutableLiveData("")
 
+    private val _isEmptyHistory = MutableLiveData<Boolean>()
+    val isEmptyHistory = _isEmptyHistory.asFlow().asLiveData()
+
     private val _isLoading = MutableLiveData(false)
     val isLoading = _isLoading.asFlow().asLiveData()
 
@@ -106,7 +109,10 @@ constructor(
             _isLoading.value = false
         }.catch {
             Timber.e(it)
-            _errorEvent.emit(handleError(it))
+            when (val error = handleError(it)) {
+                is ErrorEntity.EmptyHistory -> _isEmptyHistory.value = true
+                else -> _errorEvent.emit(error)
+            }
         }.collectLatest {
             _cityName.value = it.name
             _temperature.value = it.temperature
@@ -119,6 +125,7 @@ constructor(
             _windSpeed.value = it.windSpeed
             _windDeg.value = it.windDeg
             _cloudiness.value = it.cloudiness
+            _isEmptyHistory.value = false
         }
     }
 }

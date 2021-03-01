@@ -12,5 +12,7 @@ sealed class ErrorEntity {
 
     object LocationUnavailable : ErrorEntity()
 
+    object EmptyHistory : ErrorEntity()
+
     object Unknown : ErrorEntity()
 }

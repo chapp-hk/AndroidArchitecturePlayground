@@ -1,6 +1,7 @@
 package app.ch.data.base
 
 import app.ch.data.location.remote.LocationUnavailableException
+import app.ch.data.weather.local.EmptyHistoryException
 import app.ch.domain.base.ErrorEntity
 import io.mockk.every
 import io.mockk.mockk
@@ -61,6 +62,12 @@ class ErrorHandlerTest {
     fun `throwable type is LocationUnavailableException`() {
         expectThat(errorHandler(LocationUnavailableException()))
             .isEqualTo(ErrorEntity.LocationUnavailable)
+    }
+
+    @Test
+    fun `throwable type is EmptyHistoryException`() {
+        expectThat(errorHandler(EmptyHistoryException()))
+            .isEqualTo(ErrorEntity.EmptyHistory)
     }
 
     @Test

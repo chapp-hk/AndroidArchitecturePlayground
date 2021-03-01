@@ -22,7 +22,10 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import strikt.api.expectThat
-import strikt.assertions.*
+import strikt.assertions.first
+import strikt.assertions.isA
+import strikt.assertions.isEqualTo
+import strikt.assertions.isNotEmpty
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
@@ -118,6 +121,9 @@ class WeatherViewModelTest {
         weatherViewModel.queryWeatherByCityName()
 
         //assert values in LiveData
+        weatherViewModel.isEmptyHistory.test()
+            .assertValue(false)
+
         weatherViewModel.cityName.test()
             .assertValue(MockData.weatherEntity.name)
 
@@ -204,5 +210,21 @@ class WeatherViewModelTest {
         verify {
             getLatestSearchedWeather()
         }
+    }
+
+    @Test
+    fun `queryLatestSearchedWeather assert error states`() {
+        every {
+            getLatestSearchedWeather()
+        } returns flow { throw Exception() }
+
+        every {
+            handleError(any())
+        } returns ErrorEntity.EmptyHistory
+
+        weatherViewModel.queryLatestSearchedWeather()
+
+        weatherViewModel.isEmptyHistory.test()
+            .assertValue(true)
     }
 }
