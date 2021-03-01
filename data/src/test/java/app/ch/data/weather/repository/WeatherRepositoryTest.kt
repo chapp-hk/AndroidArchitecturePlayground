@@ -1,15 +1,14 @@
 package app.ch.data.weather.repository
 
 import androidx.paging.PagingData
+import app.ch.base.test.test
 import app.ch.data.weather.local.WeatherLocalDataSource
 import app.ch.data.weather.model.WeatherModel
 import app.ch.data.weather.remote.WeatherRemoteDataSource
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -35,19 +34,17 @@ class WeatherRepositoryTest {
 
     @Test
     fun getWeatherByCityName() {
-        coEvery {
+        every {
             remoteDataSource.getWeatherByCityName(any())
         } returns flowOf(weatherModel)
 
-        coEvery {
+        every {
             localDataSource.insertWeather(any())
         } just Runs
 
-        runBlockingTest {
-            weatherRepository.getWeatherByCityName("Hong Kong").collect()
-        }
+        weatherRepository.getWeatherByCityName("Hong Kong").test()
 
-        coVerifySequence {
+        verify {
             remoteDataSource.getWeatherByCityName("Hong Kong")
             localDataSource.insertWeather(weatherModel)
         }
@@ -55,19 +52,17 @@ class WeatherRepositoryTest {
 
     @Test
     fun getWeatherByLocation() {
-        coEvery {
+        every {
             remoteDataSource.getWeatherByLocation(any(), any())
         } returns flowOf(weatherModel)
 
-        coEvery {
+        every {
             localDataSource.insertWeather(any())
         } just Runs
 
-        runBlockingTest {
-            weatherRepository.getWeatherByLocation(2.3, 4.5).collect()
-        }
+        weatherRepository.getWeatherByLocation(2.3, 4.5).test()
 
-        coVerifySequence {
+        verify {
             remoteDataSource.getWeatherByLocation(2.3, 4.5)
             localDataSource.insertWeather(weatherModel)
         }
@@ -75,30 +70,26 @@ class WeatherRepositoryTest {
 
     @Test
     fun getWeatherHistory() {
-        coEvery {
+        every {
             localDataSource.getWeatherHistory()
         } returns flowOf(PagingData.empty())
 
-        runBlockingTest {
-            weatherRepository.getWeatherHistory().collect()
-        }
+        weatherRepository.getWeatherHistory()
 
-        coVerify {
+        verify {
             localDataSource.getWeatherHistory()
         }
     }
 
     @Test
     fun getLatestSearchedWeather() {
-        coEvery {
+        every {
             localDataSource.getLatestWeather()
         } returns flowOf(weatherModel)
 
-        runBlockingTest {
-            weatherRepository.getLatestSearchedWeather()
-        }
+        weatherRepository.getLatestSearchedWeather()
 
-        coVerify {
+        verify {
             localDataSource.getLatestWeather()
         }
     }

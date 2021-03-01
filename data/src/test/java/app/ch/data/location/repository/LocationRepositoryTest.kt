@@ -7,9 +7,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -33,11 +31,9 @@ class LocationRepositoryTest {
             remoteDataSource.getCurrentLocation()
         } returns flowOf(LocationModel(13.32, 129.12))
 
-        runBlockingTest {
-            locationRepository.getCurrentLocation().collect()
-        }
+        locationRepository.getCurrentLocation()
 
-        coVerify {
+        coVerify(exactly = 1) {
             remoteDataSource.getCurrentLocation()
         }
     }

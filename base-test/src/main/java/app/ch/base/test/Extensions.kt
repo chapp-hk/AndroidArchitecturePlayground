@@ -1,4 +1,4 @@
-package app.ch.weatherapp
+package app.ch.base.test
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +9,7 @@ import kotlinx.coroutines.test.runBlockingTest
 
 @ExperimentalCoroutinesApi
 inline fun <T> Flow<T>.test(
-    crossinline testAction: (List<T>) -> Unit
+    crossinline testAction: (List<T>) -> Unit = {}
 ) {
 
     runBlockingTest {

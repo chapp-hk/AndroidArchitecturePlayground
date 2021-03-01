@@ -1,12 +1,11 @@
 package app.ch.data.weather.remote
 
+import app.ch.base.test.test
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -33,11 +32,9 @@ class WeatherRemoteDataSourceTest {
             weatherApi.getWeatherByCityName(any())
         } returns weatherResponse
 
-        runBlockingTest {
-            weatherRemoteDataSource.getWeatherByCityName("Hong Kong").collect()
-        }
+        weatherRemoteDataSource.getWeatherByCityName("Hong Kong").test()
 
-        coVerify(exactly = 1) {
+        coVerify {
             weatherApi.getWeatherByCityName("Hong Kong")
         }
     }
@@ -48,11 +45,9 @@ class WeatherRemoteDataSourceTest {
             weatherApi.getWeatherByLocation(any(), any())
         } returns weatherResponse
 
-        runBlockingTest {
-            weatherRemoteDataSource.getWeatherByLocation(1.2, 3.4).collect()
-        }
+        weatherRemoteDataSource.getWeatherByLocation(1.2, 3.4).test()
 
-        coVerify(exactly = 1) {
+        coVerify {
             weatherApi.getWeatherByLocation(1.2, 3.4)
         }
     }
