@@ -18,7 +18,7 @@ constructor(
     private val deleteWeather: DeleteWeatherUseCase,
 ) : ViewModel() {
 
-    private val _deleteItemEvent = MutableStateFlow(Long.MIN_VALUE)//MutableSharedFlow<Long>()
+    private val _deleteItemEvent = MutableStateFlow(Long.MIN_VALUE)
     val deleteItemEvent = _deleteItemEvent.asSharedFlow()
 
     fun queryWeatherHistory(): Flow<PagingData<HistoryListItem>> {
