@@ -20,8 +20,6 @@ class GetCurrentLocationUseCaseTest {
 
     private val ioDispatcher = TestCoroutineDispatcher()
 
-    private val mainDispatcher = TestCoroutineDispatcher()
-
     private lateinit var getCurrentLocationUseCase: GetCurrentLocationUseCase
 
     @Before
@@ -29,7 +27,6 @@ class GetCurrentLocationUseCaseTest {
         MockKAnnotations.init(this)
         getCurrentLocationUseCase = GetCurrentLocationUseCase(
             ioDispatcher,
-            mainDispatcher,
             locationRepository
         )
     }

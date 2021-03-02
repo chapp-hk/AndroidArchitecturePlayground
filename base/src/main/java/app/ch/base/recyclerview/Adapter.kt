@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -57,11 +56,11 @@ class RecyclerViewAdapter<T : ListItem>(
     }
 }
 
-class PagingAdapter(
+class PagingAdapter<T : ListItem>(
     private val itemVariableId: Int,
     private val owner: LifecycleOwner,
-    callback: DiffUtil.ItemCallback<ListItem> = SimpleDiffUtilItemCallback(),
-) : PagingDataAdapter<ListItem, DataBindingRecyclerViewHolder>(callback) {
+    callback: DiffUtil.ItemCallback<T> = SimpleDiffUtilItemCallback(),
+) : PagingDataAdapter<T, DataBindingRecyclerViewHolder>(callback) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -125,10 +124,4 @@ class SimpleDiffUtilItemCallback<T : ListItem> : DiffUtil.ItemCallback<T>() {
     ): Boolean {
         return areItemsTheSame(oldItem, newItem)
     }
-}
-
-fun Fragment.pagingAdapter(
-    itemVariableId: Int
-): Lazy<PagingAdapter> {
-    return lazy { PagingAdapter(itemVariableId, viewLifecycleOwner) }
 }

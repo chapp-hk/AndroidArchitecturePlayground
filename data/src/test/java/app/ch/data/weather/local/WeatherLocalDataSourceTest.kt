@@ -5,6 +5,7 @@ import app.ch.data.weather.model.WeatherModel
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Test
 
@@ -76,5 +77,18 @@ class WeatherLocalDataSourceTest {
         } returns null
 
         weatherLocalDataSource.getLatestWeather().test()
+    }
+
+    @Test
+    fun deleteWeather() {
+        every {
+            weatherDao.deleteWeather(any())
+        } returns 0
+
+        weatherLocalDataSource.deleteWeather(0).test()
+
+        verify {
+            weatherDao.deleteWeather(0)
+        }
     }
 }

@@ -13,4 +13,6 @@ interface IWeatherRepository {
     fun getWeatherHistory(): Flow<PagingData<WeatherEntity>>
 
     fun getLatestSearchedWeather(): Flow<WeatherEntity>
+
+    fun deleteWeather(id: Long): Flow<Int>
 }
