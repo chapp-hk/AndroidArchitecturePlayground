@@ -44,5 +44,17 @@
             app:layout_constraintStart_toEndOf="@id/tvLat"
             app:layout_constraintTop_toTopOf="@id/tvLat"
             tools:text="22.1212" />
+
+        <ImageView
+            android:layout_width="?listPreferredItemHeight"
+            android:layout_height="?listPreferredItemHeight"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/history_title"
+            android:onClick="@{() -> listItem.delete()}"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

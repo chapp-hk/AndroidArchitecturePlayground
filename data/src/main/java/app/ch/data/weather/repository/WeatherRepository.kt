@@ -55,4 +55,8 @@ constructor(
                 it.toDomainEntity()
             }
     }
+
+    override fun deleteWeather(id: Long): Flow<Int> {
+        return localDataSource.deleteWeather(id)
+    }
 }

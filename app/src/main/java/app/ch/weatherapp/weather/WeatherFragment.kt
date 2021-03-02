@@ -36,12 +36,17 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         ::handleRequestPermissionResult
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.queryLatestSearchedWeather()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         setupViews(view)
         setupEventObservers()
-        viewModel.queryLatestSearchedWeather()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

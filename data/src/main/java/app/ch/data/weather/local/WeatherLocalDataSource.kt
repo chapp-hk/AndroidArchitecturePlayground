@@ -28,7 +28,10 @@ constructor(
 
     fun getWeatherHistory(): Flow<PagingData<WeatherModel>> {
         return Pager(
-            PagingConfig(10)
+            PagingConfig(
+                pageSize = 20,
+                prefetchDistance = 1,
+            )
         ) {
             weatherDao.getWeathers()
         }.flow.map { pagingData ->
@@ -45,6 +48,12 @@ constructor(
                 ?.let {
                     emit(it)
                 } ?: throw EmptyHistoryException()
+        }
+    }
+
+    fun deleteWeather(id: Long): Flow<Int> {
+        return flow {
+            emit(weatherDao.deleteWeather(id))
         }
     }
 }
