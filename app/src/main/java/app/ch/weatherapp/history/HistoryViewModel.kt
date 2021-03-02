@@ -20,27 +20,26 @@ constructor(
     private val deleteAllWeather: DeleteAllWeatherUseCase,
 ) : ViewModel() {
 
-    private val _deleteItemEvent = MutableStateFlow(Long.MIN_VALUE)
-    val deleteItemEvent = _deleteItemEvent.asSharedFlow()
-
-    private val _deleteAllItemsEvent = MutableSharedFlow<Unit>()
-    val deleteAllItemsEvent = _deleteAllItemsEvent.asSharedFlow()
+    private val _historyEvent = MutableSharedFlow<HistoryEvent>()
+    val historyEvent = _historyEvent.asSharedFlow()
 
     fun queryWeatherHistory(): Flow<PagingData<HistoryListItem>> {
         return getWeatherHistory().map { pagingData ->
             pagingData.map {
-                it.toUiModel(_deleteItemEvent)
+                it.toUiModel(_historyEvent, viewModelScope)
             }
         }.cachedIn(viewModelScope)
     }
 
     fun deleteItem(id: Long) {
-        deleteWeather(id).launchIn(viewModelScope)
+        deleteWeather(id).onEach {
+            _historyEvent.emit(HistoryEvent.ListChanged)
+        }.launchIn(viewModelScope)
     }
 
     fun deleteAllItems() {
         deleteAllWeather().onEach {
-            _deleteAllItemsEvent.emit(Unit)
+            _historyEvent.emit(HistoryEvent.ListChanged)
         }.launchIn(viewModelScope)
     }
 }

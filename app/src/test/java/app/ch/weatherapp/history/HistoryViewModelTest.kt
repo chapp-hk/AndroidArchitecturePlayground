@@ -11,8 +11,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
 import strikt.api.expectThat
+import strikt.assertions.isA
 import strikt.assertions.isNotEmpty
 
+@ExperimentalCoroutinesApi
 class HistoryViewModelTest {
 
     @MockK
@@ -52,9 +54,12 @@ class HistoryViewModelTest {
         verify(exactly = 1) {
             deleteWeather(8964)
         }
+
+        historyViewModel.historyEvent.test {
+            expectThat(it.first()).isA<HistoryEvent.ListChanged>()
+        }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun deleteAllItems() {
         historyViewModel.deleteAllItems()
@@ -63,8 +68,8 @@ class HistoryViewModelTest {
             deleteAllWeather()
         }
 
-        historyViewModel.deleteAllItemsEvent.test {
-            expectThat(it).isNotEmpty()
+        historyViewModel.historyEvent.test {
+            expectThat(it.first()).isA<HistoryEvent.ListChanged>()
         }
     }
 }

@@ -77,8 +77,8 @@ constructor(
             .launchIn(viewModelScope)
     }
 
-    fun queryWeatherByCityName() {
-        getWeatherByCityName(searchText.value.orEmpty())
+    fun queryWeatherByCityName(cityName: String? = null) {
+        getWeatherByCityName(cityName ?: searchText.value.orEmpty())
             .run(::startFlow)
             .launchIn(viewModelScope)
     }

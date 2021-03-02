@@ -5,10 +5,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import app.ch.base.recyclerview.pagingAdapter
 import app.ch.weatherapp.BR
@@ -65,20 +68,25 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
             .onEach { adapter.submitData(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.deleteItemEvent
-            .onEach {
-                viewModel.deleteItem(it)
-                adapter.refresh()
+        viewModel.historyEvent
+            .onEach { handleEvent(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        adapter.loadStateFlow
+            .onEach { loadState ->
+                binding.tvWelcome.isVisible =
+                    loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun handleEvent(event: HistoryEvent) {
+        when (event) {
+            is HistoryEvent.DeleteItem -> viewModel.deleteItem(event.id)
+            is HistoryEvent.Display -> {
+                setFragmentResult(REQUEST_DISPLAY_CITY, bundleOf(KEY_CITY_NAME to event.cityName))
+                findNavController().navigateUp()
             }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewModel.deleteAllItemsEvent
-            .onEach { adapter.refresh() }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        adapter.loadStateFlow.onEach { loadState ->
-            binding.tvWelcome.isVisible =
-                loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+            is HistoryEvent.ListChanged -> adapter.refresh()
+        }
     }
 }
