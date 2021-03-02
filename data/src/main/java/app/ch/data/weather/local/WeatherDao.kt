@@ -22,4 +22,7 @@ interface WeatherDao {
 
     @Query("DELETE FROM weather WHERE id = :id")
     fun deleteWeather(id: Long): Int
+
+    @Query("DELETE FROM weather")
+    fun deleteAllWeather()
 }

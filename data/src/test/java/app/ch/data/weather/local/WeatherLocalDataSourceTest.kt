@@ -90,4 +90,17 @@ class WeatherLocalDataSourceTest {
             weatherDao.deleteWeather(0)
         }
     }
+
+    @Test
+    fun deleteAllWeather() {
+        every {
+            weatherDao.deleteAllWeather()
+        } just Runs
+
+        weatherLocalDataSource.deleteAllWeather().test()
+
+        verify {
+            weatherDao.deleteAllWeather()
+        }
+    }
 }
