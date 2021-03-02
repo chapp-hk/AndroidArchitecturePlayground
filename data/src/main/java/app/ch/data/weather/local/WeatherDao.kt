@@ -16,6 +16,7 @@ interface WeatherDao {
     @Query("SELECT * FROM weather ORDER BY create_time DESC")
     fun getWeathers(): PagingSource<Int, WeatherWithConditions>
 
+    @Transaction
     @Query("SELECT * FROM weather ORDER BY create_time DESC LIMIT 1")
     fun getLatestWeather(): WeatherWithConditions?
 

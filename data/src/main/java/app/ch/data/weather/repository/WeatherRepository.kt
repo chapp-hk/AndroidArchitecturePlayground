@@ -7,13 +7,11 @@ import app.ch.data.weather.mapper.toDomainEntity
 import app.ch.data.weather.remote.WeatherRemoteDataSource
 import app.ch.domain.weather.entity.WeatherEntity
 import app.ch.domain.weather.repository.IWeatherRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class WeatherRepository @Inject
 constructor(
     private val remoteDataSource: WeatherRemoteDataSource,

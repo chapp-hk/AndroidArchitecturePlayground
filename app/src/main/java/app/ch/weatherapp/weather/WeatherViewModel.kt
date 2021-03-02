@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class WeatherViewModel @Inject
 constructor(
@@ -84,6 +83,7 @@ constructor(
             .launchIn(viewModelScope)
     }
 
+    @ExperimentalCoroutinesApi
     fun queryCurrentLocation() {
         getCurrentLocation()
             .flatMapLatest { getWeatherByLocation(it.lat, it.long) }

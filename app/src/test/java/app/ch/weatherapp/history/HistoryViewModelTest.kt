@@ -5,11 +5,9 @@ import app.ch.domain.weather.usecase.GetWeatherHistoryUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class HistoryViewModelTest {
 
     @MockK

@@ -4,7 +4,6 @@ import app.ch.domain.di.IoDispatcher
 import app.ch.domain.weather.entity.WeatherEntity
 import app.ch.domain.weather.repository.IWeatherRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
@@ -15,7 +14,6 @@ constructor(
     private val weatherRepository: IWeatherRepository,
 ) {
 
-    @ExperimentalCoroutinesApi
     operator fun invoke(cityName: String): Flow<WeatherEntity> {
         return weatherRepository.getWeatherByCityName(cityName)
             .flowOn(ioDispatcher)

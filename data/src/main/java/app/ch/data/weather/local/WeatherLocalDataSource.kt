@@ -7,13 +7,11 @@ import androidx.paging.map
 import app.ch.data.weather.mapper.toDaoEntity
 import app.ch.data.weather.mapper.toDataModel
 import app.ch.data.weather.model.WeatherModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class WeatherLocalDataSource @Inject
 constructor(
     private val weatherDao: WeatherDao,
