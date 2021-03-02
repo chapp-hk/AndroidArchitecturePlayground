@@ -3,5 +3,5 @@ include(":base")
 include(":app")
 include(":data")
 include(":domain")
-include(":gms")
+include(":mobile-service")
 rootProject.name = "WeatherApp"

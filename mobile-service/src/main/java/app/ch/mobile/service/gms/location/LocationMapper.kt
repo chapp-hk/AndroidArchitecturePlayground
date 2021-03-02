@@ -1,4 +1,4 @@
-package app.ch.gms.location
+package app.ch.mobile.service.gms.location
 
 
 import android.location.Location

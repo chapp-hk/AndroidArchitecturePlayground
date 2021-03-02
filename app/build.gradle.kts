@@ -59,7 +59,7 @@ dependencies {
     implementation(project(mapOf("path" to ":base")))
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
-    implementation(project(mapOf("path" to ":gms")))
+    implementation(project(mapOf("path" to ":mobile-service")))
 
     implementation(Deps.Kotlin.stdlib)
     implementation(Deps.timber)
