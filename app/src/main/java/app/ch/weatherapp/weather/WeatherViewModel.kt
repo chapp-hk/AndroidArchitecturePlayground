@@ -11,7 +11,6 @@ import app.ch.domain.weather.usecase.GetWeatherByLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -74,35 +73,26 @@ constructor(
     val errorEvent = _errorEvent.asSharedFlow()
 
     fun queryLatestSearchedWeather() {
-        viewModelScope.launch {
-            startCollect(
-                getLatestSearchedWeather()
-            )
-        }
+        getLatestSearchedWeather()
+            .run(::startFlow)
+            .launchIn(viewModelScope)
     }
 
     fun queryWeatherByCityName() {
-        viewModelScope.launch {
-            startCollect(
-                getWeatherByCityName(searchText.value.orEmpty())
-            )
-        }
+        getWeatherByCityName(searchText.value.orEmpty())
+            .run(::startFlow)
+            .launchIn(viewModelScope)
     }
 
     fun queryCurrentLocation() {
-        viewModelScope.launch {
-            getCurrentLocation()
-                .flatMapLatest {
-                    getWeatherByLocation(it.lat, it.long)
-                }
-                .let {
-                    startCollect(it)
-                }
-        }
+        getCurrentLocation()
+            .flatMapLatest { getWeatherByLocation(it.lat, it.long) }
+            .run(::startFlow)
+            .launchIn(viewModelScope)
     }
 
-    private suspend fun startCollect(flow: Flow<WeatherEntity>) {
-        flow.onStart {
+    private fun startFlow(flow: Flow<WeatherEntity>): Flow<WeatherEntity> {
+        return flow.onStart {
             _startSearchEvent.emit(Unit)
             _isLoading.value = true
         }.onCompletion {
@@ -110,7 +100,7 @@ constructor(
         }.catch {
             Timber.e(it)
             handleError(it)
-        }.collectLatest {
+        }.onEach {
             _cityName.value = it.name
             _temperature.value = it.temperature
             _feelsLike.value = it.feelsLike
