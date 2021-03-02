@@ -76,6 +76,20 @@ class WeatherViewModelTest {
     }
 
     @Test
+    fun `queryWeatherByCityName will non null cityName`() {
+        every {
+            getWeatherByCityName(any())
+        } returns flowOf(MockData.weatherEntity)
+
+        weatherViewModel.searchText.value = "Hong Kong"
+        weatherViewModel.queryWeatherByCityName("Tokyo")
+
+        verify {
+            getWeatherByCityName("Tokyo")
+        }
+    }
+
+    @Test
     fun `queryWeatherByCityName assert start and complete states`() {
         every {
             getWeatherByCityName(any())

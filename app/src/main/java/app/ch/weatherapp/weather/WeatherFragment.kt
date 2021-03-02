@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,8 @@ import app.ch.base.showToast
 import app.ch.domain.base.ErrorEntity
 import app.ch.weatherapp.R
 import app.ch.weatherapp.databinding.FragmentWeatherBinding
+import app.ch.weatherapp.history.KEY_CITY_NAME
+import app.ch.weatherapp.history.REQUEST_DISPLAY_CITY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
@@ -46,7 +49,6 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         setHasOptionsMenu(true)
         setupViews(view)
         setupEventObservers()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -79,6 +81,13 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         viewModel.errorEvent
             .onEach(::handleError)
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        setFragmentResultListener(REQUEST_DISPLAY_CITY) { requestKey, data ->
+            when (requestKey) {
+                REQUEST_DISPLAY_CITY ->
+                    viewModel.queryWeatherByCityName(data.getString(KEY_CITY_NAME))
+            }
+        }
     }
 
     private fun handleError(error: ErrorEntity) {
