@@ -57,4 +57,8 @@ constructor(
     override fun deleteWeather(id: Long): Flow<Int> {
         return localDataSource.deleteWeather(id)
     }
+
+    override fun deleteAllWeather(): Flow<Unit> {
+        return localDataSource.deleteAllWeather()
+    }
 }

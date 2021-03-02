@@ -54,4 +54,10 @@ constructor(
             emit(weatherDao.deleteWeather(id))
         }
     }
+
+    fun deleteAllWeather(): Flow<Unit> {
+        return flow {
+            emit(weatherDao.deleteAllWeather())
+        }
+    }
 }

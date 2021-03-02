@@ -1,6 +1,9 @@
 package app.ch.weatherapp.history
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -26,7 +29,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(false)
+        setHasOptionsMenu(true)
         setupViews(view)
         setupEventObservers()
     }
@@ -34,6 +37,17 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.history_options, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.deleteAll -> viewModel.deleteAllItems().let { true }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun setupViews(view: View) {
@@ -56,6 +70,10 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
                 viewModel.deleteItem(it)
                 adapter.refresh()
             }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.deleteAllItemsEvent
+            .onEach { adapter.refresh() }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         adapter.loadStateFlow.onEach { loadState ->

@@ -102,4 +102,13 @@ class WeatherRepositoryTest {
             localDataSource.deleteWeather(8964)
         }
     }
+
+    @Test
+    fun deleteAllWeather() {
+        weatherRepository.deleteAllWeather()
+
+        verify {
+            localDataSource.deleteAllWeather()
+        }
+    }
 }

@@ -1,12 +1,17 @@
 package app.ch.weatherapp.history
 
+import app.ch.base.test.test
+import app.ch.domain.weather.usecase.DeleteAllWeatherUseCase
 import app.ch.domain.weather.usecase.DeleteWeatherUseCase
 import app.ch.domain.weather.usecase.GetWeatherHistoryUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
+import strikt.api.expectThat
+import strikt.assertions.isNotEmpty
 
 class HistoryViewModelTest {
 
@@ -16,12 +21,19 @@ class HistoryViewModelTest {
     @MockK
     private lateinit var deleteWeather: DeleteWeatherUseCase
 
+    @MockK
+    private lateinit var deleteAllWeather: DeleteAllWeatherUseCase
+
     private lateinit var historyViewModel: HistoryViewModel
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        historyViewModel = HistoryViewModel(getWeatherHistory, deleteWeather)
+        historyViewModel = HistoryViewModel(
+            getWeatherHistory,
+            deleteWeather,
+            deleteAllWeather,
+        )
     }
 
     @Test
@@ -39,6 +51,20 @@ class HistoryViewModelTest {
 
         verify(exactly = 1) {
             deleteWeather(8964)
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun deleteAllItems() {
+        historyViewModel.deleteAllItems()
+
+        verify(exactly = 1) {
+            deleteAllWeather()
+        }
+
+        historyViewModel.deleteAllItemsEvent.test {
+            expectThat(it).isNotEmpty()
         }
     }
 }

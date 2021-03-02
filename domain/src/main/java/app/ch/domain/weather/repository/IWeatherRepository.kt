@@ -15,4 +15,6 @@ interface IWeatherRepository {
     fun getLatestSearchedWeather(): Flow<WeatherEntity>
 
     fun deleteWeather(id: Long): Flow<Int>
+
+    fun deleteAllWeather(): Flow<Unit>
 }
