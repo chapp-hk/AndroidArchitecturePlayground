@@ -6,5 +6,5 @@ sealed class WeatherEvent {
 
     object StartSearch : WeatherEvent()
 
-    class Error(val error: ErrorEntity) : WeatherEvent()
+    data class Error(val error: ErrorEntity) : WeatherEvent()
 }

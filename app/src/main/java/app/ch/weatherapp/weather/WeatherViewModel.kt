@@ -1,6 +1,9 @@
 package app.ch.weatherapp.weather
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import app.ch.domain.base.ErrorEntity
 import app.ch.domain.base.IErrorHandler
 import app.ch.domain.location.usecase.GetCurrentLocationUseCase
@@ -26,44 +29,44 @@ constructor(
 
     val searchText = MutableLiveData("")
 
-    private val _isEmptyHistory = MutableLiveData<Boolean>()
-    val isEmptyHistory = _isEmptyHistory.asFlow().asLiveData()
+    private val _isEmptyHistory = MutableStateFlow(false)
+    val isEmptyHistory = _isEmptyHistory.asLiveData()
 
-    private val _isLoading = MutableLiveData(false)
-    val isLoading = _isLoading.asFlow().asLiveData()
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asLiveData()
 
-    private val _cityName = MutableLiveData("")
-    val cityName = _cityName.asFlow().asLiveData()
+    private val _cityName = MutableStateFlow("")
+    val cityName = _cityName.asLiveData()
 
-    private val _temperature = MutableLiveData<Double>()
-    val temperature = Transformations.map(_temperature) { it.toString() }
+    private val _temperature = MutableStateFlow<Double?>(null)
+    val temperature = _temperature.map { it?.toString() }.asLiveData()
 
-    private val _feelsLike = MutableLiveData<Double>()
-    val feelsLike = Transformations.map(_feelsLike) { it.toString() }
+    private val _feelsLike = MutableStateFlow<Double?>(null)
+    val feelsLike = _feelsLike.map { it?.toString() }.asLiveData()
 
-    private val _temperatureMin = MutableLiveData<Double>()
-    val temperatureMin = Transformations.map(_temperatureMin) { it.toString() }
+    private val _temperatureMin = MutableStateFlow<Double?>(null)
+    val temperatureMin = _temperatureMin.map { it?.toString() }.asLiveData()
 
-    private val _temperatureMax = MutableLiveData<Double>()
-    val temperatureMax = Transformations.map(_temperatureMax) { it.toString() }
+    private val _temperatureMax = MutableStateFlow<Double?>(null)
+    val temperatureMax = _temperatureMax.map { it?.toString() }.asLiveData()
 
-    private val _pressure = MutableLiveData<Int>()
-    val pressure = Transformations.map(_pressure) { it.toString() }
+    private val _pressure = MutableStateFlow<Int?>(null)
+    val pressure = _pressure.map { it?.toString() }.asLiveData()
 
-    private val _humidity = MutableLiveData<Int>()
-    val humidity = Transformations.map(_humidity) { it.toString() }
+    private val _humidity = MutableStateFlow<Int?>(null)
+    val humidity = _humidity.map { it?.toString() }.asLiveData()
 
-    private val _visibility = MutableLiveData<Int>()
-    val visibility = Transformations.map(_visibility) { it.toString() }
+    private val _visibility = MutableStateFlow<Int?>(null)
+    val visibility = _visibility.map { it?.toString() }.asLiveData()
 
-    private val _windSpeed = MutableLiveData<Double>()
-    val windSpeed = Transformations.map(_windSpeed) { it.toString() }
+    private val _windSpeed = MutableStateFlow<Double?>(null)
+    val windSpeed = _windSpeed.map { it?.toString() }.asLiveData()
 
-    private val _windDeg = MutableLiveData<Int>()
-    val windDeg = Transformations.map(_windDeg) { it.toString() }
+    private val _windDeg = MutableStateFlow<Int?>(null)
+    val windDeg = _windDeg.map { it?.toString() }.asLiveData()
 
-    private val _cloudiness = MutableLiveData<Int>()
-    val cloudiness = Transformations.map(_cloudiness) { it.toString() }
+    private val _cloudiness = MutableStateFlow<Int?>(null)
+    val cloudiness = _cloudiness.map { it?.toString() }.asLiveData()
 
     private val _weatherEvent = MutableSharedFlow<WeatherEvent>()
     val weatherEvent = _weatherEvent.asSharedFlow()

@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import app.ch.base.getBinding
 import app.ch.base.recyclerview.pagingAdapter
 import app.ch.weatherapp.BR
 import app.ch.weatherapp.R
@@ -27,19 +28,11 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     private val viewModel by viewModels<HistoryViewModel>()
     private val adapter by pagingAdapter<HistoryListItem>(BR.listItem)
 
-    private var _binding: FragmentHistoryBinding? = null
-    private val binding get() = requireNotNull(_binding)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         setupViews(view)
         setupEventObservers()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -58,8 +51,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
             it.recyclerView.adapter = adapter
-
-            _binding = it
         }
     }
 
@@ -74,7 +65,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
         adapter.loadStateFlow
             .onEach { loadState ->
-                binding.tvWelcome.isVisible =
+                getBinding<FragmentHistoryBinding>().tvWelcome.isVisible =
                     loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
