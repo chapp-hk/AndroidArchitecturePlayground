@@ -74,12 +74,8 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
     }
 
     private fun setupEventObservers() {
-        viewModel.startSearchEvent
-            .onEach { hideKeyboard() }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewModel.errorEvent
-            .onEach(::handleError)
+        viewModel.weatherEvent
+            .onEach { handleEvent(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         setFragmentResultListener(REQUEST_DISPLAY_CITY) { requestKey, data ->
@@ -87,6 +83,13 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                 REQUEST_DISPLAY_CITY ->
                     viewModel.queryWeatherByCityName(data.getString(KEY_CITY_NAME))
             }
+        }
+    }
+
+    private fun handleEvent(event: WeatherEvent) {
+        when (event) {
+            is WeatherEvent.StartSearch -> hideKeyboard()
+            is WeatherEvent.Error -> handleError(event.error)
         }
     }
 

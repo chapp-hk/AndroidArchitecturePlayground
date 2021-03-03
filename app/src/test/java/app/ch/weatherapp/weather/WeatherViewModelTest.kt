@@ -21,10 +21,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import strikt.api.expectThat
-import strikt.assertions.first
 import strikt.assertions.isA
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNotEmpty
 
 @ExperimentalCoroutinesApi
 class WeatherViewModelTest {
@@ -100,8 +97,8 @@ class WeatherViewModelTest {
         weatherViewModel.queryWeatherByCityName()
 
         //assert values in LiveData and SharedFlow
-        weatherViewModel.startSearchEvent.test {
-            expectThat(it.size).isEqualTo(1)
+        weatherViewModel.weatherEvent.test {
+            expectThat(it.first()).isA<WeatherEvent.StartSearch>()
         }
 
         isLoadingTestObserver.assertValueHistory(
@@ -118,8 +115,11 @@ class WeatherViewModelTest {
         weatherViewModel.queryWeatherByCityName()
 
         //assert values in LiveData and SharedFlow
-        weatherViewModel.errorEvent.test {
-            expectThat(it).isNotEmpty()
+        weatherViewModel.weatherEvent.test {
+            expectThat(it.first())
+                .isA<WeatherEvent.Error>()
+                .get { error }
+                .isA<ErrorEntity.Unknown>()
         }
     }
 
@@ -196,8 +196,8 @@ class WeatherViewModelTest {
         weatherViewModel.queryCurrentLocation()
 
         //assert values in LiveData and SharedFlow
-        weatherViewModel.errorEvent.test {
-            expectThat(it).first()
+        weatherViewModel.weatherEvent.test {
+            expectThat(it.first())
                 .isA<ErrorEntity.LocationUnavailable>()
         }
 

@@ -65,11 +65,8 @@ constructor(
     private val _cloudiness = MutableLiveData<Int>()
     val cloudiness = Transformations.map(_cloudiness) { it.toString() }
 
-    private val _startSearchEvent = MutableSharedFlow<Unit>()
-    val startSearchEvent = _startSearchEvent.asSharedFlow()
-
-    private val _errorEvent = MutableSharedFlow<ErrorEntity>()
-    val errorEvent = _errorEvent.asSharedFlow()
+    private val _weatherEvent = MutableSharedFlow<WeatherEvent>()
+    val weatherEvent = _weatherEvent.asSharedFlow()
 
     fun queryLatestSearchedWeather() {
         getLatestSearchedWeather()
@@ -93,7 +90,7 @@ constructor(
 
     private fun startFlow(flow: Flow<WeatherEntity>): Flow<WeatherEntity> {
         return flow.onStart {
-            _startSearchEvent.emit(Unit)
+            _weatherEvent.emit(WeatherEvent.StartSearch)
             _isLoading.value = true
         }.onCompletion {
             _isLoading.value = false
@@ -119,7 +116,7 @@ constructor(
     private suspend fun handleError(throwable: Throwable) {
         when (val error = getErrorEntity(throwable)) {
             is ErrorEntity.EmptyHistory -> _isEmptyHistory.value = true
-            else -> _errorEvent.emit(error)
+            else -> _weatherEvent.emit(WeatherEvent.Error(error))
         }
     }
 }
