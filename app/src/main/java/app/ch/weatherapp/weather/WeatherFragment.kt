@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
+import app.ch.base.getBinding
 import app.ch.base.hideKeyboard
 import app.ch.base.showSnackBar
 import app.ch.domain.base.ErrorEntity
@@ -34,9 +35,6 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private val viewModel by viewModels<WeatherViewModel>()
 
-    private var _binding: FragmentWeatherBinding? = null
-    private val binding get() = requireNotNull(_binding)
-
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
         ::handleRequestPermissionResult
@@ -52,11 +50,6 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         setHasOptionsMenu(true)
         setupViews(view)
         setupEventObservers()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -78,8 +71,6 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             it.btnLocation.setOnClickListener {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
-
-            _binding = it
         }
     }
 
@@ -106,27 +97,27 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
     private fun handleError(error: ErrorEntity) {
         when (error) {
             ErrorEntity.Network -> showSnackBar(
-                binding.containerWeather,
+                getBinding<FragmentWeatherBinding>().containerWeather,
                 R.string.weather_error_network
             )
 
             ErrorEntity.LimitExceeded -> showSnackBar(
-                binding.containerWeather,
+                getBinding<FragmentWeatherBinding>().containerWeather,
                 R.string.weather_error_limit_exceeded
             )
 
             ErrorEntity.AccessDenied -> showSnackBar(
-                binding.containerWeather,
+                getBinding<FragmentWeatherBinding>().containerWeather,
                 R.string.weather_error_access_denied
             )
 
             ErrorEntity.NotFound -> showSnackBar(
-                binding.containerWeather,
+                getBinding<FragmentWeatherBinding>().containerWeather,
                 R.string.weather_error_not_found
             )
 
             ErrorEntity.LocationUnavailable -> showSnackBar(
-                view = binding.containerWeather,
+                view = getBinding<FragmentWeatherBinding>().containerWeather,
                 messageResId = R.string.weather_error_enable_location,
                 actionResId = R.string.weather_button_setting,
             ) {
@@ -134,7 +125,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             }
 
             else -> showSnackBar(
-                binding.containerWeather,
+                getBinding<FragmentWeatherBinding>().containerWeather,
                 R.string.weather_error_unknown
             )
         }
@@ -145,7 +136,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             viewModel.queryCurrentLocation()
         } else {
             showSnackBar(
-                view = binding.containerWeather,
+                view = getBinding<FragmentWeatherBinding>().containerWeather,
                 messageResId = R.string.weather_error_location_permission_required,
                 actionResId = R.string.weather_button_setting,
             ) {
