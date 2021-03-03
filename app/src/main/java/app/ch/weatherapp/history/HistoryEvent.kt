@@ -2,9 +2,9 @@ package app.ch.weatherapp.history
 
 sealed class HistoryEvent {
 
-    class DeleteItem(val id: Long) : HistoryEvent()
+    data class DeleteItem(val id: Long) : HistoryEvent()
 
-    class Display(val cityName: String) : HistoryEvent()
+    data class Display(val cityName: String) : HistoryEvent()
 
     object ListChanged : HistoryEvent()
 }
