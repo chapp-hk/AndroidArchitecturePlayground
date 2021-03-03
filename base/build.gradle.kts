@@ -29,6 +29,7 @@ android {
 
 dependencies {
     implementation(Deps.Kotlin.stdlib)
+    implementation(Deps.Android.material)
     implementation(Deps.AndroidX.core)
     implementation(Deps.AndroidX.fragment)
     implementation(Deps.AndroidX.recyclerview)

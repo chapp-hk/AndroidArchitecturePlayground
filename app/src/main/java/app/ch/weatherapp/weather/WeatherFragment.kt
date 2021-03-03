@@ -2,6 +2,7 @@ package app.ch.weatherapp.weather
 
 import android.Manifest
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
@@ -16,7 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import app.ch.base.hideKeyboard
-import app.ch.base.showToast
+import app.ch.base.showSnackBar
 import app.ch.domain.base.ErrorEntity
 import app.ch.weatherapp.R
 import app.ch.weatherapp.databinding.FragmentWeatherBinding
@@ -26,13 +27,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private val viewModel by viewModels<WeatherViewModel>()
+
+    private var _binding: FragmentWeatherBinding? = null
+    private val binding get() = requireNotNull(_binding)
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -49,6 +52,11 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         setHasOptionsMenu(true)
         setupViews(view)
         setupEventObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -70,6 +78,8 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             it.btnLocation.setOnClickListener {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
+
+            _binding = it
         }
     }
 
@@ -95,12 +105,38 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private fun handleError(error: ErrorEntity) {
         when (error) {
-            ErrorEntity.Network -> showToast(R.string.weather_error_network)
-            ErrorEntity.LimitExceeded -> showToast(R.string.weather_error_limit_exceeded)
-            ErrorEntity.AccessDenied -> showToast(R.string.weather_error_access_denied)
-            ErrorEntity.NotFound -> showToast(R.string.weather_error_not_found)
-            ErrorEntity.LocationUnavailable -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            else -> showToast(R.string.weather_error_unknown)
+            ErrorEntity.Network -> showSnackBar(
+                binding.containerWeather,
+                R.string.weather_error_network
+            )
+
+            ErrorEntity.LimitExceeded -> showSnackBar(
+                binding.containerWeather,
+                R.string.weather_error_limit_exceeded
+            )
+
+            ErrorEntity.AccessDenied -> showSnackBar(
+                binding.containerWeather,
+                R.string.weather_error_access_denied
+            )
+
+            ErrorEntity.NotFound -> showSnackBar(
+                binding.containerWeather,
+                R.string.weather_error_not_found
+            )
+
+            ErrorEntity.LocationUnavailable -> showSnackBar(
+                view = binding.containerWeather,
+                messageResId = R.string.weather_error_enable_location,
+                actionResId = R.string.weather_button_setting,
+            ) {
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+
+            else -> showSnackBar(
+                binding.containerWeather,
+                R.string.weather_error_unknown
+            )
         }
     }
 
@@ -108,8 +144,17 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         if (isGranted) {
             viewModel.queryCurrentLocation()
         } else {
-            //TODO: show rationale dialog
-            Timber.d("show rationale dialog")
+            showSnackBar(
+                view = binding.containerWeather,
+                messageResId = R.string.weather_error_location_permission_required,
+                actionResId = R.string.weather_button_setting,
+            ) {
+                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", requireContext().packageName, null)
+                }.let {
+                    startActivity(it)
+                }
+            }
         }
     }
 }

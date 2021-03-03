@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 fun Activity.hideKeyboard() {
     (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
@@ -17,6 +17,20 @@ fun Fragment.hideKeyboard() {
     requireActivity().hideKeyboard()
 }
 
-fun Fragment.showToast(@StringRes resId: Int) {
-    Toast.makeText(requireContext(), resId, Toast.LENGTH_LONG).show()
+fun showSnackBar(
+    view: View,
+    @StringRes messageResId: Int? = null,
+    @StringRes actionResId: Int? = null,
+    action: () -> Unit = {},
+) {
+    requireNotNull(messageResId)
+    Snackbar.make(
+        view,
+        messageResId,
+        Snackbar.LENGTH_LONG
+    ).apply {
+        actionResId?.let {
+            setAction(it) { action() }
+        }
+    }.show()
 }

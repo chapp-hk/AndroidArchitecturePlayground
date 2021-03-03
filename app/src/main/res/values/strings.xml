@@ -9,6 +9,9 @@
     <string name="weather_error_access_denied">Access denied</string>
     <string name="weather_error_not_found">Not found</string>
     <string name="weather_error_unknown">Unknown</string>
+    <string name="weather_error_enable_location">Please enable location</string>
+    <string name="weather_error_location_permission_required">Location permission required</string>
+    <string name="weather_button_setting">Setting</string>
 
     <string name="history_title">History</string>
     <string name="history_delete_all">Delete all</string>
