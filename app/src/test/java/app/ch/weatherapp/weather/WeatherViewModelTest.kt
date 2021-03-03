@@ -92,8 +92,6 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        val isLoadingTestObserver = weatherViewModel.isLoading.test()
-
         weatherViewModel.queryWeatherByCityName()
 
         //assert values in LiveData and SharedFlow
@@ -101,9 +99,7 @@ class WeatherViewModelTest {
             expectThat(it.first()).isA<WeatherEvent.StartSearch>()
         }
 
-        isLoadingTestObserver.assertValueHistory(
-            false, true, false
-        )
+        weatherViewModel.isLoading.test().assertValue(false)
     }
 
     @Test
