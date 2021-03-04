@@ -96,38 +96,28 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private fun handleError(error: ErrorEntity) {
         when (error) {
-            ErrorEntity.Network -> showSnackBar(
-                getBinding<FragmentWeatherBinding>().containerWeather,
-                R.string.weather_error_network
-            )
+            ErrorEntity.Network -> getBinding<FragmentWeatherBinding>().containerWeather
+                .showSnackBar(R.string.weather_error_network)
 
-            ErrorEntity.LimitExceeded -> showSnackBar(
-                getBinding<FragmentWeatherBinding>().containerWeather,
-                R.string.weather_error_limit_exceeded
-            )
+            ErrorEntity.LimitExceeded -> getBinding<FragmentWeatherBinding>().containerWeather
+                .showSnackBar(R.string.weather_error_limit_exceeded)
 
-            ErrorEntity.AccessDenied -> showSnackBar(
-                getBinding<FragmentWeatherBinding>().containerWeather,
-                R.string.weather_error_access_denied
-            )
+            ErrorEntity.AccessDenied -> getBinding<FragmentWeatherBinding>().containerWeather
+                .showSnackBar(R.string.weather_error_access_denied)
 
-            ErrorEntity.NotFound -> showSnackBar(
-                getBinding<FragmentWeatherBinding>().containerWeather,
-                R.string.weather_error_not_found
-            )
+            ErrorEntity.NotFound -> getBinding<FragmentWeatherBinding>().containerWeather
+                .showSnackBar(R.string.weather_error_not_found)
 
-            ErrorEntity.LocationUnavailable -> showSnackBar(
-                view = getBinding<FragmentWeatherBinding>().containerWeather,
-                messageResId = R.string.weather_error_enable_location,
-                actionResId = R.string.weather_button_setting,
-            ) {
-                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            }
+            ErrorEntity.LocationUnavailable -> getBinding<FragmentWeatherBinding>().containerWeather
+                .showSnackBar(
+                    messageResId = R.string.weather_error_enable_location,
+                    actionResId = R.string.weather_button_setting,
+                ) {
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
 
-            else -> showSnackBar(
-                getBinding<FragmentWeatherBinding>().containerWeather,
-                R.string.weather_error_unknown
-            )
+            else -> getBinding<FragmentWeatherBinding>().containerWeather
+                .showSnackBar(R.string.weather_error_unknown)
         }
     }
 
@@ -135,16 +125,18 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         if (isGranted) {
             viewModel.queryCurrentLocation()
         } else {
-            showSnackBar(
-                view = getBinding<FragmentWeatherBinding>().containerWeather,
+            getBinding<FragmentWeatherBinding>().containerWeather.showSnackBar(
                 messageResId = R.string.weather_error_location_permission_required,
                 actionResId = R.string.weather_button_setting,
             ) {
-                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = Uri.fromParts("package", requireContext().packageName, null)
-                }.let {
-                    startActivity(it)
-                }
+                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    .setData(
+                        Uri.fromParts(
+                            "package",
+                            requireContext().packageName,
+                            null)
+                    )
+                    .let { startActivity(it) }
             }
         }
     }
