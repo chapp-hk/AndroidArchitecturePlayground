@@ -62,6 +62,9 @@ constructor(
     private val _cloudiness = MutableStateFlow<Int?>(null)
     val cloudiness = _cloudiness.map { it?.toString() }.asLiveData()
 
+    private val _conditions = MutableStateFlow<List<WeatherConditionListItem>?>(null)
+    val conditions = _conditions.asStateFlow()
+
     private val _isEmptyHistory = MutableStateFlow<Boolean?>(null)
     val isEmptyHistory = _isEmptyHistory.asLiveData()
     val isLoaded = _isEmptyHistory.map { it?.not() }.asLiveData()
@@ -113,6 +116,7 @@ constructor(
             _windSpeed.value = it.windSpeed
             _windDeg.value = it.windDeg
             _cloudiness.value = it.cloudiness
+            _conditions.value = it.conditions.map { item -> item.toListItem() }
             _isEmptyHistory.value = false
         }
     }

@@ -22,6 +22,9 @@ import org.junit.Rule
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isA
+import strikt.assertions.isEmpty
+import strikt.assertions.isEqualTo
+import strikt.assertions.isNotNull
 
 @ExperimentalCoroutinesApi
 class WeatherViewModelTest {
@@ -117,6 +120,10 @@ class WeatherViewModelTest {
                 .get { error }
                 .isA<ErrorEntity.Unknown>()
         }
+
+        weatherViewModel.conditions.test {
+            expectThat(it).isEmpty()
+        }
     }
 
     @Test
@@ -166,6 +173,13 @@ class WeatherViewModelTest {
 
         weatherViewModel.cloudiness.test()
             .assertValue(MockData.weatherEntity.cloudiness.toString())
+
+        weatherViewModel.conditions.test {
+            expectThat(it.first())
+                .isNotNull()
+                .get { get(0) }
+                .isEqualTo(MockData.conditionEntity.toListItem())
+        }
     }
 
     @Test
@@ -198,6 +212,10 @@ class WeatherViewModelTest {
         weatherViewModel.weatherEvent.test {
             expectThat(it.first())
                 .isA<ErrorEntity.LocationUnavailable>()
+        }
+
+        weatherViewModel.conditions.test {
+            expectThat(it).isEmpty()
         }
 
         verify(exactly = 0) {
@@ -235,5 +253,9 @@ class WeatherViewModelTest {
 
         weatherViewModel.isLoaded.test()
             .assertValue(false)
+
+        weatherViewModel.conditions.test {
+            expectThat(it).isEmpty()
+        }
     }
 }

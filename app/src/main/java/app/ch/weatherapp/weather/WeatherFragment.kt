@@ -18,8 +18,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import app.ch.base.getBinding
 import app.ch.base.hideKeyboard
+import app.ch.base.recyclerview.recyclerViewAdapter
 import app.ch.base.showSnackBar
 import app.ch.domain.base.ErrorEntity
+import app.ch.weatherapp.BR
 import app.ch.weatherapp.R
 import app.ch.weatherapp.databinding.FragmentWeatherBinding
 import app.ch.weatherapp.history.KEY_CITY_NAME
@@ -34,6 +36,7 @@ import kotlinx.coroutines.flow.onEach
 class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private val viewModel by viewModels<WeatherViewModel>()
+    private val adapter by recyclerViewAdapter<WeatherConditionListItem>(BR.listItem)
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -71,12 +74,17 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             it.btnLocation.setOnClickListener {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
+            it.recyclerView.adapter = adapter
         }
     }
 
     private fun setupEventObservers() {
         viewModel.weatherEvent
             .onEach { handleEvent(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.conditions
+            .onEach { adapter.submitList(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         setFragmentResultListener(REQUEST_DISPLAY_CITY) { requestKey, data ->
@@ -134,7 +142,8 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                         Uri.fromParts(
                             "package",
                             requireContext().packageName,
-                            null)
+                            null
+                        )
                     )
                     .let { startActivity(it) }
             }

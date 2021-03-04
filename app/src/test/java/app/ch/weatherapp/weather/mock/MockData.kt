@@ -4,12 +4,19 @@ import app.ch.domain.weather.entity.WeatherEntity
 
 object MockData {
 
+    val conditionEntity = WeatherEntity.Condition(
+        id = 880,
+        main = "clear",
+        description = "clear sky",
+        icon = "89",
+    )
+
     val weatherEntity = WeatherEntity(
         id = 879,
         name = "Hong Kong",
         coordLat = 98.0,
         coordLon = 768.327,
-        conditions = listOf(),
+        conditions = listOf(conditionEntity),
         temperature = 89.8,
         feelsLike = 6578.9,
         temperatureMin = 6273.0,
