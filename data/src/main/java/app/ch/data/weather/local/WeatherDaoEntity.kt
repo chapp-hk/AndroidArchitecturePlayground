@@ -78,8 +78,8 @@ data class ConditionDaoEntity(
     @ColumnInfo(name = "description")
     val description: String,
 
-    @ColumnInfo(name = "icon")
-    val icon: String,
+    @ColumnInfo(name = "icon_url")
+    val iconUrl: String,
 
     @ColumnInfo(name = "weather_id")
     val weatherId: Long,

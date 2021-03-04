@@ -8,7 +8,7 @@ object MockData {
         id = 880,
         main = "clear",
         description = "clear sky",
-        icon = "89",
+        iconUrl = "89",
     )
 
     val weatherEntity = WeatherEntity(

@@ -26,7 +26,7 @@ object MockData {
             id = 8964,
             main = "Clear",
             description = "Clear sky",
-            icon = "this.icon",
+            iconUrl = "this.icon",
             weatherId = weather.id,
         )
     )

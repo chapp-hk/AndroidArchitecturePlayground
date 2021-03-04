@@ -20,6 +20,7 @@ android {
         getByName("debug") {
             buildConfigField("String", "BASE_URL", "\"${EnvConfig.Debug.baseUrl}\"")
             buildConfigField("String", "API_KEY", "\"${EnvConfig.Debug.apiKey}\"")
+            buildConfigField("String", "ICON_URL", "\"${EnvConfig.Debug.iconUrl}\"")
 
             isMinifyEnabled = false
         }
@@ -27,6 +28,7 @@ android {
         getByName("release") {
             buildConfigField("String", "BASE_URL", "\"${EnvConfig.Release.baseUrl}\"")
             buildConfigField("String", "API_KEY", "\"${EnvConfig.Release.apiKey}\"")
+            buildConfigField("String", "ICON_URL", "\"${EnvConfig.Release.iconUrl}\"")
 
             isMinifyEnabled = true
             proguardFiles(

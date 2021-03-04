@@ -12,7 +12,7 @@ data class WeatherConditionListItem(
 
 fun WeatherEntity.Condition.toListItem(): WeatherConditionListItem {
     return WeatherConditionListItem(
-        iconUrl = "https://openweathermap.org/img/wn/$icon@2x.png",
+        iconUrl = iconUrl,
         description = description
     )
 }

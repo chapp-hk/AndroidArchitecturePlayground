@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "14f625613250ce5458d14d4e43b49c63",
+    "identityHash": "7a96df3e1d76c69505bb5be7d68d0755",
     "entities": [
       {
         "tableName": "weather",
@@ -110,7 +110,7 @@
       },
       {
         "tableName": "condition",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `main` TEXT NOT NULL, `description` TEXT NOT NULL, `icon` TEXT NOT NULL, `weather_id` INTEGER NOT NULL, PRIMARY KEY(`id`, `weather_id`), FOREIGN KEY(`weather_id`) REFERENCES `weather`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `main` TEXT NOT NULL, `description` TEXT NOT NULL, `icon_url` TEXT NOT NULL, `weather_id` INTEGER NOT NULL, PRIMARY KEY(`id`, `weather_id`), FOREIGN KEY(`weather_id`) REFERENCES `weather`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -131,8 +131,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "icon",
-            "columnName": "icon",
+            "fieldPath": "iconUrl",
+            "columnName": "icon_url",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -178,7 +178,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '14f625613250ce5458d14d4e43b49c63')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7a96df3e1d76c69505bb5be7d68d0755')"
     ]
   }
 }
