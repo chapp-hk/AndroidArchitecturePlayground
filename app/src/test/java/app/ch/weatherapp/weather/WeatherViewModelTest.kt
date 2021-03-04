@@ -131,6 +131,9 @@ class WeatherViewModelTest {
         weatherViewModel.isEmptyHistory.test()
             .assertValue(false)
 
+        weatherViewModel.isLoaded.test()
+            .assertValue(true)
+
         weatherViewModel.cityName.test()
             .assertValue(MockData.weatherEntity.name)
 
@@ -229,5 +232,8 @@ class WeatherViewModelTest {
 
         weatherViewModel.isEmptyHistory.test()
             .assertValue(true)
+
+        weatherViewModel.isLoaded.test()
+            .assertValue(false)
     }
 }

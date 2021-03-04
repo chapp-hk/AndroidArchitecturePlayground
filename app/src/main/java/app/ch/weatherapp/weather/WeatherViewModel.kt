@@ -29,12 +29,6 @@ constructor(
 
     val searchText = MutableLiveData("")
 
-    private val _isEmptyHistory = MutableStateFlow(false)
-    val isEmptyHistory = _isEmptyHistory.asLiveData()
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading = _isLoading.asLiveData()
-
     private val _cityName = MutableStateFlow("")
     val cityName = _cityName.asLiveData()
 
@@ -67,6 +61,13 @@ constructor(
 
     private val _cloudiness = MutableStateFlow<Int?>(null)
     val cloudiness = _cloudiness.map { it?.toString() }.asLiveData()
+
+    private val _isEmptyHistory = MutableStateFlow<Boolean?>(null)
+    val isEmptyHistory = _isEmptyHistory.asLiveData()
+    val isLoaded = _isEmptyHistory.map { it?.not() }.asLiveData()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asLiveData()
 
     private val _weatherEvent = MutableSharedFlow<WeatherEvent>()
     val weatherEvent = _weatherEvent.asSharedFlow()

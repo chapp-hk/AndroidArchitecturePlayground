@@ -19,7 +19,7 @@
             android:id="@+id/etSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/dp_10"
             android:autofillHints="@string/weather_search_hint"
             android:hint="@string/weather_search_hint"
             android:imeOptions="actionSearch"
@@ -34,7 +34,7 @@
             android:id="@+id/btnLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/dp_10"
             android:contentDescription="@string/weather_search_hint"
             android:src="@drawable/ic_location_search"
             app:fabSize="mini"
@@ -46,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.cityName}"
+            android:textSize="@dimen/sp_25"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etSearch"
@@ -56,99 +57,213 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.temperature}"
+            android:textSize="@dimen/sp_40"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvCityName"
             tools:text="43.2" />
 
         <TextView
+            android:id="@+id/tvFeelsLikeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_feels_like"
+            android:textSize="@dimen/sp_20"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toStartOf="@id/tvFeelsLike"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTemperature" />
+
+        <TextView
             android:id="@+id/tvFeelsLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.feelsLike}"
+            android:textSize="@dimen/sp_20"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvFeelsLikeTitle"
+            app:layout_constraintTop_toTopOf="@id/tvFeelsLikeTitle"
+            tools:text="22.2" />
+
+        <TextView
+            android:id="@+id/tvTemperatureMaxTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center"
+            android:text="@string/weather_max_temp"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toStartOf="@id/tvTemperatureMinTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTemperature"
+            app:layout_constraintTop_toBottomOf="@id/tvFeelsLikeTitle" />
+
+        <TextView
+            android:id="@+id/tvTemperatureMinTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/weather_min_temp"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvTemperatureMaxTitle"
+            app:layout_constraintTop_toTopOf="@id/tvTemperatureMaxTitle" />
+
+        <TextView
+            android:id="@+id/tvTemperatureMax"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{viewModel.temperatureMax}"
+            app:layout_constraintEnd_toStartOf="@id/tvTemperatureMin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTemperatureMaxTitle"
             tools:text="22.2" />
 
         <TextView
             android:id="@+id/tvTemperatureMin"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@{viewModel.temperatureMin}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFeelsLike"
+            app:layout_constraintStart_toEndOf="@id/tvTemperatureMax"
+            app:layout_constraintTop_toTopOf="@id/tvTemperatureMax"
             tools:text="22.2" />
 
         <TextView
-            android:id="@+id/tvTemperatureMax"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvPressureTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.temperatureMax}"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center"
+            android:text="@string/weather_pressure"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toStartOf="@id/tvHumidityTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTemperatureMin"
-            tools:text="22.2" />
+            app:layout_constraintTop_toBottomOf="@id/tvTemperatureMax" />
+
+        <TextView
+            android:id="@+id/tvHumidityTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/weather_humidity"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvPressureTitle"
+            app:layout_constraintTop_toTopOf="@id/tvPressureTitle" />
 
         <TextView
             android:id="@+id/tvPressure"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@{viewModel.pressure}"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvHumidity"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTemperatureMax"
+            app:layout_constraintTop_toBottomOf="@id/tvPressureTitle"
             tools:text="22.2" />
 
         <TextView
             android:id="@+id/tvHumidity"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@{viewModel.humidity}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvPressure"
+            app:layout_constraintStart_toEndOf="@id/tvPressure"
+            app:layout_constraintTop_toTopOf="@id/tvPressure"
             tools:text="22.2" />
+
+        <TextView
+            android:id="@+id/tvVisibilityTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center"
+            android:text="@string/weather_visibility"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toStartOf="@id/tvHumidityTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPressure" />
+
+        <TextView
+            android:id="@+id/tvCloudinessTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/weather_cloudiness"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvVisibilityTitle"
+            app:layout_constraintTop_toTopOf="@id/tvVisibilityTitle" />
 
         <TextView
             android:id="@+id/tvVisibility"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@{viewModel.visibility}"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvCloudiness"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHumidity"
-            tools:text="22.2" />
-
-        <TextView
-            android:id="@+id/tvWindSpeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.windSpeed}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvVisibility"
-            tools:text="22.2" />
-
-        <TextView
-            android:id="@+id/tvWindDeg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.windDeg}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvWindSpeed"
+            app:layout_constraintTop_toBottomOf="@id/tvVisibilityTitle"
             tools:text="22.2" />
 
         <TextView
             android:id="@+id/tvCloudiness"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@{viewModel.cloudiness}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvVisibility"
+            app:layout_constraintTop_toTopOf="@id/tvVisibility"
+            tools:text="22.2" />
+
+        <TextView
+            android:id="@+id/tvWindDegTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center"
+            android:text="@string/weather_wind_deg"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toStartOf="@id/tvHumidityTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvWindDeg"
+            app:layout_constraintTop_toBottomOf="@id/tvCloudiness" />
+
+        <TextView
+            android:id="@+id/tvWindSpeedTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/weather_wind_speed"
+            app:isVisible="@{viewModel.isLoaded}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvWindDegTitle"
+            app:layout_constraintTop_toTopOf="@id/tvWindDegTitle" />
+
+        <TextView
+            android:id="@+id/tvWindDeg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{viewModel.windDeg}"
+            app:layout_constraintEnd_toStartOf="@id/tvWindSpeed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWindDegTitle"
+            tools:text="22.2" />
+
+        <TextView
+            android:id="@+id/tvWindSpeed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{viewModel.windSpeed}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvWindDeg"
+            app:layout_constraintTop_toTopOf="@id/tvWindDeg"
             tools:text="22.2" />
 
         <TextView
@@ -156,11 +271,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/weather_welcome"
-            app:isVisible="@{viewModel.isEmptyHistory()}"
+            app:isVisible="@{viewModel.isEmptyHistory}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progressBar"
@@ -171,6 +287,8 @@
             app:isVisible="@{viewModel.isLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
