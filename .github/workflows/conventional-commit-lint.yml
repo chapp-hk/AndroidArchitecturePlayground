@@ -1,7 +1,7 @@
 name: conventional commit lint
 
 on: [push]
-
+#test commit lint fail
 jobs:
   validate_comments:
     name: 'conventional commit lint'
