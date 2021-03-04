@@ -19,24 +19,18 @@ fun Fragment.hideKeyboard() {
     requireActivity().hideKeyboard()
 }
 
-fun showSnackBar(
-    view: View,
-    @StringRes messageResId: Int? = null,
+inline fun <reified T : ViewDataBinding> Fragment.getBinding(): T {
+    return requireNotNull(DataBindingUtil.getBinding(requireView()))
+}
+
+inline fun View.showSnackBar(
+    @StringRes messageResId: Int,
     @StringRes actionResId: Int? = null,
-    action: () -> Unit = {},
+    crossinline action: () -> Unit = {},
 ) {
-    requireNotNull(messageResId)
-    Snackbar.make(
-        view,
-        messageResId,
-        Snackbar.LENGTH_LONG
-    ).apply {
+    Snackbar.make(this, messageResId, Snackbar.LENGTH_LONG).apply {
         actionResId?.let {
             setAction(it) { action() }
         }
     }.show()
-}
-
-inline fun <reified T : ViewDataBinding> Fragment.getBinding(): T {
-    return requireNotNull(DataBindingUtil.getBinding(requireView()))
 }
