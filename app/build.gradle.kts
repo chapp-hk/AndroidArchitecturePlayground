@@ -53,6 +53,14 @@ android {
         buildConfig = true
         dataBinding = true
     }
+
+    lintOptions {
+        isCheckReleaseBuilds = false
+    }
+
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
 }
 
 dependencies {
@@ -78,15 +86,6 @@ dependencies {
 
     implementation(Deps.Hilt.android)
     kapt(Deps.Hilt.compiler)
-
-    implementation(Deps.Kotlinx.serialization)
-    implementation(Deps.Okhttp.loggingInterceptor)
-    implementation(Deps.Retrofit.kotlinxSerializationConverter)
-    implementation(Deps.AndroidX.Room.runtime)
-
-    implementation(Deps.AndroidX.Paging.runtime)
-
-    implementation(Deps.Android.Gms.playServicesLocation)
 
     testImplementation(project(mapOf("path" to ":base-test")))
     testImplementation(Deps.Junit.junit)
