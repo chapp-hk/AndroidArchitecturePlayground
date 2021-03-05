@@ -6,7 +6,8 @@ object Versions {
     const val kotlin = "1.4.31"
     const val kotlinxCoroutines = "1.4.2"
     const val androidxLifecycle = "2.3.0"
-    const val hilt = "2.32-alpha"
+    const val hilt = "2.33-beta"
+    const val dagger = "2.33"
     const val navigation = "2.3.3"
     const val room = "2.3.0-beta02"
     const val paging = "3.0.0-beta01"
@@ -104,6 +105,11 @@ object Deps {
     object Hilt {
         const val android = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val compiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+    }
+
+    object Dagger {
+        const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
+        const val compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
     }
 
     object Okhttp {
