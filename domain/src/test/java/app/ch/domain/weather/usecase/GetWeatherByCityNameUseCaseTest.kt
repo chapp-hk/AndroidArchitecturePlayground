@@ -1,5 +1,6 @@
 package app.ch.domain.weather.usecase
 
+import app.ch.domain.base.CoroutineDispatcherProvider
 import app.ch.domain.weather.repository.IWeatherRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -17,15 +18,21 @@ class GetWeatherByCityNameUseCaseTest {
     @MockK
     private lateinit var weatherRepository: IWeatherRepository
 
-    private val ioDispatcher = TestCoroutineDispatcher()
+    @MockK
+    private lateinit var coroutineDispatcherProvider: CoroutineDispatcherProvider
 
     private lateinit var getWeatherByCityNameUseCase: GetWeatherByCityNameUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
+        every {
+            coroutineDispatcherProvider.ioDispatcher
+        } returns TestCoroutineDispatcher()
+
         getWeatherByCityNameUseCase = GetWeatherByCityNameUseCase(
-            ioDispatcher,
+            coroutineDispatcherProvider,
             weatherRepository
         )
     }
