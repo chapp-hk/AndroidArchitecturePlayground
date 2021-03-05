@@ -1,9 +1,11 @@
 package app.ch.domain.location.usecase
 
+import app.ch.domain.base.CoroutineDispatcherProvider
 import app.ch.domain.location.repository.ILocationRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -18,15 +20,21 @@ class GetCurrentLocationUseCaseTest {
     @MockK
     private lateinit var locationRepository: ILocationRepository
 
-    private val ioDispatcher = TestCoroutineDispatcher()
+    @MockK
+    private lateinit var coroutineDispatcherProvider: CoroutineDispatcherProvider
 
     private lateinit var getCurrentLocationUseCase: GetCurrentLocationUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
+        every {
+            coroutineDispatcherProvider.ioDispatcher
+        } returns TestCoroutineDispatcher()
+
         getCurrentLocationUseCase = GetCurrentLocationUseCase(
-            ioDispatcher,
+            coroutineDispatcherProvider,
             locationRepository
         )
     }

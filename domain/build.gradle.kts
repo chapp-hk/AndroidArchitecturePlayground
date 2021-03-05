@@ -12,8 +12,8 @@ java {
 dependencies {
     implementation(Deps.Kotlin.stdlib)
 
-    implementation(Deps.Hilt.android)
-    kapt(Deps.Hilt.compiler)
+    implementation(Deps.Dagger.dagger)
+    kapt(Deps.Dagger.compiler)
 
     implementation(Deps.Kotlinx.Coroutines.core)
     implementation(Deps.AndroidX.Paging.common)
