@@ -15,20 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/etSearch"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_10"
-            android:autofillHints="@string/weather_search_hint"
-            android:hint="@string/weather_search_hint"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:text="@={viewModel.searchText}"
+            app:iconifiedByDefault="false"
             app:layout_constraintBottom_toBottomOf="@id/btnLocation"
             app:layout_constraintEnd_toStartOf="@id/btnLocation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnLocation" />
+            app:layout_constraintTop_toTopOf="@id/btnLocation"
+            app:queryHint="@string/weather_search_hint" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnLocation"
@@ -49,7 +45,7 @@
             android:textSize="@dimen/sp_25"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etSearch"
+            app:layout_constraintTop_toBottomOf="@id/searchView"
             tools:text="Hong Kong" />
 
         <TextView

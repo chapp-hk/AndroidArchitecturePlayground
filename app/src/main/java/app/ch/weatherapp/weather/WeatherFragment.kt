@@ -10,6 +10,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -68,9 +69,16 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         FragmentWeatherBinding.bind(view).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
-            it.etSearch.setOnEditorActionListener { _, _, _ ->
-                viewModel.queryWeatherByCityName().let { true }
-            }
+            it.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+                android.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return viewModel.queryWeatherByCityName(query).let { true }
+                }
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    return false
+                }
+            })
             it.btnLocation.setOnClickListener {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
@@ -90,7 +98,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         setFragmentResultListener(REQUEST_DISPLAY_CITY) { requestKey, data ->
             when (requestKey) {
                 REQUEST_DISPLAY_CITY ->
-                    viewModel.queryWeatherByCityName(data.getString(KEY_CITY_NAME))
+                    viewModel.queryWeatherByCityName(data.getString(KEY_CITY_NAME, ""))
             }
         }
     }
@@ -139,11 +147,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             ) {
                 Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     .setData(
-                        Uri.fromParts(
-                            "package",
-                            requireContext().packageName,
-                            null
-                        )
+                        Uri.fromParts("package", requireContext().packageName, null)
                     )
                     .let { startActivity(it) }
             }

@@ -67,25 +67,10 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        weatherViewModel.searchText.value = "Hong Kong"
-        weatherViewModel.queryWeatherByCityName()
+        weatherViewModel.queryWeatherByCityName("Hong Kong")
 
         verify(exactly = 1) {
             getWeatherByCityName("Hong Kong")
-        }
-    }
-
-    @Test
-    fun `queryWeatherByCityName will non null cityName`() {
-        every {
-            getWeatherByCityName(any())
-        } returns flowOf(MockData.weatherEntity)
-
-        weatherViewModel.searchText.value = "Hong Kong"
-        weatherViewModel.queryWeatherByCityName("Tokyo")
-
-        verify {
-            getWeatherByCityName("Tokyo")
         }
     }
 
@@ -95,7 +80,7 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        weatherViewModel.queryWeatherByCityName()
+        weatherViewModel.queryWeatherByCityName("heaven")
 
         //assert values in LiveData and SharedFlow
         weatherViewModel.weatherEvent.test {
@@ -111,7 +96,7 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flow { throw Throwable() }
 
-        weatherViewModel.queryWeatherByCityName()
+        weatherViewModel.queryWeatherByCityName("hell")
 
         //assert values in LiveData and SharedFlow
         weatherViewModel.weatherEvent.test {
@@ -132,7 +117,7 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        weatherViewModel.queryWeatherByCityName()
+        weatherViewModel.queryWeatherByCityName("paradise")
 
         //assert values in LiveData
         weatherViewModel.isEmptyHistory.test()

@@ -1,6 +1,5 @@
 package app.ch.weatherapp.weather
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -26,8 +25,6 @@ constructor(
     private val getLatestSearchedWeather: GetLatestSearchedWeatherUseCase,
     private val getErrorEntity: IErrorHandler,
 ) : ViewModel() {
-
-    val searchText = MutableLiveData("")
 
     private val _cityName = MutableStateFlow("")
     val cityName = _cityName.asLiveData()
@@ -81,10 +78,12 @@ constructor(
             .launchIn(viewModelScope)
     }
 
-    fun queryWeatherByCityName(cityName: String? = null) {
-        getWeatherByCityName(cityName ?: searchText.value.orEmpty())
+    fun queryWeatherByCityName(cityName: String): Boolean {
+        getWeatherByCityName(cityName)
             .run(::startFlow)
             .launchIn(viewModelScope)
+
+        return false
     }
 
     @ExperimentalCoroutinesApi
