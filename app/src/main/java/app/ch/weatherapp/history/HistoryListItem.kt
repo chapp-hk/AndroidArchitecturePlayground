@@ -14,7 +14,7 @@ data class HistoryListItem(
     val coorLong: String,
     val event: MutableSharedFlow<HistoryEvent>,
     val coroutineScope: CoroutineScope,
-    override val layoutId: Int = R.layout.item_weather_history,
+    override val layoutId: Int = R.layout.item_history,
 ) : ListItem {
 
     fun delete() {

@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             app:itemDecoration="@{androidx.recyclerview.widget.DividerItemDecoration.VERTICAL}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_weather_history" />
+            tools:listitem="@layout/item_history" />
 
         <TextView
             android:id="@+id/tvWelcome"
