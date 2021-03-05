@@ -76,9 +76,11 @@ data class WeatherResponse(
 
         /**
          * Weather icon id
+         * convert to url here
          */
+        @Serializable(with = IconUrlSerializer::class)
         @SerialName("icon")
-        val icon: String,
+        val iconUrl: String,
     )
 
     @Serializable

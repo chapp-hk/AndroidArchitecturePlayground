@@ -22,6 +22,9 @@ import org.junit.Rule
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isA
+import strikt.assertions.isEmpty
+import strikt.assertions.isEqualTo
+import strikt.assertions.isNotNull
 
 @ExperimentalCoroutinesApi
 class WeatherViewModelTest {
@@ -64,25 +67,10 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        weatherViewModel.searchText.value = "Hong Kong"
-        weatherViewModel.queryWeatherByCityName()
+        weatherViewModel.queryWeatherByCityName("Hong Kong")
 
         verify(exactly = 1) {
             getWeatherByCityName("Hong Kong")
-        }
-    }
-
-    @Test
-    fun `queryWeatherByCityName will non null cityName`() {
-        every {
-            getWeatherByCityName(any())
-        } returns flowOf(MockData.weatherEntity)
-
-        weatherViewModel.searchText.value = "Hong Kong"
-        weatherViewModel.queryWeatherByCityName("Tokyo")
-
-        verify {
-            getWeatherByCityName("Tokyo")
         }
     }
 
@@ -92,7 +80,7 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        weatherViewModel.queryWeatherByCityName()
+        weatherViewModel.queryWeatherByCityName("heaven")
 
         //assert values in LiveData and SharedFlow
         weatherViewModel.weatherEvent.test {
@@ -108,7 +96,7 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flow { throw Throwable() }
 
-        weatherViewModel.queryWeatherByCityName()
+        weatherViewModel.queryWeatherByCityName("hell")
 
         //assert values in LiveData and SharedFlow
         weatherViewModel.weatherEvent.test {
@@ -116,6 +104,10 @@ class WeatherViewModelTest {
                 .isA<WeatherEvent.Error>()
                 .get { error }
                 .isA<ErrorEntity.Unknown>()
+        }
+
+        weatherViewModel.conditions.test {
+            expectThat(it).isEmpty()
         }
     }
 
@@ -125,11 +117,14 @@ class WeatherViewModelTest {
             getWeatherByCityName(any())
         } returns flowOf(MockData.weatherEntity)
 
-        weatherViewModel.queryWeatherByCityName()
+        weatherViewModel.queryWeatherByCityName("paradise")
 
         //assert values in LiveData
         weatherViewModel.isEmptyHistory.test()
             .assertValue(false)
+
+        weatherViewModel.isLoaded.test()
+            .assertValue(true)
 
         weatherViewModel.cityName.test()
             .assertValue(MockData.weatherEntity.name)
@@ -163,6 +158,13 @@ class WeatherViewModelTest {
 
         weatherViewModel.cloudiness.test()
             .assertValue(MockData.weatherEntity.cloudiness.toString())
+
+        weatherViewModel.conditions.test {
+            expectThat(it.first())
+                .isNotNull()
+                .get { get(0) }
+                .isEqualTo(MockData.conditionEntity.toListItem())
+        }
     }
 
     @Test
@@ -197,6 +199,10 @@ class WeatherViewModelTest {
                 .isA<ErrorEntity.LocationUnavailable>()
         }
 
+        weatherViewModel.conditions.test {
+            expectThat(it).isEmpty()
+        }
+
         verify(exactly = 0) {
             getWeatherByLocation(any(), any())
         }
@@ -229,5 +235,12 @@ class WeatherViewModelTest {
 
         weatherViewModel.isEmptyHistory.test()
             .assertValue(true)
+
+        weatherViewModel.isLoaded.test()
+            .assertValue(false)
+
+        weatherViewModel.conditions.test {
+            expectThat(it).isEmpty()
+        }
     }
 }

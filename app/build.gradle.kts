@@ -94,6 +94,8 @@ dependencies {
     implementation(Deps.Hilt.android)
     kapt(Deps.Hilt.compiler)
 
+    implementation(Deps.fresco)
+
     testImplementation(project(mapOf("path" to ":base-test")))
     testImplementation(Deps.Junit.junit)
     testImplementation(Deps.MockK.mockk)

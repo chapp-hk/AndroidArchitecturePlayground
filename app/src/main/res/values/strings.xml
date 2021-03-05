@@ -12,6 +12,15 @@
     <string name="weather_error_enable_location">Please enable location</string>
     <string name="weather_error_location_permission_required">Location permission required</string>
     <string name="weather_button_setting">Setting</string>
+    <string name="weather_feels_like">Feels like :</string>
+    <string name="weather_max_temp">Max Temp</string>
+    <string name="weather_min_temp">Min Temp</string>
+    <string name="weather_pressure">Pressure</string>
+    <string name="weather_humidity">Humidity</string>
+    <string name="weather_visibility">Visibility</string>
+    <string name="weather_wind_speed">Wind Speed</string>
+    <string name="weather_wind_deg">Wind Degree</string>
+    <string name="weather_cloudiness">Cloudiness</string>
 
     <string name="history_title">History</string>
     <string name="history_delete_all">Delete all</string>

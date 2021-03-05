@@ -10,6 +10,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -18,8 +19,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import app.ch.base.getBinding
 import app.ch.base.hideKeyboard
+import app.ch.base.recyclerview.recyclerViewAdapter
 import app.ch.base.showSnackBar
 import app.ch.domain.base.ErrorEntity
+import app.ch.weatherapp.BR
 import app.ch.weatherapp.R
 import app.ch.weatherapp.databinding.FragmentWeatherBinding
 import app.ch.weatherapp.history.KEY_CITY_NAME
@@ -34,6 +37,7 @@ import kotlinx.coroutines.flow.onEach
 class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private val viewModel by viewModels<WeatherViewModel>()
+    private val adapter by recyclerViewAdapter<WeatherConditionListItem>(BR.listItem)
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -65,12 +69,20 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         FragmentWeatherBinding.bind(view).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
-            it.etSearch.setOnEditorActionListener { _, _, _ ->
-                viewModel.queryWeatherByCityName().let { true }
-            }
+            it.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+                android.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return viewModel.queryWeatherByCityName(query).let { true }
+                }
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    return false
+                }
+            })
             it.btnLocation.setOnClickListener {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
+            it.recyclerView.adapter = adapter
         }
     }
 
@@ -79,10 +91,14 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             .onEach { handleEvent(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
+        viewModel.conditions
+            .onEach { adapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
         setFragmentResultListener(REQUEST_DISPLAY_CITY) { requestKey, data ->
             when (requestKey) {
                 REQUEST_DISPLAY_CITY ->
-                    viewModel.queryWeatherByCityName(data.getString(KEY_CITY_NAME))
+                    viewModel.queryWeatherByCityName(data.getString(KEY_CITY_NAME, ""))
             }
         }
     }
@@ -131,10 +147,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
             ) {
                 Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                     .setData(
-                        Uri.fromParts(
-                            "package",
-                            requireContext().packageName,
-                            null)
+                        Uri.fromParts("package", requireContext().packageName, null)
                     )
                     .let { startActivity(it) }
             }

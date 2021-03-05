@@ -22,6 +22,6 @@ data class WeatherEntity(
         val id: Long,
         val main: String,
         val description: String,
-        val icon: String,
+        val iconUrl: String,
     )
 }

@@ -21,7 +21,7 @@ fun WeatherResponse.toDataModel(): WeatherModel {
                 id = it.id,
                 main = it.main,
                 description = it.description,
-                icon = it.icon,
+                iconUrl = it.iconUrl,
                 weatherModelId = this.id ?: 0,
             )
         },
@@ -52,7 +52,7 @@ fun WeatherWithConditions.toDataModel(): WeatherModel {
                 id = it.id,
                 main = it.main,
                 description = it.description,
-                icon = it.icon,
+                iconUrl = it.iconUrl,
                 weatherModelId = this.weather.id,
             )
         },
@@ -83,7 +83,7 @@ fun WeatherModel.toDomainEntity(): WeatherEntity {
                 id = it.id,
                 main = it.main,
                 description = it.description,
-                icon = it.icon,
+                iconUrl = it.iconUrl,
             )
         },
         temperature = this.temperature,
@@ -129,7 +129,7 @@ fun WeatherModel.Condition.toDaoEntity(): ConditionDaoEntity {
         id = this.id,
         main = this.main,
         description = this.description,
-        icon = this.icon,
+        iconUrl = this.iconUrl,
         weatherId = this.weatherModelId,
     )
 }
