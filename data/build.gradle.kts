@@ -13,7 +13,7 @@ android {
         minSdkVersion(AppConfig.minSdk)
         targetSdkVersion(AppConfig.targetSdk)
 
-        testInstrumentationRunner = AppConfig.testInstrumentationRunner
+        testInstrumentationRunner = AppConfig.uiTestInstrumentationRunner
     }
 
     buildTypes {
@@ -94,9 +94,12 @@ dependencies {
     testImplementation(Deps.strikt)
     testImplementation(Deps.Kotlinx.Coroutines.test)
 
+    androidTestImplementation(project(mapOf("path" to ":base-test")))
     androidTestImplementation(Deps.AndroidX.Test.runner)
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Arch.Core.testing)
     androidTestImplementation(Deps.Kotlinx.Coroutines.test)
     androidTestImplementation(Deps.strikt)
+    androidTestImplementation(Deps.Hilt.testing)
+    kaptAndroidTest(Deps.Hilt.compiler)
 }

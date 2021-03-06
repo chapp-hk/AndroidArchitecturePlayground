@@ -1,4 +1,4 @@
-package app.ch.base.test
+package app.ch.base.test.data.local
 
 import android.content.Context
 import androidx.room.Room
@@ -19,7 +19,9 @@ class TestLocalDataModule {
 
     @Provides
     internal fun providesDatabase(@ApplicationContext context: Context): DaoProvider {
-        return Room.inMemoryDatabaseBuilder(context, DaoProvider::class.java).build()
+        return Room.inMemoryDatabaseBuilder(context, DaoProvider::class.java)
+            .allowMainThreadQueries()
+            .build()
     }
 }
 

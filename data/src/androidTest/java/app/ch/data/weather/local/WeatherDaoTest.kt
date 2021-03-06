@@ -1,41 +1,39 @@
 package app.ch.data.weather.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.sqlite.db.SimpleSQLiteQuery
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
+import app.ch.base.test.data.local.MockWeatherData
+import app.ch.base.test.data.local.populateWeatherData
 import app.ch.data.base.local.DaoProvider
-import app.ch.data.weather.mock.MockData
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNotNull
+import strikt.assertions.isNull
+import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
+@SmallTest
 class WeatherDaoTest {
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var daoProvider: DaoProvider
-
-    private lateinit var weatherDao: WeatherDao
+    @Inject
+    lateinit var daoProvider: DaoProvider
 
     @Before
     fun setUp() {
-        daoProvider = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            DaoProvider::class.java
-        ).build()
-
-        weatherDao = daoProvider.getWeatherDao()
+        hiltRule.inject()
     }
 
     @After
@@ -45,36 +43,51 @@ class WeatherDaoTest {
 
     @Test
     fun insert_and_query() {
-        val query = SimpleSQLiteQuery("SELECT * FROM weather")
+        expectThat(daoProvider.getWeatherDao().getLatestWeather())
+            .isNull()
 
-        runBlockingTest {
-            expectThat(daoProvider.query(query))
-                .get { count }
-                .isEqualTo(0)
-
-            weatherDao.insertWeather(MockData.weather)
-            weatherDao.insertAllConditions(MockData.conditions)
-
-            expectThat(daoProvider.query(query))
-                .get { count }
-                .isEqualTo(1)
+        daoProvider.getWeatherDao().apply {
+            insertWeather(MockWeatherData.weather)
+            insertAllConditions(MockWeatherData.conditions)
         }
+
+        expectThat(daoProvider.getWeatherDao().getLatestWeather())
+            .isNotNull()
     }
 
     @Test
     fun insert_duplicated_data_will_not_create_new_record() {
-        val query = SimpleSQLiteQuery("SELECT * FROM weather")
+        daoProvider.getWeatherDao().apply {
+            insertWeather(MockWeatherData.weather)
+            insertAllConditions(MockWeatherData.conditions)
 
-        runBlockingTest {
-            weatherDao.insertWeather(MockData.weather)
-            weatherDao.insertAllConditions(MockData.conditions)
-
-            weatherDao.insertWeather(MockData.weather)
-            weatherDao.insertAllConditions(MockData.conditions)
-
-            expectThat(daoProvider.query(query))
-                .get { count }
-                .isEqualTo(1)
+            insertWeather(MockWeatherData.weather)
+            insertAllConditions(MockWeatherData.conditions)
         }
+
+        expectThat(daoProvider.query(SimpleSQLiteQuery("SELECT * FROM weather")))
+            .get { count }
+            .isEqualTo(1)
+    }
+
+    @Test
+    fun delete_single_item() {
+        daoProvider.populateWeatherData()
+
+        daoProvider.getWeatherDao().deleteWeather(1)
+
+        expectThat(daoProvider.query(SimpleSQLiteQuery("SELECT * FROM weather")))
+            .get { count }
+            .isEqualTo(2)
+    }
+
+    @Test
+    fun delete_all() {
+        daoProvider.populateWeatherData()
+
+        daoProvider.getWeatherDao().deleteAllWeather()
+
+        expectThat(daoProvider.getWeatherDao().getLatestWeather())
+            .isNull()
     }
 }
