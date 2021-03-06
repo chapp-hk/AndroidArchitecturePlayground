@@ -1,4 +1,4 @@
-package app.ch.weatherapp
+package app.ch.base.test
 
 import android.app.Application
 import android.app.Instrumentation
@@ -8,6 +8,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import dagger.hilt.android.testing.CustomTestApplication
 
 open class TestApp : Application() {
+
     override fun onCreate() {
         super.onCreate()
         Fresco.initialize(this)
