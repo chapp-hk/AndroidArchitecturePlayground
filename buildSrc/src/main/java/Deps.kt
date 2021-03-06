@@ -3,6 +3,7 @@
  */
 object Versions {
     const val androidGradlePlugin = "4.1.2"
+    const val versionPlugin = "0.36.0"
     const val kotlin = "1.4.31"
     const val kotlinxCoroutines = "1.4.2"
     const val androidxLifecycle = "2.3.0"
@@ -49,6 +50,7 @@ object Deps {
         const val core = "androidx.core:core-ktx:1.5.0-beta02"
         const val appCompat = "androidx.appcompat:appcompat:1.3.0-beta01"
         const val fragment = "androidx.fragment:fragment-ktx:1.3.0"
+        const val fragmentTesting = "androidx.fragment:fragment-testing:1.3.0"
         const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
 
         object Arch {
@@ -90,7 +92,7 @@ object Deps {
             const val rules = "androidx.test:rules:${Versions.androidxTest}"
 
             object Espresso {
-                const val core = "androidx.test.espresso:espresso-core:3.3.0"
+                const val core = "androidx.test.espresso:espresso-core:3.4.0-alpha04"
             }
         }
     }
@@ -106,6 +108,7 @@ object Deps {
     object Hilt {
         const val android = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val compiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+        const val testing = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
     }
 
     object Dagger {

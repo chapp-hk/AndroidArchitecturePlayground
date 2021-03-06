@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
-    id("com.github.ben-manes.versions") version "0.36.0"
+    id("com.github.ben-manes.versions") version Versions.versionPlugin
     kotlin("android")
     kotlin("kapt")
 }
@@ -17,7 +17,7 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
 
-        testInstrumentationRunner = AppConfig.testInstrumentationRunner
+        testInstrumentationRunner = AppConfig.uiTestInstrumentationRunner
     }
 
     buildTypes {
@@ -106,4 +106,11 @@ dependencies {
 
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Test.Espresso.core)
+    // Once https://issuetracker.google.com/127986458 is fixed this can be testImplementation
+    debugImplementation(Deps.AndroidX.fragmentTesting)
+
+    androidTestImplementation(Deps.Hilt.testing)
+    kaptAndroidTest(Deps.Hilt.compiler)
+
+    androidTestImplementation(Deps.AndroidX.Room.runtime)
 }
