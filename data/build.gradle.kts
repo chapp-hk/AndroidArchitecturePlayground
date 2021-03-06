@@ -13,7 +13,7 @@ android {
         minSdkVersion(AppConfig.minSdk)
         targetSdkVersion(AppConfig.targetSdk)
 
-        testInstrumentationRunner = AppConfig.uiTestInstrumentationRunner
+        testInstrumentationRunner = AppConfig.testInstrumentationRunner
     }
 
     buildTypes {
