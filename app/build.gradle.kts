@@ -120,4 +120,5 @@ dependencies {
     kaptAndroidTest(Deps.Hilt.compiler)
 
     androidTestImplementation(Deps.AndroidX.Room.runtime)
+    androidTestImplementation(Deps.Okhttp.mockWebServer)
 }

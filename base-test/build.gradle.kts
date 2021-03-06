@@ -42,6 +42,8 @@ dependencies {
     kapt(Deps.Hilt.compiler)
 
     implementation(Deps.fresco)
+    implementation(Deps.AndroidX.appCompat)
     implementation(Deps.AndroidX.Room.runtime)
     implementation(Deps.AndroidX.recyclerview)
+    implementation(Deps.Okhttp.mockWebServer)
 }

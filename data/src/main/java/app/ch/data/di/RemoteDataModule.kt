@@ -77,3 +77,13 @@ class RemoteDataModule {
             .build()
     }
 }
+
+@Module
+@InstallIn(SingletonComponent::class)
+class ApiConfigModule {
+
+    @Provides
+    internal fun providesApiConfig(): ApiConfig {
+        return ApiConfig()
+    }
+}

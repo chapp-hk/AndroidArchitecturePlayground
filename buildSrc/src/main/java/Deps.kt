@@ -120,6 +120,7 @@ object Deps {
     object Okhttp {
         const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
+        const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
     }
 
     object Retrofit {
