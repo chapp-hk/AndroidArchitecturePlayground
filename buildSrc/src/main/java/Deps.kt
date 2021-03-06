@@ -90,6 +90,7 @@ object Deps {
             const val extJunit = "androidx.test.ext:junit:1.1.3-alpha04"
             const val runner = "androidx.test:runner:${Versions.androidxTest}"
             const val rules = "androidx.test:rules:${Versions.androidxTest}"
+            const val uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 
             object Espresso {
                 const val core = "androidx.test.espresso:espresso-core:3.4.0-alpha04"

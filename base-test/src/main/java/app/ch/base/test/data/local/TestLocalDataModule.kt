@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
@@ -18,6 +19,7 @@ import dagger.hilt.testing.TestInstallIn
 class TestLocalDataModule {
 
     @Provides
+    @Singleton
     internal fun providesDatabase(@ApplicationContext context: Context): DaoProvider {
         return Room.inMemoryDatabaseBuilder(context, DaoProvider::class.java)
             .allowMainThreadQueries()

@@ -112,9 +112,12 @@ dependencies {
     androidTestImplementation(project(mapOf("path" to ":base-test")))
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Test.Espresso.core)
+    androidTestImplementation(Deps.AndroidX.Arch.Core.testing)
     // Once https://issuetracker.google.com/127986458 is fixed this can be testImplementation
     debugImplementation(Deps.AndroidX.fragmentTesting)
 
     androidTestImplementation(Deps.Hilt.testing)
     kaptAndroidTest(Deps.Hilt.compiler)
+
+    androidTestImplementation(Deps.AndroidX.Room.runtime)
 }
