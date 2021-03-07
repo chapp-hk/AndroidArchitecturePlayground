@@ -99,6 +99,7 @@ dependencies {
     implementation(Deps.Hilt.android)
     kapt(Deps.Hilt.compiler)
 
+    implementation(Deps.AndroidX.Paging.runtime)
     implementation(Deps.fresco)
 
     testImplementation(project(mapOf("path" to ":base-test")))
