@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
-    id("com.github.ben-manes.versions") version "0.36.0"
+    id("com.github.ben-manes.versions") version Versions.versionPlugin
     kotlin("android")
     kotlin("kapt")
 }
@@ -54,6 +54,11 @@ android {
         dataBinding = true
     }
 
+    packagingOptions {
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+    }
+
     /**
      * Enabling [dagger.hilt.android.plugin.HiltExtension.enableExperimentalClasspathAggregation]
      * also requires android.lintOptions.checkReleaseBuilds to be set to 'false'
@@ -94,6 +99,7 @@ dependencies {
     implementation(Deps.Hilt.android)
     kapt(Deps.Hilt.compiler)
 
+    implementation(Deps.AndroidX.Paging.runtime)
     implementation(Deps.fresco)
 
     testImplementation(project(mapOf("path" to ":base-test")))
@@ -104,6 +110,20 @@ dependencies {
     testImplementation(Deps.AndroidX.Arch.Core.testing)
     testImplementation(Deps.livedataTesting)
 
+    androidTestImplementation(project(mapOf("path" to ":base-test")))
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Test.Espresso.core)
+    androidTestImplementation(Deps.AndroidX.Test.Espresso.contrib)
+    androidTestImplementation(Deps.AndroidX.Navigation.testing)
+    androidTestImplementation(Deps.AndroidX.Test.rules)
+    androidTestImplementation(Deps.AndroidX.Arch.Core.testing)
+    // Once https://issuetracker.google.com/127986458 is fixed this can be testImplementation
+    debugImplementation(Deps.AndroidX.fragmentTesting)
+    androidTestImplementation(Deps.strikt)
+
+    androidTestImplementation(Deps.Hilt.testing)
+    kaptAndroidTest(Deps.Hilt.compiler)
+
+    androidTestImplementation(Deps.AndroidX.Room.runtime)
+    androidTestImplementation(Deps.Okhttp.mockWebServer)
 }

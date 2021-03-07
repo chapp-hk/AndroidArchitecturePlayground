@@ -3,6 +3,7 @@
  */
 object Versions {
     const val androidGradlePlugin = "4.1.2"
+    const val versionPlugin = "0.36.0"
     const val kotlin = "1.4.31"
     const val kotlinxCoroutines = "1.4.2"
     const val androidxLifecycle = "2.3.0"
@@ -14,6 +15,7 @@ object Versions {
     const val okhttp = "5.0.0-alpha.2"
     const val androidxTest = "1.3.0"
     const val mockk = "1.10.6"
+    const val espresso = "3.4.0-alpha04"
 }
 
 object GradlePlugins {
@@ -49,6 +51,7 @@ object Deps {
         const val core = "androidx.core:core-ktx:1.5.0-beta02"
         const val appCompat = "androidx.appcompat:appcompat:1.3.0-beta01"
         const val fragment = "androidx.fragment:fragment-ktx:1.3.0"
+        const val fragmentTesting = "androidx.fragment:fragment-testing:1.3.0"
         const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
 
         object Arch {
@@ -70,6 +73,7 @@ object Deps {
             const val fragment =
                 "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
             const val ui = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+            const val testing = "androidx.navigation:navigation-testing:${Versions.navigation}"
         }
 
         object Room {
@@ -88,9 +92,11 @@ object Deps {
             const val extJunit = "androidx.test.ext:junit:1.1.3-alpha04"
             const val runner = "androidx.test:runner:${Versions.androidxTest}"
             const val rules = "androidx.test:rules:${Versions.androidxTest}"
+            const val uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 
             object Espresso {
-                const val core = "androidx.test.espresso:espresso-core:3.3.0"
+                const val core = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+                const val contrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
             }
         }
     }
@@ -106,6 +112,7 @@ object Deps {
     object Hilt {
         const val android = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val compiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+        const val testing = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
     }
 
     object Dagger {
@@ -116,6 +123,7 @@ object Deps {
     object Okhttp {
         const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
+        const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
     }
 
     object Retrofit {

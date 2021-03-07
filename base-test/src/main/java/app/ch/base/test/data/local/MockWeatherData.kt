@@ -1,9 +1,11 @@
-package app.ch.data.weather.mock
+package app.ch.base.test.data.local
 
+import app.ch.data.base.local.DaoProvider
 import app.ch.data.weather.local.ConditionDaoEntity
 import app.ch.data.weather.local.WeatherDaoEntity
 
-object MockData {
+object MockWeatherData {
+
     val weather = WeatherDaoEntity(
         id = 721831,
         name = "Hong Kong",
@@ -30,4 +32,13 @@ object MockData {
             weatherId = weather.id,
         )
     )
+}
+
+fun DaoProvider.populateWeatherData(size: Int = 3) {
+    for (i in 1 .. size) {
+        getWeatherDao().apply {
+            insertWeather(MockWeatherData.weather.copy(id = i.toLong()))
+            insertAllConditions(MockWeatherData.conditions.map { it.copy(weatherId = i.toLong()) })
+        }
+    }
 }
