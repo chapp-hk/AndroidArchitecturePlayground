@@ -36,6 +36,7 @@ If you want to use your own API key, please modify [buildSrc/src/main/java/Deps.
 - [Android Play Services Location](https://developer.android.com/training/location)
 - [MockK](https://mockk.io/)
 - [Strikt](https://strikt.io/)
+- [Espresso](https://developer.android.com/training/testing/espresso)
 
 ## App Architecture
 
@@ -50,3 +51,8 @@ Clean Architecture with MVVM is applied
 - **base**: base module contains all base classes and utils
 - **base-test**: base module for testing utils
 - **mobile-service**: module contains mobile service e.g. Play Services Location
+
+## Test
+
+- Unit test
+- UI test
