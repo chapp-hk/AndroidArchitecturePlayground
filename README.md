@@ -1,4 +1,4 @@
-# [WIP]Weather App
+# Weather App
 
 A simple Android app that use https://openweathermap.org/current apis to fetch and display weather information
 
