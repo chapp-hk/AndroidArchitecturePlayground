@@ -112,6 +112,7 @@ dependencies {
     androidTestImplementation(project(mapOf("path" to ":base-test")))
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Test.Espresso.core)
+    androidTestImplementation(Deps.AndroidX.Test.rules)
     androidTestImplementation(Deps.AndroidX.Arch.Core.testing)
     // Once https://issuetracker.google.com/127986458 is fixed this can be testImplementation
     debugImplementation(Deps.AndroidX.fragmentTesting)
