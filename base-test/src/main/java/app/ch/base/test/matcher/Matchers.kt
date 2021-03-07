@@ -1,5 +1,6 @@
 package app.ch.base.test.matcher
 
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
@@ -15,14 +16,28 @@ import org.hamcrest.Matcher
 fun hasItemAtPosition(position: Int, matcher: Matcher<View>): Matcher<View> {
     return object : BoundedDiagnosingMatcher<View, RecyclerView>(RecyclerView::class.java) {
 
-        override fun matchesSafely(item: RecyclerView?, description: Description?): Boolean {
-            val viewHolder = item?.findViewHolderForAdapterPosition(position)
+        override fun matchesSafely(item: RecyclerView, description: Description): Boolean {
+            val viewHolder = item.findViewHolderForAdapterPosition(position)
             return matcher.matches(viewHolder?.itemView)
         }
 
-        override fun describeMoreTo(description: Description?) {
-            description?.appendText("has item at position $position : ")
+        override fun describeMoreTo(description: Description) {
+            description.appendText("has item at position $position : ")
             matcher.describeTo(description)
+        }
+    }
+}
+
+fun hasItemCount(itemCount: Int): Matcher<View> {
+    return object : BoundedDiagnosingMatcher<View, RecyclerView>(RecyclerView::class.java) {
+
+        override fun matchesSafely(item: RecyclerView, mismatchDescription: Description?): Boolean {
+            Log.d("hasItemCount()", "recyclerview item count: ${item.adapter?.itemCount}")
+            return item.adapter?.itemCount == itemCount
+        }
+
+        override fun describeMoreTo(description: Description) {
+            description.appendText("has $itemCount items")
         }
     }
 }
