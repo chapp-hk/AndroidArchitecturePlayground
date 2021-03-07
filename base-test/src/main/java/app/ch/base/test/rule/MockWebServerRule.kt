@@ -1,6 +1,6 @@
 package app.ch.base.test.rule
 
-import app.ch.base.test.data.remote.FileReader
+import app.ch.base.test.data.remote.MockRemoteData
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -25,7 +25,7 @@ class MockWebServerRule : TestWatcher() {
     fun mockSuccess(fileName: String) {
         mockWebServer.dispatcher = object : Dispatcher() {
             override fun dispatch(request: RecordedRequest): MockResponse {
-                return MockResponse().setResponseCode(200).setBody(FileReader.get(fileName))
+                return MockResponse().setResponseCode(200).setBody(MockRemoteData.fromFile(fileName))
             }
         }
     }
