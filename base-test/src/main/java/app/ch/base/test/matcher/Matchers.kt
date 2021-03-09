@@ -40,6 +40,7 @@ fun hasItemCount(itemCount: Int): Matcher<View> {
 
 fun typeSearchViewText(text: String): ViewAction {
     return object : ViewAction {
+
         override fun getDescription(): String {
             return "Change view text"
         }
@@ -50,6 +51,23 @@ fun typeSearchViewText(text: String): ViewAction {
 
         override fun perform(uiController: UiController?, view: View?) {
             (view as SearchView).setQuery(text, false)
+        }
+    }
+}
+
+fun clickChildViewWithId(id: Int): ViewAction {
+    return object : ViewAction {
+
+        override fun getConstraints(): Matcher<View> {
+            return isAssignableFrom(View::class.java)
+        }
+
+        override fun getDescription(): String {
+            return "Click on a child view with specified id."
+        }
+
+        override fun perform(uiController: UiController, view: View) {
+            view.findViewById<View>(id).performClick()
         }
     }
 }
