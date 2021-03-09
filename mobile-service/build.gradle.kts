@@ -12,7 +12,7 @@ android {
         minSdkVersion(AppConfig.minSdk)
         targetSdkVersion(AppConfig.targetSdk)
 
-        testInstrumentationRunner = AppConfig.testInstrumentationRunner
+        testInstrumentationRunner = AppConfig.defaultInstrumentationRunner
     }
 
     compileOptions {
