@@ -6,12 +6,14 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnHolderItem
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import app.ch.base.test.data.local.populateWeatherData
+import app.ch.base.test.matcher.clickChildViewWithId
 import app.ch.base.test.matcher.hasItemCount
 import app.ch.base.test.rule.DisableAnimationsRule
 import app.ch.data.base.local.DaoProvider
@@ -98,5 +100,39 @@ class HistoryFragmentTest {
 
         expectThat(resultRequestKey).isEqualTo(REQUEST_DISPLAY_CITY)
         expectThat(resultCityName).isEqualTo("Hong Kong")
+    }
+
+    @Test
+    fun delete_history_item() {
+        daoProvider.populateWeatherData()
+
+        launchFragmentInHiltContainer<HistoryFragment>()
+
+        onView(withId(R.id.recyclerView)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0, clickChildViewWithId(R.id.ivDelete)
+            )
+        )
+
+        Thread.sleep(1000)
+
+        onView(withId(R.id.recyclerView)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0, clickChildViewWithId(R.id.ivDelete)
+            )
+        )
+
+        Thread.sleep(1000)
+
+        onView(withId(R.id.recyclerView)).perform(
+            actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0, clickChildViewWithId(R.id.ivDelete)
+            )
+        )
+
+        Thread.sleep(1000)
+
+        onView(withId(R.id.tvWelcome))
+            .check(matches(isDisplayed()))
     }
 }

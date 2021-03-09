@@ -48,6 +48,7 @@
             tools:text="22.1212" />
 
         <ImageView
+            android:id="@+id/ivDelete"
             android:layout_width="?listPreferredItemHeight"
             android:layout_height="?listPreferredItemHeight"
             android:background="?selectableItemBackgroundBorderless"
