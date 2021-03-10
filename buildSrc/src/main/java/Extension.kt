@@ -43,7 +43,7 @@ fun Project.androidLibraryConfig(defaultConfigExtensions: (DefaultConfig.() -> U
             targetCompatibility = JavaVersion.VERSION_1_8
         }
 
-        kotlinOptionsJvmTarget()
+        kotlinCompileOptions()
 
         packagingOptions {
             exclude("META-INF/AL2.0")
@@ -52,7 +52,7 @@ fun Project.androidLibraryConfig(defaultConfigExtensions: (DefaultConfig.() -> U
     }
 }
 
-fun Project.kotlinOptionsJvmTarget(target: String = JavaVersion.VERSION_1_8.toString()) {
+fun Project.kotlinCompileOptions(target: String = JavaVersion.VERSION_1_8.toString()) {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = target
