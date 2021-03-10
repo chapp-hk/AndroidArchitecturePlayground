@@ -18,10 +18,15 @@ android {
     buildFeatures {
         buildConfig = true
         dataBinding = true
+        compose = true
     }
 
     hilt {
         enableExperimentalClasspathAggregation = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.0.0-beta01"
     }
 }
 
@@ -76,4 +81,19 @@ dependencies {
 
     androidTestImplementation(Deps.AndroidX.Room.runtime)
     androidTestImplementation(Deps.Okhttp.mockWebServer)
+
+    implementation("androidx.compose.ui:ui:1.0.0-beta01")
+    // Tooling support (Previews, etc.)
+    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta01")
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    implementation("androidx.compose.foundation:foundation:1.0.0-beta01")
+    // Material Design
+    implementation("androidx.compose.material:material:1.0.0-beta01")
+    // Material design icons
+    implementation("androidx.compose.material:material-icons-core:1.0.0-beta01")
+    implementation("androidx.compose.material:material-icons-extended:1.0.0-beta01")
+    // Integration with activities
+    implementation("androidx.activity:activity-compose:1.3.0-alpha03")
+    // Integration with ViewModels
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha02")
 }

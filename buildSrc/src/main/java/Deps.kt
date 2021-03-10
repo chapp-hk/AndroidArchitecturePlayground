@@ -4,7 +4,7 @@
 object Versions {
     const val androidGradlePlugin = "7.0.0-alpha09"
     const val versionPlugin = "0.38.0"
-    const val kotlin = "1.4.31"
+    const val kotlin = "1.4.30"
     const val kotlinxCoroutines = "1.4.2"
     const val androidxLifecycle = "2.3.0"
     const val hilt = "2.33-beta"
