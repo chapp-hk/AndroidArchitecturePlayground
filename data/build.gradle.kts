@@ -5,35 +5,19 @@ plugins {
     kotlin("plugin.serialization") version Versions.kotlin
 }
 
+androidLibraryConfig()
 android {
-    compileSdkVersion(AppConfig.compileSdk)
-    buildToolsVersion(AppConfig.buildToolsVersion)
-
-    defaultConfig {
-        minSdkVersion(AppConfig.minSdk)
-        targetSdkVersion(AppConfig.targetSdk)
-
-        testInstrumentationRunner = AppConfig.testInstrumentationRunner
-    }
-
     buildTypes {
         getByName("debug") {
             buildConfigField("String", "BASE_URL", "\"${EnvConfig.Debug.baseUrl}\"")
             buildConfigField("String", "API_KEY", "\"${EnvConfig.Debug.apiKey}\"")
             buildConfigField("String", "ICON_URL", "\"${EnvConfig.Debug.iconUrl}\"")
-
-            isMinifyEnabled = false
         }
 
         getByName("release") {
             buildConfigField("String", "BASE_URL", "\"${EnvConfig.Release.baseUrl}\"")
             buildConfigField("String", "API_KEY", "\"${EnvConfig.Release.apiKey}\"")
             buildConfigField("String", "ICON_URL", "\"${EnvConfig.Release.iconUrl}\"")
-
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            )
         }
     }
 
@@ -41,27 +25,6 @@ android {
         arguments {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
-    testOptions {
-        unitTests {
-            isReturnDefaultValues = true
-            isIncludeAndroidResources = true
-        }
-    }
-
-    packagingOptions {
-        exclude("META-INF/AL2.0")
-        exclude("META-INF/LGPL2.1")
     }
 }
 

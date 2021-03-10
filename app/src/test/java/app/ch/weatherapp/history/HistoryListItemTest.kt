@@ -2,16 +2,13 @@ package app.ch.weatherapp.history
 
 import app.ch.base.test.test
 import app.ch.weatherapp.weather.mock.MockData
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isA
 import strikt.assertions.isEqualTo
 
-@ExperimentalCoroutinesApi
 class HistoryListItemTest {
 
     private val event = MutableSharedFlow<HistoryEvent>()

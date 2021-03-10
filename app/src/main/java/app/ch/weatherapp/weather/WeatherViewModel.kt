@@ -11,7 +11,6 @@ import app.ch.domain.weather.usecase.GetLatestSearchedWeatherUseCase
 import app.ch.domain.weather.usecase.GetWeatherByCityNameUseCase
 import app.ch.domain.weather.usecase.GetWeatherByLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -86,7 +85,6 @@ constructor(
         return false
     }
 
-    @ExperimentalCoroutinesApi
     fun queryCurrentLocation() {
         getCurrentLocation()
             .flatMapLatest { getWeatherByLocation(it.lat, it.long) }

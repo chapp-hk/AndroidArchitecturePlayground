@@ -3,8 +3,8 @@
  */
 object Versions {
     const val androidGradlePlugin = "4.1.2"
-    const val versionPlugin = "0.36.0"
-    const val kotlin = "1.4.31"
+    const val versionPlugin = "0.38.0"
+    const val kotlin = "1.5.0-M1"
     const val kotlinxCoroutines = "1.4.2"
     const val androidxLifecycle = "2.3.0"
     const val hilt = "2.33-beta"
@@ -13,7 +13,7 @@ object Versions {
     const val room = "2.3.0-beta02"
     const val paging = "3.0.0-beta01"
     const val okhttp = "5.0.0-alpha.2"
-    const val androidxTest = "1.3.0"
+    const val androidxTest = "1.4.0-alpha04"
     const val mockk = "1.10.6"
     const val espresso = "3.4.0-alpha04"
 }

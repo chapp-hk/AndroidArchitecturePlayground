@@ -4,11 +4,9 @@ import app.ch.base.test.test
 import app.ch.data.weather.model.WeatherModel
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class WeatherLocalDataSourceTest {
 
     @MockK

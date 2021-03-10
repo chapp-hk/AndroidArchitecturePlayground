@@ -9,6 +9,8 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+kotlinCompileOptions()
+
 dependencies {
     implementation(Deps.Kotlin.stdlib)
 

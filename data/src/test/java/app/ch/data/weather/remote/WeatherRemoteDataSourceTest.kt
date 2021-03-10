@@ -5,11 +5,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class WeatherRemoteDataSourceTest {
 
     @MockK

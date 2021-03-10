@@ -14,7 +14,6 @@ import app.ch.weatherapp.weather.mock.MockData
 import com.jraska.livedata.test
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
@@ -26,7 +25,6 @@ import strikt.assertions.isEmpty
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 
-@ExperimentalCoroutinesApi
 class WeatherViewModelTest {
 
     @get:Rule
