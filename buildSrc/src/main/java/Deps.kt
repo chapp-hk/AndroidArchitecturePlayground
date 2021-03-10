@@ -2,9 +2,9 @@
  * common version numbers
  */
 object Versions {
-    const val androidGradlePlugin = "4.1.2"
+    const val androidGradlePlugin = "7.0.0-alpha09"
     const val versionPlugin = "0.38.0"
-    const val kotlin = "1.5.0-M1"
+    const val kotlin = "1.4.31"
     const val kotlinxCoroutines = "1.4.2"
     const val androidxLifecycle = "2.3.0"
     const val hilt = "2.33-beta"

@@ -20,17 +20,6 @@ android {
         dataBinding = true
     }
 
-    /**
-     * Enabling [dagger.hilt.android.plugin.HiltExtension.enableExperimentalClasspathAggregation]
-     * also requires android.lintOptions.checkReleaseBuilds to be set to 'false'
-     * if the Android Gradle Plugin version being used is less than 7.0.
-     *
-     * See https://github.com/google/dagger/issues/1991 for more context.
-     */
-    lintOptions {
-        isCheckReleaseBuilds = false
-    }
-
     hilt {
         enableExperimentalClasspathAggregation = true
     }

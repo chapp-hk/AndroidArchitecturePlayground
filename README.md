@@ -12,6 +12,7 @@ A simple Android app that use https://openweathermap.org/current apis to fetch a
 
 ## Requirements
 
+- Android Studio Canary ([Latest version](https://developer.android.com/studio/preview))
 - Android 5.0 (API Level 21) or above
 - Network connection
 - GPS
