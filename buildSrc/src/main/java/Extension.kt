@@ -2,6 +2,8 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun Project.androidApplicationConfig(
     appId: String,
@@ -41,9 +43,19 @@ fun Project.androidLibraryConfig(defaultConfigExtensions: (DefaultConfig.() -> U
             targetCompatibility = JavaVersion.VERSION_1_8
         }
 
+        kotlinOptionsJvmTarget()
+
         packagingOptions {
             exclude("META-INF/AL2.0")
             exclude("META-INF/LGPL2.1")
+        }
+    }
+}
+
+fun Project.kotlinOptionsJvmTarget(target: String = JavaVersion.VERSION_1_8.toString()) {
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = target
         }
     }
 }

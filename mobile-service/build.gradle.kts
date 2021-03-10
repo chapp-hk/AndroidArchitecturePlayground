@@ -9,10 +9,6 @@ android {
     defaultConfig {
         testInstrumentationRunner = AppConfig.defaultInstrumentationRunner
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
 }
 
 dependencies {

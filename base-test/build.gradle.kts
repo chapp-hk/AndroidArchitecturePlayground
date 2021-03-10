@@ -5,11 +5,6 @@ plugins {
 }
 
 androidLibraryConfig()
-android {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-}
 
 dependencies {
     implementation(project(mapOf("path" to ":data")))

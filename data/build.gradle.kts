@@ -26,10 +26,6 @@ android {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
 }
 
 dependencies {
