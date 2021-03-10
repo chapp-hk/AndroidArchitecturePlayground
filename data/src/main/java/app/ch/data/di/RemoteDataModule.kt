@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -20,7 +19,6 @@ import retrofit2.Retrofit
 @InstallIn(SingletonComponent::class)
 class RemoteDataModule {
 
-    @ExperimentalSerializationApi
     @Provides
     internal fun providesConverterFactory(): Converter.Factory {
         return Json {

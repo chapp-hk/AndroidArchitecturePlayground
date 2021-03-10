@@ -3,13 +3,11 @@ package app.ch.data.weather.remote
 import app.ch.data.BuildConfig
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encoding.Decoder
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-@ExperimentalSerializationApi
 class IconUrlSerializerTest {
 
     @Test

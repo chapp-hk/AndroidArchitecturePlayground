@@ -28,11 +28,9 @@ import app.ch.weatherapp.databinding.FragmentWeatherBinding
 import app.ch.weatherapp.history.KEY_CITY_NAME
 import app.ch.weatherapp.history.REQUEST_DISPLAY_CITY
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class WeatherFragment : Fragment(R.layout.fragment_weather) {
 

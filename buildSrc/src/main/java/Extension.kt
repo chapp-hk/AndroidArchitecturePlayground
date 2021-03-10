@@ -56,6 +56,10 @@ fun Project.kotlinOptionsJvmTarget(target: String = JavaVersion.VERSION_1_8.toSt
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = target
+            freeCompilerArgs = freeCompilerArgs + arrayOf(
+                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
+            )
         }
     }
 }
