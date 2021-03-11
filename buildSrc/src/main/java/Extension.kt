@@ -49,6 +49,10 @@ fun Project.androidLibraryConfig(defaultConfigExtensions: (DefaultConfig.() -> U
             exclude("META-INF/AL2.0")
             exclude("META-INF/LGPL2.1")
         }
+
+        lintOptions {
+            isIgnoreWarnings = false
+        }
     }
 }
 
