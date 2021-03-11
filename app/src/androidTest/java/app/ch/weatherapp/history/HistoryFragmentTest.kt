@@ -79,7 +79,7 @@ class HistoryFragmentTest {
         var resultRequestKey = ""
         var resultCityName = ""
 
-        launchNavFragment<HistoryFragment>(navController) {
+        launchNavFragment<HistoryFragment>(R.navigation.main_graph, navController) {
             navController.setCurrentDestination(R.id.history)
 
             parentFragmentManager.setFragmentResultListener(

@@ -175,7 +175,7 @@ class WeatherViewModelTest {
             getWeatherByLocation(any(), any())
         } returns flowOf(MockData.weatherEntity)
 
-        weatherViewModel.queryCurrentLocation()
+        weatherViewModel.queryWeatherByLocation()
 
         verifySequence {
             getCurrentLocation()
@@ -189,7 +189,7 @@ class WeatherViewModelTest {
             getCurrentLocation()
         } returns flow { throw mockk<LocationUnavailableException>() }
 
-        weatherViewModel.queryCurrentLocation()
+        weatherViewModel.queryWeatherByLocation()
 
         //assert values in LiveData and SharedFlow
         weatherViewModel.weatherEvent.test {
