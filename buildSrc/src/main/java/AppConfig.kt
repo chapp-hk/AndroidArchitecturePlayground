@@ -7,5 +7,4 @@ object AppConfig {
     const val versionCode = 1
     const val versionName = "1.0.0"
     const val testInstrumentationRunner = "app.ch.base.test.CustomTestRunner"
-    const val defaultInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 }

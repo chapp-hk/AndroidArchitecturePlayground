@@ -5,11 +5,6 @@ plugins {
 }
 
 androidLibraryConfig()
-android {
-    defaultConfig {
-        testInstrumentationRunner = AppConfig.defaultInstrumentationRunner
-    }
-}
 
 dependencies {
     implementation(project(mapOf("path" to ":data")))
@@ -24,6 +19,8 @@ dependencies {
     implementation(Deps.Kotlinx.Coroutines.playServices)
 
     androidTestImplementation(project(mapOf("path" to ":base-test")))
+    androidTestImplementation(Deps.Hilt.testing)
+    kaptAndroidTest(Deps.Hilt.compiler)
     androidTestImplementation(Deps.AndroidX.Test.runner)
     androidTestImplementation(Deps.AndroidX.Test.extJunit)
     androidTestImplementation(Deps.AndroidX.Test.rules)

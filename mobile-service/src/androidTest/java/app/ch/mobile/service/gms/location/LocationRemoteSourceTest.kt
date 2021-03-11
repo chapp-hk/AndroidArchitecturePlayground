@@ -4,6 +4,7 @@ import android.Manifest
 import android.location.Location
 import android.location.LocationManager
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.filters.SmallTest
 import androidx.test.rule.GrantPermissionRule
 import app.ch.base.test.test
 import app.ch.data.location.remote.LocationUnavailableException
@@ -11,6 +12,8 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.Tasks
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -20,7 +23,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
+@SmallTest
 class LocationRemoteSourceTest {
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     val runtimePermissionRule: GrantPermissionRule =
@@ -42,6 +50,7 @@ class LocationRemoteSourceTest {
 
     @Before
     fun setUp() {
+        hiltRule.inject()
         MockKAnnotations.init(this, relaxed = true)
 
         locationRemoteSource = LocationRemoteSource(

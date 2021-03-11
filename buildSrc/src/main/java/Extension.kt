@@ -22,6 +22,7 @@ fun Project.androidLibraryConfig(defaultConfigExtensions: (DefaultConfig.() -> U
         compileSdkVersion(AppConfig.compileSdk)
         defaultConfig {
             defaultConfigExtensions?.invoke(this)
+            buildToolsVersion(AppConfig.buildToolsVersion)
             minSdkVersion(AppConfig.minSdk)
             targetSdkVersion(AppConfig.targetSdk)
             testInstrumentationRunner = AppConfig.testInstrumentationRunner
