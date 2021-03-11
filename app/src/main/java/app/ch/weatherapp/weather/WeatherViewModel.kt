@@ -83,7 +83,7 @@ constructor(
             .launchIn(viewModelScope)
     }
 
-    fun queryCurrentLocation() {
+    fun queryWeatherByLocation() {
         getCurrentLocation()
             .flatMapLatest { getWeatherByLocation(it.lat, it.long) }
             .run(::startFlow)

@@ -137,7 +137,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private fun handleRequestPermissionResult(isGranted: Boolean) {
         if (isGranted) {
-            viewModel.queryCurrentLocation()
+            viewModel.queryWeatherByLocation()
         } else {
             getBinding<FragmentWeatherBinding>().containerWeather.showSnackBar(
                 messageResId = R.string.weather_error_location_permission_required,
