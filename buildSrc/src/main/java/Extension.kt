@@ -47,8 +47,12 @@ fun Project.androidLibraryConfig(defaultConfigExtensions: (DefaultConfig.() -> U
         kotlinCompileOptions()
 
         packagingOptions {
-            exclude("META-INF/AL2.0")
-            exclude("META-INF/LGPL2.1")
+            excludes.addAll(
+                arrayOf(
+                    "META-INF/AL2.0",
+                    "META-INF/LGPL2.1"
+                )
+            )
         }
 
         lintOptions {

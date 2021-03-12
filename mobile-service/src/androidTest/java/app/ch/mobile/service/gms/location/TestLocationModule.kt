@@ -39,7 +39,7 @@ class TestLocationModule {
 
     @Provides
     @Singleton
-    internal fun providesLocationSettingsRequest(locationRequest: LocationRequest): LocationSettingsRequest {
+    internal fun providesLocationSettingsRequest(): LocationSettingsRequest {
         return mockk(relaxed = true, relaxUnitFun = true)
     }
 
