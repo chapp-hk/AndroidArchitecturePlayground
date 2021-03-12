@@ -229,4 +229,16 @@ class WeatherFragmentTest {
         onView(withText(R.string.weather_error_limit_exceeded))
             .check(matches(isDisplayed()))
     }
+
+    @Test
+    fun unknown_network_error() {
+        mockWebServerRule.mockError(HttpURLConnection.HTTP_BAD_REQUEST)
+
+        launchFragmentInHiltContainer<WeatherFragment>()
+
+        onView(withId(R.id.btnLocation)).perform(click())
+
+        onView(withText(R.string.weather_error_unknown))
+            .check(matches(isDisplayed()))
+    }
 }
