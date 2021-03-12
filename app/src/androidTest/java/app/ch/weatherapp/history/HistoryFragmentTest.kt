@@ -134,4 +134,22 @@ class HistoryFragmentTest {
         onView(withId(R.id.tvWelcome))
             .check(matches(isDisplayed()))
     }
+
+    @Test
+    fun delete_all() {
+        daoProvider.populateWeatherData()
+
+        launchFragmentInHiltContainer<HistoryFragment>()
+
+        Thread.sleep(2000)
+
+        onView(withId(R.id.recyclerView))
+            .check(matches(hasItemCount(3)))
+
+        onView(withId(R.id.deleteAll))
+            .perform(click())
+
+        onView(withId(R.id.tvWelcome))
+            .check(matches(isDisplayed()))
+    }
 }
