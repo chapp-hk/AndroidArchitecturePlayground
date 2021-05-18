@@ -2,20 +2,20 @@
  * common version numbers
  */
 object Versions {
-    const val androidGradlePlugin = "7.0.0-alpha09"
+    const val androidGradlePlugin = "7.0.0-alpha15"
     const val versionPlugin = "0.38.0"
-    const val kotlin = "1.4.31"
+    const val kotlin = "1.5.0"
     const val kotlinxCoroutines = "1.4.2"
-    const val androidxLifecycle = "2.3.0"
-    const val hilt = "2.33-beta"
+    const val androidxLifecycle = "2.4.0-alpha01"
+    const val hilt = "2.35.1"
     const val dagger = "2.33"
-    const val navigation = "2.3.3"
-    const val room = "2.3.0-beta02"
-    const val paging = "3.0.0-beta01"
+    const val navigation = "2.3.5"
+    const val room = "2.4.0-alpha02"
+    const val paging = "3.0.0"
     const val okhttp = "5.0.0-alpha.2"
-    const val androidxTest = "1.4.0-alpha04"
-    const val mockk = "1.10.6"
-    const val espresso = "3.4.0-alpha04"
+    const val androidxTest = "1.4.0-beta01"
+    const val mockk = "1.11.0"
+    const val espresso = "3.4.0-beta01"
 }
 
 object GradlePlugins {
@@ -26,7 +26,7 @@ object GradlePlugins {
 
 object Deps {
     const val timber = "com.jakewharton.timber:timber:4.7.1"
-    const val strikt = "io.strikt:strikt-core:0.29.0"
+    const val strikt = "io.strikt:strikt-core:0.31.0"
     const val livedataTesting = "com.jraska.livedata:testing-ktx:1.1.2"
     const val fresco = "com.facebook.fresco:fresco:2.4.0"
 
@@ -48,9 +48,9 @@ object Deps {
     }
 
     object AndroidX {
-        const val core = "androidx.core:core-ktx:1.5.0-beta02"
-        const val appCompat = "androidx.appcompat:appcompat:1.3.0-beta01"
-        const val fragment = "androidx.fragment:fragment-ktx:1.3.0"
+        const val core = "androidx.core:core-ktx:1.6.0-alpha03"
+        const val appCompat = "androidx.appcompat:appcompat:1.3.0-rc01"
+        const val fragment = "androidx.fragment:fragment-ktx:1.3.3"
         const val fragmentTesting = "androidx.fragment:fragment-testing:1.3.0"
         const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
 
@@ -89,7 +89,7 @@ object Deps {
         }
 
         object Test {
-            const val extJunit = "androidx.test.ext:junit:1.1.3-alpha04"
+            const val extJunit = "androidx.test.ext:junit:1.1.3-beta01"
             const val runner = "androidx.test:runner:${Versions.androidxTest}"
             const val rules = "androidx.test:rules:${Versions.androidxTest}"
             const val uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
@@ -102,7 +102,7 @@ object Deps {
     }
 
     object Android {
-        const val material = "com.google.android.material:material:1.4.0-alpha01"
+        const val material = "com.google.android.material:material:1.4.0-beta01"
 
         object Gms {
             const val playServicesLocation = "com.google.android.gms:play-services-location:18.0.0"
