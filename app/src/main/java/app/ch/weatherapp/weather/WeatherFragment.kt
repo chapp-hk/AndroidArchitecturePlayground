@@ -14,6 +14,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
@@ -86,10 +87,12 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private fun setupEventObservers() {
         viewModel.weatherEvent
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { handleEvent(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.conditions
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { adapter.submitList(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -56,14 +57,17 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
     private fun setupEventObservers() {
         viewModel.queryWeatherHistory()
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { adapter.submitData(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.historyEvent
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { handleEvent(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         adapter.loadStateFlow
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { loadState ->
                 getBinding<FragmentHistoryBinding>().tvWelcome.isVisible =
                     loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
